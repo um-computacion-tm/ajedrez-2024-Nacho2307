@@ -6,7 +6,7 @@ class TestFunciones(unittest.TestCase):
         self.assertEqual(suma(5, 4),9)
         self.assertEqual(suma(-1, 1),0)
        
-    def test_suma(self):
+    def test_resta(self):
         self.assertEqual(resta(5, 4),1)
         self.assertEqual(resta(-1, 1),0)
         
