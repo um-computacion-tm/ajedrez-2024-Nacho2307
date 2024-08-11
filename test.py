@@ -8,7 +8,7 @@ class TestFunciones(unittest.TestCase):
        
     def test_resta(self):
         self.assertEqual(resta(5, 4),1)
-        self.assertEqual(resta(-1, 1),0)
+        self.assertEqual(resta(-1, 1),-2)
         
 if __name__ == "__main__":
     unittest.main()
