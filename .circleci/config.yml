@@ -15,9 +15,9 @@ jobs:
           name: Install dependencies
           command: pip install -r requirements.txt
       - run:
-          name: Run tests
+          name: Running Tests
           command: coverage run -m unittest && coverage xml && coverage report -m
       - run:
-          name: Upload CodeClimate coverage report
+          name: Uploading CodeClimate coverage reports
           command: |
             ./cc-test-reporter after-build
