@@ -17,3 +17,11 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Archivo `.circleci/config.yml` para configurar el pipeline de CircleCI.
 - Archivo `main.py` con la función `multiply` que toma dos argumentos y devuelve su producto.
 - Archivo `test.py` con pruebas unitarias para la función `multiply` importada desde `main.py`, para asegurar que devuelve el resultado esperado.
+
+## [0.0.2] - 2024-08-13
+
+### Añadido
+- Clase 'Board' para representar el tablero del ajedrez
+- Clase Piece para representar una pieza de ajedrez.
+- Clases 'Rook', 'Knight', 'Bishop', 'Pawn', 'Queen' y 'King' para representar las diferentes piezas de ajedrez.
+- Método 'get_piece' en la clase 'Board' para obtener una pieza en una posición específica del tablero.
