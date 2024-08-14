@@ -25,3 +25,15 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Clase Piece para representar una pieza de ajedrez.
 - Clases 'Rook', 'Knight', 'Bishop', 'Pawn', 'Queen' y 'King' para representar las diferentes piezas de ajedrez.
 - Método 'get_piece' en la clase 'Board' para obtener una pieza en una posición específica del tablero.
+
+## [0.0.3] - 2024-08-13
+
+### Añadido
+
+- Posiciones de la piezas blancas agregadas al tablero
+- Se agregó la clase `Chess` para gestionar el juego de ajedrez.
+- Se agregó el método `move` para mover piezas en el tablero.
+- Se agregó el método `change_turn` para cambiar el turno del juego.
+- Se agregó la propiedad `turn` para obtener el turno actual del juego.
+- Se agregó una verificación adicional en el método `move` para asegurarse de que la pieza que se va a mover es del color del turno actual.
+- Se agrego 2 mensajes de error para informar al usuario que si no hay una pieza en la posición de inicial o si no es su turno.

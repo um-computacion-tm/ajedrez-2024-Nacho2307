@@ -24,6 +24,20 @@ class Board:
 # Se ponen los peones negros en la fila 1
         self.__positions__[1] = [Pawn("Black")]*8
 
+# Se ponen los peones blancos en la fila 6
+        self.__positions__[6] = [Pawn("White")]*8
+      
+        # Establece las piezas en la fila 7 (blancas)
+        self.__positions__[7] = [
+            Rook("White"),  # Torre blanca izquierda
+            knight("White"),  # Caballo blanco izquierdo
+            Bishop("White"),  # Alfil blanco izquierdo
+            Queen("White"),  # Reina blanca
+            King("White"),  # Rey blanco
+            Bishop("White"),  # Alfil blanco derecho
+            knight("White"),  # Caballo blanco derecho
+            Rook("White")  # Torre blanca derecha
+        ]
         
 
         
