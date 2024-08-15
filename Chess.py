@@ -6,24 +6,40 @@ class Chess:
         self.__board__ = Board()
         self.__turn__ = "WHITE"
 
+    #Mueve una pieza del tablero si pertenece al jugador actual y el movimiento es válido.
     def move(self, from_row, from_col, to_row, to_col):
-        # validate coords
-       piece = self.board.get_piece(from_row, from_col)
-       if piece is not None:
-            self.board._positions[from_row][from_col] = None
-            self.board._positions[to_row][to_col] = piece
+        piece = self.__board__.get_piece(from_row, from_col)
+        if piece is not None and piece.color == self.__turn__:
+            self.__move_piece__(from_row, from_col, to_row, to_col)
             self.change_turn()
-       else:
-            print("Error: No es tu turno")
-            print("Error: No hay una pieza en esa posicion")
-        
-
-    @property
-    def turn(self):
+        else:
+            print("Error: Movimiento Invalido")
+            
+    #Mueve una pieza de una posición a otra en el tablero.
+    def __move_piece__(self, piece, from_row, from_col, to_row, to_col):
+        self.__board__.__positions__[from_row][from_col] = None
+        self.__board__.__positions__[to_row][to_col] = piece  
+                 
+     # Si el turno actual es "WHITE", cambia a "BLACK"; de lo contrario, cambia a "WHITE"
+    def change_turn(self):
+        self.__turn__ = "BLACK" if self.__turn__ == "WHITE" else "WHITE"
+                    
+@property
+def turn(self):
         return self.__turn__
 
-    def change_turn(self):
-        if self.__turn__ == "WHITE":
-            self.__turn__ = "BLACK"
-        else:
-            self.__turn__ = "WHITE"
+
+
+
+
+    
+      
+    
+        
+       
+
+   
+
+   
+
+    
