@@ -48,3 +48,13 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 -Se implemento el metodo 'movimiento_correcto' que determina si un movimiento de la torre es valido.
 -Se creo la clase 'Piece' para representar una pieza cualquiera en el ajedrez.
 -Se implemento el metodo '__str__' que devuelve el simbolo de la pieza como texto.
+
+#### Cambios Generales
+- Refactorización del código para mejorar la legibilidad y eliminar duplicaciones.
+
+#### Cambios en Funciones Existentes
+-Se refactorizó para delegar la lógica de movimiento a la nueva función `_move_piece`.
+- Mejor manejo de errores en caso de que el movimiento no sea válido.
+
+#### Eliminaciones
+- Se eliminó la lógica de movimiento y cambio de turno que estaba duplicada en otros archivos, como `cli.py`, centralizándola en la clase `Chess`.

@@ -1,4 +1,3 @@
-from board import Board
 from Chess import Chess
 
 def main():
@@ -16,33 +15,14 @@ def play(chess):
      print("Error")
      return
 
-        
-    chess.move(
-        from_row, 
-        from_col, 
-        to_row, 
-        to_col,
-    )
-    # validate coords
-def move(self, from_row, from_col, to_row, to_col):
- piece = self.board.get_piece(from_row, from_col)
- if piece is not None:
-        if piece.color == self.__turn__:
-            self.board._positions[from_row][from_col] = None
-            self.board._positions[to_row][to_col] = piece
-            self.change_turn()
-        else:
-            print("Error: It's not your turn")
- else:
-        print("Error: No piece at that position")
-    
-def change_turn(self):
-     if self.__turn__ == "WHITE":
-        self.__turn__ = "BLACK"
-     else:
-        self.__turn__ = "WHITE"
-        
-        
+    try:
+        chess.move(from_row, from_col, to_row, to_col)
+    except Exception as e:
+        print(f"Error al intentar mover la pieza: {e}")
+        return
+
+    chess.change_turn()
+
    
     
 if __name__ == '__main__':
