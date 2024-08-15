@@ -26,7 +26,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Clases 'Rook', 'Knight', 'Bishop', 'Pawn', 'Queen' y 'King' para representar las diferentes piezas de ajedrez.
 - Método 'get_piece' en la clase 'Board' para obtener una pieza en una posición específica del tablero.
 
-## [0.0.3] - 2024-08-13
+## [0.0.3] - 2024-08-14
 
 ### Añadido
 
@@ -37,3 +37,14 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Se agregó la propiedad `turn` para obtener el turno actual del juego.
 - Se agregó una verificación adicional en el método `move` para asegurarse de que la pieza que se va a mover es del color del turno actual.
 - Se agrego 2 mensajes de error para informar al usuario que si no hay una pieza en la posición de inicial o si no es su turno.
+
+## [0.0.4] - 2024-08-15
+
+### Añadido
+
+-Se agrego el metodo '__str__' para una representacion en texto del tablero, en el archivo board.py
+-Se creo la clase 'Rook' que hereda de 'Piece'.
+-Se implemento el '__init__' que inicializa la torre con su color, nombre y simbolo.
+-Se implemento el metodo 'movimiento_correcto' que determina si un movimiento de la torre es valido.
+-Se creo la clase 'Piece' para representar una pieza cualquiera en el ajedrez.
+-Se implemento el metodo '__str__' que devuelve el simbolo de la pieza como texto.

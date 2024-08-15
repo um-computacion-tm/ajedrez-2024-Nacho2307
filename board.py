@@ -38,8 +38,19 @@ class Board:
             knight("White"),  # Caballo blanco derecho
             Rook("White")  # Torre blanca derecha
         ]
-        
-
+ 
+# Devuelve una representacion en texto del tablero       
+def __str__(self):
+    resultado = ""
+    for row in self.__positions__:
+        fila_texto = []
+        for piece in row:
+            if piece:
+                fila_texto.append(str(piece))
+            else:
+                fila_texto.append(".")
+        resultado += "".join(fila_texto) + "\n"
+    return resultado
         
 # Devuelve la pieza en la posicion (row, col)
 def get_piece(self, row, col):
