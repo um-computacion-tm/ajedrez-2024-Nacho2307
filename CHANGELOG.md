@@ -58,3 +58,6 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 #### Eliminaciones
 - Se eliminó la lógica de movimiento y cambio de turno que estaba duplicada en otros archivos, como `cli.py`, centralizándola en la clase `Chess`.
+
+## Cambios 
+-Correcion de la funcion '__str__' en board.py, ahora muestra el tablero en texto.
