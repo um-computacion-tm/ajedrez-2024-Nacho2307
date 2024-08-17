@@ -61,3 +61,11 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ## Cambios 
 -Correcion de la funcion '__str__' en board.py, ahora muestra el tablero en texto.
+
+## [0.0.5] - 2024-08-16
+
+### Añadido
+
+- Se agrego la carpeta 'Test' para verificar el testeo de las piezas.
+- Se agrego el 'test_rook.py' para verificar el movimiento correcto de la pieza 'Rook'.
+ 
