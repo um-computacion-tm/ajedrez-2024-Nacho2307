@@ -68,4 +68,8 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 - Se agrego la carpeta 'Test' para verificar el testeo de las piezas.
 - Se agrego el 'test_rook.py' para verificar el movimiento correcto de la pieza 'Rook'.
- 
+
+## Refactorización de pruebas de Rook
+
+- Se creó un método de ayuda `test_rook_movement` para reducir la duplicación de código en las pruebas de movimiento del Rook.
+- Se refactorizaron las pruebas `test_movimiento_valido_horizontal`, `test_movimiento_valido_vertical`, `test_movimiento_incorrecto_diagonal` y `test_movimiento_incorrecto_no_recto` para utilizar el método helper.
