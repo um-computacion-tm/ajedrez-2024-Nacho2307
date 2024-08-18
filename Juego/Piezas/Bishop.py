@@ -8,3 +8,4 @@ class Bishop(Piece):
     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
         # Verifica si es en diagonal el movimiento
         return abs(to_row - from_row) == abs(to_col - from_col)
+    
