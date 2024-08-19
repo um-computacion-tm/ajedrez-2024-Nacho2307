@@ -73,3 +73,21 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 - Se creó un método de ayuda `test_rook_movement` para reducir la duplicación de código en las pruebas de movimiento del Rook.
 - Se refactorizaron las pruebas `test_movimiento_valido_horizontal`, `test_movimiento_valido_vertical`, `test_movimiento_incorrecto_diagonal` y `test_movimiento_incorrecto_no_recto` para utilizar el método helper.
+
+## [0.0.6] - 2024-08-17
+
+### Añadido
+
+- Se agrego el archivo 'Bishop.py' para el movimiento diagonal de la pieza.
+- Se agrego el archivo 'test_bishop.py' para el testeo de la pieza.
+
+## [0.0.7] - 2024-08-19
+
+### Añadido
+
+-
+-
+
+# Refactorizacion del test de bishop
+
+- Uso de `with self.subTest(...)` en el método `_test_moves` para mejorar la trazabilidad y depuración de las pruebas individuales.
