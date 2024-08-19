@@ -85,8 +85,8 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
--
--
+-Implementación del método `mover` que actualiza la posición del rey si el movimiento es válido
+
 
 # Refactorizacion del test de bishop
 
