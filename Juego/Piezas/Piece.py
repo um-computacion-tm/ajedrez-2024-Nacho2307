@@ -1,8 +1,10 @@
 class Piece:
-    def __init__(self, color, nombre, simbolo):
+    def __init__(self, color, nombre, simbolo, x=0, y=0):
         self.__nombre__ = nombre # Nombre de la pieza
         self.__color__ = color # Color de la pieza
         self.__simbolo__ = simbolo # simbolo para representar la pieza
+        self.__x__ = x # Fila inical
+        self.__y__ = y # Columna inicial
     
     # Da el simbolo de la pieza como texto
     def __str__(self):

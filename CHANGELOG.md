@@ -87,7 +87,14 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 -Implementación del método `mover` que actualiza la posición del rey si el movimiento es válido
 
-
 # Refactorizacion del test de bishop
 
 - Uso de `with self.subTest(...)` en el método `_test_moves` para mejorar la trazabilidad y depuración de las pruebas individuales.
+
+## [0.0.8] - 2024-08-20
+
+### Añadido
+
+-Creado el archivo de pruebas `test_rey.py` para la clase `King`.
+-
+-
