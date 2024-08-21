@@ -7,6 +7,10 @@ def main():
         
 def play(chess):
     try: 
+        # Mostrar el tablero y el turno actual
+        print(chess.board)  
+        print(f"Turno: {chess.turn}")
+       
         from_row = int(input("From row: "))
         from_col = int(input("From col: "))
         to_row = int(input("To row: "))
