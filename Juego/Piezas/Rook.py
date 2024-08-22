@@ -2,7 +2,7 @@ from .Piece import Piece
 
 class Rook(Piece):
     def __init__(self, color):
-        super().__init__(color, "Rook", "R")
+        super().__init__(color, "Rook", "♖" if color == "Black" else "♜")
     
 # La torre puede moverse en horizontal o verticalmente
     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
