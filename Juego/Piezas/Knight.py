@@ -3,7 +3,7 @@ from .Piece import Piece
 
 class Knight(Piece):
     def __init__(self, color):
-         super().__init__(color, "Caballo", "♞" if color == "negro" else "♘")
+         super().__init__(color, "Caballo", "♘" if color == "Black" else "♞")
          
     def movimiento_correcto(self, desde_fila, desde_columna, hasta_fila, hasta_columna):
          fila_diff = abs(hasta_fila - desde_columna)

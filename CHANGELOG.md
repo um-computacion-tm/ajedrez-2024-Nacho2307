@@ -96,5 +96,24 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ### Añadido
 
 -Creado el archivo de pruebas `test_rey.py` para la clase `King`.
--
--
+
+## [0.0.9] - 2024-08-21
+
+### Añadido
+
+- Archivo llamado "Knight.py" donde esta el movimiento del caballo.
+- Archivo llamado "test_knight.py" para la clase "Knight".
+
+## [0.0.10] - 2024-08-22
+
+### Añadido
+
+- Agregada `ChessException` como excepción base para todos los errores relacionados con ajedrez.
+- Agregada `InvalidMoveException` para movimientos inválidos.
+- Agregada `OutOfBoundsException` para movimientos que se salen del tablero.
+- Agregada `PieceAlreadyCapturedException` para intentar capturar una pieza que ya ha sido capturada.
+- Agregada `CheckException` para cuando el rey está en jaque
+- Agregada `CheckmateException` para cuando el rey está en jaque mate.
+- Agregada `ColorException` para intentar mover una pieza del color equivocado.
+- Agregada `TurnException` para intentar mover una pieza fuera de turno.
+
