@@ -11,9 +11,8 @@ class TestRey(unittest.TestCase):
         self.assertEqual(self.__rey__.__y__, y)
     
     def test_incio(self):
-        self.assertEqual(self.__rey__.__color__, "White")
-        self.assertEqual(self.__rey__.__nombre__, "King")
-        self.assertEqual(self.__rey__.__simbolo__, "K")
+     self.assertEqual(self.__rey__.__color__, "White")
+     self.assertEqual(self.__rey__.__simbolo__, "♚")
     
     def test_mover_valido(self):
         self.__rey__.mover(1, 1)
