@@ -1,8 +1,9 @@
-from Piezas.Piece import Piece
+from Juego.Piezas.Piece import Piece
+
 
 class Pawn(Piece):
-    def __init__(self, color):
-        super().__init__(color, "Pawn", "♙" if color == "Black" else "♟")
+    def __init__(self, color, x=0, y=0):
+        super().__init__(color, 'Pawn', x, y)
 
     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
         direccion = -1 if self.color == "Black" else 1
@@ -13,7 +14,7 @@ class Pawn(Piece):
                return True
            
            # Movimiento de dos casillas inicial
-            if (self.__color__ == "Black" and from_row == 6 or self.__color__ == "White" and from_row == 1) and to_row + 2 * direccion:
+            if (self.__color__ == "Black" and from_row == 6 or self.__color__ == "White" and from_row == 1) and to_row == from_row + 2 * direccion:
                return True
         
         # Captura Diagonal

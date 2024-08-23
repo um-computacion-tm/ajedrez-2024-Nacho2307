@@ -1,10 +1,10 @@
-from Piezas.Piece import Piece
+from Juego.Piezas.Piece import Piece
 from Piezas.Bishop import Bishop
 from Piezas.Rook import Rook
 
 class Queen(Piece):
-    def __init__(self, color):
-        super().__init__(color, "Queen", "♕" if color == "Black" else "♛")
+    def __init__(self, color, x=0, y=0):
+        super().__init__(color, 'Queen', x, y)
         self.__bishop_moves__ = Bishop(color)
         self.___rook_moves__ = Rook(color)
     
