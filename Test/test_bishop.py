@@ -11,13 +11,15 @@ class TestBishop(unittest.TestCase):
             with self.subTest(from_pos=(from_row, from_col), to_pos=(to_row, to_col)):
                  self.assertEqual(self.__bishop_white__.movimiento_correcto(from_row, from_col, to_row, to_col), expected_result)
     
-    def test_move_diagonal_valido(self):
-        valido_move = [(1, 1, 4, 4), (3, 5, 5, 3)]
-        self.check_moves_moves(True, valido_move)
-    
-    def test_move_diagonal_invalido(self):
-        invalido_move = [(1, 1, 4, 3), (3, 5, 4, 5)]
-        self.check_moves(False, invalido_move)
+    def get_moves(self):
+        return [
+            (True, 1, 1, 4, 4),
+            (True, 3, 5, 5, 3),
+            (False, 1, 1, 4, 3),
+            (False, 3, 5, 4, 5)
+        ]
+    def test_moves(self):
+        self.check_moves(self.get_moves())
 
 if __name__ == "__main__":
     unittest.main()
