@@ -1,9 +1,8 @@
-from .Piece import Piece
-
+from Juego.Piezas.Piece import Piece
 
 class King(Piece):
     def __init__(self, color, x=0, y=0):
-        super().__init__(color, "King", "♔" if color == "Black" else "♚")
+        super().__init__(color, 'King', x, y)
         self.__x__ = x
         self.__y__ = y
         

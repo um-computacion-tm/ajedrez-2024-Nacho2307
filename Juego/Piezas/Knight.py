@@ -1,9 +1,8 @@
-from .Piece import Piece
-
+from Juego.Piezas.Piece import Piece
 
 class Knight(Piece):
-    def __init__(self, color):
-         super().__init__(color, "Caballo", "♘" if color == "Black" else "♞")
+    def __init__(self, color, x=0, y=0):
+        super().__init__(color, 'Knight', x, y)
          
     def movimiento_correcto(self, desde_fila, desde_columna, hasta_fila, hasta_columna):
          fila_diff = abs(hasta_fila - desde_columna)

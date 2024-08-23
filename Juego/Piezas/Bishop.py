@@ -1,9 +1,8 @@
-from .Piece import Piece
-
+from Juego.Piezas.Piece import Piece
 
 class Bishop(Piece):
-    def __init__(self, color):
-        super().__init__(color, "Bishop", "♗" if color == "Black" else "♝")
+    def __init__(self, color, x=0, y=0):
+        super().__init__(color, 'Bishop', x, y)
     
     # El Alfil se mueve en diagonal
     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
