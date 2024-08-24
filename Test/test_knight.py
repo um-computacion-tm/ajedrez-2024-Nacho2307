@@ -4,8 +4,8 @@ from Juego.Piezas.Knight import Knight
 class TestKnight(unittest.TestCase):
     
     def setUp(self):
-        self.caballo_blanco = Knight("blanco")
-        self.caballo_negro = Knight("negro")
+        self.caballo_blanco = Knight("white")
+        self.caballo_negro = Knight("black")
         
     
     def _test_movimientos(self, pieza, movimientos, resultado_esperado):
