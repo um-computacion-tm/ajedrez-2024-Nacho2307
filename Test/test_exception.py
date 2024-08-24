@@ -4,7 +4,6 @@ from Juego.Exception import (
     OutOfBoundsException,
     PieceAlreadyCapturedException,
     CheckException,
-    CheckException,
     CheckmateException,
     ColorException,
     TurnException

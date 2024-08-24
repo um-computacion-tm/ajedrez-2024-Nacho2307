@@ -2,7 +2,7 @@ from Juego.Piezas.Piece import Piece
 
 class Rook(Piece):
     def __init__(self, color, x=0, y=0):
-        super().__init__(color, 'Rook', x, y)
+        super().__init__(color.lower(), 'Rook', x, y)
     
 # La torre puede moverse en horizontal o verticalmente
     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
