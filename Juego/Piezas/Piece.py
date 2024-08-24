@@ -20,6 +20,6 @@ class Piece:
         return self.__simbolo__
     
     # Determina si un movimiento de cualquier pieza es valido
-     def movimiento_correcto(self, desde_fila, desde_columna, hasta_fila, hasta_columna):
+     def movimiento_correcto(self, from_row, from_col, to_row, to_col):
         return False
     

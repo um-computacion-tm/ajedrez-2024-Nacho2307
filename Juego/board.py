@@ -57,11 +57,19 @@ class Board:
         resultado += "".join(fila_texto) + "\n"
       return resultado
         
+    # Muestra el tablero con coordenadas
+    def mostrar_coords(self):
+        mostrar = "  0 1 2 3 4 5 6 7\n"
+        for i, row in enumerate(self.__positions__):
+            fila = f"{i} " + " ".join([piece.__str__() if piece else '.' for piece in row]) + "\n"
+            mostrar += fila
+        return mostrar
+    
 # Devuelve la pieza en la posicion (row, col)
     def get_piece(self, row, col):
      return self.__positions__[row] [col]
 
 if __name__ == "__main__":
     board = Board()
-    print(board)
+    print(board.mostrar_coords())
 ...

@@ -117,3 +117,17 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Agregada `ColorException` para intentar mover una pieza del color equivocado.
 - Agregada `TurnException` para intentar mover una pieza fuera de turno.
 
+## [0.0.11] - 2024-08-23
+
+### Añadido
+
+- Implementación del método 'mostrar_coords' para mostrar el tablero de ajedrez con coordenadas de filas y columnas.
+- El tablero ahora muestra números del `0` al `7` en la parte superior e izquierda, facilitando a los jugadores la referencia de posiciones.
+- Se agrego el 'test_exception.py' para la clase 'Exception'.
+- test_invalid_move_exception: prueba que se lanza una InvalidMoveException cuando se intenta realizar un movimiento inválido.
+- test_out_of_bounds_exception: prueba que se lanza una OutOfBoundsException cuando se intenta realizar un movimiento fuera del tablero.
+- test_piece_already_captured_exception: prueba que se lanza una PieceAlreadyCapturedException cuando se intenta capturar una pieza que ya ha sido capturada.
+- test_check_exception: prueba que se lanza una CheckException cuando el rey está en jaque.
+- test_checkmate_exception: prueba que se lanza una CheckmateException cuando se produce un jaque mate.
+- test_color_exception: prueba que se lanza una ColorException cuando se intenta utilizar un color incorrecto.
+- test_turn_exception: prueba que se lanza una TurnException cuando no es el turno del jugador.
