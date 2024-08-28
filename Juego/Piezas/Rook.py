@@ -4,22 +4,31 @@ class Rook(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color.lower(), 'Rook', x, y)
     
-    def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
-        if not self._dentro_de_limites(from_row, from_col, to_row, to_col):
+    def movimiento_correcto(self, from_pos, to_pos, board):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+
+        if not self._dentro_de_limites(from_pos, to_pos):
             return False
         
-        if self._movimiento_en_linea_recta(from_row, from_col, to_row, to_col):
-            return self._camino_libre_y_captura(from_row, from_col, to_row, to_col, board)
+        if self._movimiento_en_linea_recta(from_pos, to_pos):
+            return self._camino_libre_y_captura(from_pos, to_pos, board)
 
         return False
 
-    def _dentro_de_limites(self, from_row, from_col, to_row, to_col):
+    def _dentro_de_limites(self, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
         return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
 
-    def _movimiento_en_linea_recta(self, from_row, from_col, to_row, to_col):
+    def _movimiento_en_linea_recta(self, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
         return to_row == from_row or to_col == from_col
 
-    def _camino_libre_y_captura(self, from_row, from_col, to_row, to_col, board):
+    def _camino_libre_y_captura(self, from_pos, to_pos, board):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
         if from_row == to_row:
             paso = 1 if to_col > from_col else -1
             for col in range(from_col + paso, to_col, paso):
