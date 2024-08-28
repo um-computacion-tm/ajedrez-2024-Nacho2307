@@ -1,34 +1,28 @@
 import unittest
-from Juego.Piezas.Piece import Piece
+from Juego.Piezas.Bishop import Bishop
+from Juego.board import Board
 
-class TestPiece(unittest.TestCase):
+class TestBishop(unittest.TestCase):
     def setUp(self):
-        self.__piece_dato__ =  [
-            ('white', 'Pawn', '♙'),
-            ('black', 'Pawn', '♟'),
-            ('white', 'Rook', '♖'),
-            ('black', 'Rook', '♜'),
-            ('white', 'Knight', '♘'),
-            ('black', 'Knight', '♞'),
-            ('white', 'Bishop', '♗'),
-            ('black', 'Bishop', '♝'),
-            ('white', 'Queen', '♕'),
-            ('black', 'Queen', '♛'),
-            ('white', 'King', '♔'),
-            ('black', 'King', '♚')
-        ]
-        
-    def test_piece_creacion_de_symbol(self):
-        for color, nombre, simbolo_esperado in self.__piece_dato__:
-            with self.subTest(color = color, nombre = nombre):
-                piece = Piece(color, nombre)
-                self.assertEqual(str(piece), simbolo_esperado)
-    
-    def test_move_invalido(self):
-        piece = Piece("white", "Pawn")
-        self.assertFalse(piece.movimiento_correcto(0, 0, 7, 7))
+        self.board = Board()  # Inicializa un tablero vacío
+
+    def test_movimiento_correcto_diagonal(self):
+        piece = Bishop("white")
+        # Movimiento diagonal válido
+        self.assertTrue(piece.movimiento_correcto(2, 2, 4, 4, self.board))
+        # Movimiento diagonal inválido
+        self.assertFalse(piece.movimiento_correcto(2, 2, 4, 5, self.board))
+
+    def test_diagonal_move(self):
+        piece = Bishop("white")
+        # Movimiento diagonal válido (sin obstáculos)
+        self.assertTrue(piece.diagonal_move(self.board.__positions__, (4, 4)))
+        # Movimiento diagonal inválido (con obstáculo)
+        self.board.__positions__[3][3] = '♟'  # Obstáculo
+        self.assertFalse(piece.diagonal_move(self.board.__positions__, (4, 4)))
 
 if __name__ == '__main__':
     unittest.main()
-    
+
+
     

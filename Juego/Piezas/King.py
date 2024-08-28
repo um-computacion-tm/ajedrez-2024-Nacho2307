@@ -3,8 +3,7 @@ from Juego.Piezas.Piece import Piece
 class King(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color.lower(), 'King', x, y)
-        self.__x__ = x
-        self.__y__ = y
+        self.__simbolo__ = self.SYMBOLS['King'][self.__color__]
         
         
     def mover(self, x, y):

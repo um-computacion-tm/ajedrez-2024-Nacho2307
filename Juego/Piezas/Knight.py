@@ -5,7 +5,7 @@ class Knight(Piece):
         super().__init__(color, 'Knight', x, y)
          
     def movimiento_correcto(self, desde_fila, desde_columna, hasta_fila, hasta_columna):
-         fila_diff = abs(hasta_fila - desde_columna)
+         fila_diff = abs(hasta_fila - desde_fila)
          columna_diff = abs(hasta_columna - desde_columna)
          return (fila_diff == 2 and columna_diff == 1) or (fila_diff == 1 and columna_diff == 2)
      

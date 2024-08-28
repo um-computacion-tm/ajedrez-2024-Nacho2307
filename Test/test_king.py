@@ -7,12 +7,12 @@ class TestRey(unittest.TestCase):
         self.__rey__ = King("white")
     
     def verificar_posicion(self, x, y):
-        self.assertEqual(self.__rey__.__x__, x)
-        self.assertEqual(self.__rey__.__y__, y)
+        self.assertEqual(self.__rey__.get_x, x)
+        self.assertEqual(self.__rey__.get_y, y)
     
     def test_incio(self):
-     self.assertEqual(self.__rey__.__color__, "white")
-     self.assertEqual(self.__rey__.__simbolo__, "♔")
+     self.assertEqual(self.__rey__.get_color(), "white")
+     self.assertEqual(str(self.__rey__), "♔")
     
     def test_mover_valido(self):
         self.__rey__.mover(1, 1)

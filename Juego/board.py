@@ -1,75 +1,63 @@
-from Piezas.Rook import Rook
-from Piezas.Knight import Knight
-from Piezas.King import King    
-from Piezas.Bishop import Bishop
-from Piezas.Pawn import Pawn
-from Piezas.Queen import Queen
+from Juego.Piezas.Rook import Rook
+from Juego.Piezas.Knight import Knight
+from Juego.Piezas.King import King
+from Juego.Piezas.Bishop import Bishop
+from Juego.Piezas.Pawn import Pawn
+from Juego.Piezas.Queen import Queen
 
 class Board:
     def __init__(self):
         self.__positions__ = []
-        # Inicializo el tablero con 8x8 posiciones que esten vacias 
-        for  _ in range(8):
-            col = []
-            for _ in range(8):
-                col.append(None)            
-            self.__positions__.append(col) 
-# Posiciones de las piezas del ajedrez de color negro
-# Las piezas son puesta en la fila 0
-        self.__positions__[0] = [
-            Rook("Black"),  # Torre Negra izquierda 
-            Knight("Black"),  # Caballo negro izquierdo
-            Bishop("Black"),  # Alfil negro izquierdoS
-            Queen("Black"),  # Reina negra
-            King("Black"),  # Rey negro
-            Bishop("Black"),  # Alfil negro derecho
-            Knight("Black"),  # Caballo negro derecho
-            Rook("Black")  # Torre Negra derecho 
-        ]
-# Se ponen los peones negros en la fila 1
-        self.__positions__[1] = [Pawn("Black")]*8
+        # Inicializa un tablero de ajedrez vacío de 8x8
+        for _ in range(8):
+            col = [None] * 8
+            self.__positions__.append(col)
 
-# Se ponen los peones blancos en la fila 6
-        self.__positions__[6] = [Pawn("White")]*8
-      
-        # Establece las piezas en la fila 7 (blancas)
-        self.__positions__[7] = [
-            Rook("White"),  # Torre blanca izquierda
-            Knight("White"),  # Caballo blanco izquierdo
-            Bishop("White"),  # Alfil blanco izquierdo
-            Queen("White"),  # Reina blanca
-            King("White"),  # Rey blanco
-            Bishop("White"),  # Alfil blanco derecho
-            Knight("White"),  # Caballo blanco derecho
-            Rook("White")  # Torre blanca derecha
+        # Configura las piezas en sus posiciones iniciales
+        self.__positions__[0] = [
+            Rook("Black"), Knight("Black"), Bishop("Black"), Queen("Black"),
+            King("Black"), Bishop("Black"), Knight("Black"), Rook("Black")
         ]
- 
-# Devuelve una representacion en texto del tablero       
+        self.__positions__[1] = [Pawn("Black")] * 8
+        self.__positions__[6] = [Pawn("White")] * 8
+        self.__positions__[7] = [
+            Rook("White"), Knight("White"), Bishop("White"), Queen("White"),
+            King("White"), Bishop("White"), Knight("White"), Rook("White")
+        ]
+
     def __str__(self):
-      resultado = ""
-      for row in self.__positions__:
-        fila_texto = []
-        for piece in row:
-            if piece:
-                fila_texto.append(str(piece))
-            else:
-                fila_texto.append(".")
-        resultado += "".join(fila_texto) + "\n"
-      return resultado
-        
-    # Muestra el tablero con coordenadas
+        # Retorna una representación en texto del tablero
+        resultado = ""
+        for row in self.__positions__:
+            fila_texto = [str(piece) if piece else "." for piece in row]
+            resultado += " ".join(fila_texto) + "\n"
+        return resultado
+
     def mostrar_coords(self):
+        # Muestra el tablero con coordenadas para referencia
         mostrar = "  0 1 2 3 4 5 6 7\n"
         for i, row in enumerate(self.__positions__):
             fila = f"{i} " + " ".join([piece.__str__() if piece else '.' for piece in row]) + "\n"
             mostrar += fila
         return mostrar
-    
-# Devuelve la pieza en la posicion (row, col)
+
+    def _check_bounds(self, row, col):
+        # Verifica si las coordenadas están dentro del rango válido del tablero
+        if 0 <= row < 8 and 0 <= col < 8:
+            return True
+        else:
+            raise IndexError("Posición fuera del tablero.")
+
     def get_piece(self, row, col):
-     return self.__positions__[row] [col]
+        # Devuelve la pieza en la posición (row, col) si está dentro del tablero
+        self._check_bounds(row, col)
+        return self.__positions__[row][col]
+
+    def set_piece(self, row, col, piece):
+        # Coloca una pieza en la posición (row, col) si está dentro del tablero
+        self._check_bounds(row, col)
+        self.__positions__[row][col] = piece
 
 if __name__ == "__main__":
     board = Board()
     print(board.mostrar_coords())
-...
