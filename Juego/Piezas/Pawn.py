@@ -8,25 +8,15 @@ class Pawn(Piece):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         direccion = -1 if self.get_color() == "White" else 1
-        
-        if not self._dentro_de_limites(from_pos, to_pos):
+
+        if not self.dentro_de_limites(from_pos, to_pos):
             return False
         
-        if self._movimiento_simple(from_pos, to_pos, direccion, board):
+        if self._movimiento_simple(from_row, from_col, to_row, to_col, from_pos, to_pos, direccion, board):
             return True
 
-        if self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
-            return True
-
-        if self._captura_diagonal(from_pos, to_pos, direccion, board):
-            return True
-
-        return False
-
-    def _dentro_de_limites(self, from_pos, to_pos):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-        return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
+        return self._movimiento_doble_inicial(from_pos, to_pos, direccion, board) or \
+               self._captura_diagonal(from_pos, to_pos, direccion, board)
 
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos
@@ -38,12 +28,14 @@ class Pawn(Piece):
     def _movimiento_doble_inicial(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
-        if ((self.get_color() == "Black" and from_row == 6) or 
-            (self.get_color() == "White" and from_row == 1)):
-            return (to_row == from_row + 2 * direccion and 
-                    board.get_piece(to_row, to_col) is None and 
-                    board.get_piece(from_row + direccion, from_col) is None)
-        return False
+        es_movimiento_valido = (
+            (self.get_color() == "Black" and from_row == 6) or 
+            (self.get_color() == "White" and from_row == 1)
+        )
+        return (es_movimiento_valido and 
+                to_row == from_row + 2 * direccion and 
+                board.get_piece(to_row, to_col) is None and 
+                board.get_piece(from_row + direccion, from_col) is None)
 
     def _captura_diagonal(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos

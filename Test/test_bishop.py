@@ -4,27 +4,22 @@ from Juego.board import Board
 
 class TestBishop(unittest.TestCase):
     def setUp(self):
-        self.__bishop_white__ = Bishop("white")
-        self.board = Board()
-    
-    def check_moves(self, moves):
-        for expected_result, from_row, from_col, to_row, to_col in moves:
-            with self.subTest(from_pos=(from_row, from_col), to_pos=(to_row, to_col)):
-                self.assertEqual(
-                    self.__bishop_white__.movimiento_correcto(from_row, from_col, to_row, to_col, self.board),
-                    expected_result
-                )
-    
-    def get_moves(self):
-        return [
-            (True, 1, 1, 4, 4),
-            (True, 3, 5, 5, 3),
-            (False, 1, 1, 4, 3),
-            (False, 3, 5, 4, 5)
-        ]
-    
-    def test_moves(self):
-        self.check_moves(self.get_moves())
+        self.board = Board()  # Inicializa un tablero vacío
 
-if __name__ == "__main__":
+    def test_movimiento_correcto_diagonal(self):
+        piece = Bishop("white")
+        # Movimiento diagonal válido
+        self.assertTrue(piece.movimiento_correcto(2, 2, 4, 4, self.board))
+        # Movimiento diagonal inválido
+        self.assertFalse(piece.movimiento_correcto(2, 2, 4, 5, self.board))
+
+    def test_diagonal_move(self):
+        piece = Bishop("white")
+        # Movimiento diagonal válido (sin obstáculos)
+        self.assertTrue(piece.diagonal_move(self.board.__positions__, (4, 4)))
+        # Movimiento diagonal inválido (con obstáculo)
+        self.board.__positions__[3][3] = '♟'  # Obstáculo
+        self.assertFalse(piece.diagonal_move(self.board.__positions__, (4, 4)))
+
+if __name__ == '__main__':
     unittest.main()

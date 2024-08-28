@@ -39,3 +39,10 @@ class Piece:
         x, y = new_position
         current_x, current_y = self.__x__, self.__y__
         return x, y, current_x, current_y
+    
+    # Método común para todas las piezas
+    @staticmethod
+    def dentro_de_limites(from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+        return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
