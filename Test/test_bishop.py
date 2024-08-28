@@ -1,16 +1,19 @@
 import unittest
 from Juego.Piezas.Bishop import Bishop
-
+from Juego.board import Board
 
 class TestBishop(unittest.TestCase):
     def setUp(self):
         self.__bishop_white__ = Bishop("white")
+        self.board = Board()
     
     def check_moves(self, moves):
-     for expected_result, from_row, from_col, to_row, to_col in moves:
-       with self.subTest(from_pos=(from_row, from_col), to_pos=(to_row, to_col)):
-         self.assertEqual(self.__bishop_white__.movimiento_correcto(from_row, from_col, to_row, to_col), expected_result)
-
+        for expected_result, from_row, from_col, to_row, to_col in moves:
+            with self.subTest(from_pos=(from_row, from_col), to_pos=(to_row, to_col)):
+                self.assertEqual(
+                    self.__bishop_white__.movimiento_correcto(from_row, from_col, to_row, to_col, self.board),
+                    expected_result
+                )
     
     def get_moves(self):
         return [
@@ -21,8 +24,7 @@ class TestBishop(unittest.TestCase):
         ]
     
     def test_moves(self):
-     self.check_moves(self.get_moves())
-
+        self.check_moves(self.get_moves())
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,7 @@
 [run]
-source = Test
+source = 
+    Test
+    Juego
 omit =
     venv/*
     */test/*
@@ -13,5 +15,6 @@ exclude_lines =
     return raw_input
     print
     if __name__ == "__main__":
+    if __name__ == '__main__':
     def suite
     __str__
