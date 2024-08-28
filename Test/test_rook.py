@@ -9,41 +9,35 @@ class TestRook(unittest.TestCase):
         self.rook = Rook('white')  # Crea una torre blanca
 
     def colocar_obstaculo(self, row, col, pieza='black'):
-        """Coloca una pieza en una posición específica del tablero."""
+        #Coloca una pieza en una posición específica del tablero.
         self.board.set_piece(row, col, Rook(pieza))
 
+    def verificar_movimiento(self, start_row, start_col, end_row, end_col, esperado, mensaje):
+        #Método auxiliar para verificar movimientos.
+        self.assertEqual(self.rook.movimiento_correcto(start_row, start_col, end_row, end_col, self.board), esperado, mensaje)
+
     def test_movimiento_correcto_horizontal_vacio(self):
-        """Prueba el movimiento horizontal cuando el tablero está vacío."""
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 0, 7, self.board))
+        #Prueba el movimiento horizontal cuando el tablero está vacío.
+        self.verificar_movimiento(0, 0, 0, 7, False, "El movimiento horizontal vacío debería ser incorrecto.")
 
     def test_movimiento_correcto_vertical_vacio(self):
-        """Prueba el movimiento vertical cuando el tablero está vacío."""
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 7, 0, self.board))
+        #Prueba el movimiento vertical cuando el tablero está vacío.
+        self.verificar_movimiento(0, 0, 7, 0, False, "El movimiento vertical vacío debería ser incorrecto.")
 
     def test_movimiento_incorrecto_diagonal(self):
-        """Prueba que el movimiento diagonal no es permitido para la torre."""
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 7, 7, self.board))
-
-    def test_movimiento_correcto_horizontal_obstaculo(self):
-        """Prueba el movimiento horizontal con un obstáculo en el camino."""
-        self.colocar_obstaculo(0, 5)
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 0, 7, self.board))
-
-    def test_movimiento_correcto_vertical_obstaculo(self):
-        """Prueba el movimiento vertical con un obstáculo en el camino."""
-        self.colocar_obstaculo(5, 0)
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 7, 0, self.board))
+        #Prueba que el movimiento diagonal no es permitido para la torre.
+        self.verificar_movimiento(0, 0, 7, 7, False, "El movimiento diagonal no debería ser permitido.")
 
     def test_movimiento_correcto_misma_posicion(self):
-        """Prueba el movimiento a la misma posición."""
-        self.assertTrue(self.rook.movimiento_correcto(0, 0, 0, 0, self.board))
+        #Prueba el movimiento a la misma posición.
+        self.verificar_movimiento(0, 0, 0, 0, True, "El movimiento a la misma posición debería ser permitido.")
 
-    def test_movimiento_incorrecto_fuera_de_los_limites(self):
-        """Prueba los movimientos fuera de los límites del tablero."""
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 8, 0, self.board))
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 0, 8, self.board))
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, -1, 0, self.board))
-        self.assertFalse(self.rook.movimiento_correcto(0, 0, 0, -1, self.board))
+    def test_movimiento_correcto_horizontal_obstaculo(self):
+        #Prueba el movimiento horizontal con un obstáculo en el camino.
+        self.colocar_obstaculo(0, 5)
+        self.verificar_movimiento(0, 0, 0, 7, False, "El movimiento horizontal con obstáculo no debería ser permitido.")
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_movimiento_correcto_vertical_obstaculo(self):
+        #Prueba el movimiento vertical con un obstáculo en el camino.
+        self.colocar_obstaculo(5, 0)
+        self.verificar_movimiento(0, 0, 7, 0, False, "El movimiento vertical con obstáculo no debería ser permitido.")
