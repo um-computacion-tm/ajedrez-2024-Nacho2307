@@ -6,7 +6,7 @@ class Interfaz:
         self._chess_ = Chess()
 
     def mostrar_menu(self):
-        """Muestra el menú principal del juego."""
+        # Muestra el menú principal del juego.
         print('\nChessGame - By Ignacio Aguilera Baigorria Jayat')
         print('------------------------------\n')
         print('Seleccione una opción:')
@@ -14,7 +14,7 @@ class Interfaz:
         print('2. Salir\n')
 
     def obtener_opcion_menu(self):
-        """Obtiene y valida la opción del menú ingresada por el usuario."""
+        # Obtiene y valida la opción del menú ingresada por el usuario.
         seleccion = input("Escriba su selección aquí (1 o 2): ")
         while seleccion not in ["1", "2"]:
             print("Opción inválida. Por favor, seleccione 1 o 2.")
@@ -22,7 +22,7 @@ class Interfaz:
         return int(seleccion)
 
     def solicitar_movimiento(self):
-        """Solicita al usuario las coordenadas para mover una pieza y muestra información adicional."""
+        # Solicita al usuario las coordenadas para mover una pieza y muestra información adicional.
         while True:
             try:
                 movimiento = input("Ingrese el movimiento en el siguiente formato:\n"
@@ -54,7 +54,7 @@ class Interfaz:
                 print("Entrada inválida. Tenes que ingresar cuatro números separados por espacios.")
 
     def manejar_excepcion(self, e):
-        """Maneja las excepciones específicas del juego."""
+        # Maneja las excepciones específicas del juego.
         if isinstance(e, (InvalidMoveException, OutOfBoundsException, PieceAlreadyCapturedException,
                           CheckException, CheckmateException, ColorException, TurnException)):
             print(f"Error: {e.message}")
@@ -62,7 +62,7 @@ class Interfaz:
             print(f"Error inesperado: {e}")
 
     def iniciar_juego(self):
-        """Inicia el bucle principal del juego de ajedrez."""
+        # Inicia el bucle principal del juego de ajedrez.
         while True:
             print(f"\nTurno del jugador: {self._chess_.turn}")
             print(self._chess_.__board__.mostrar_coords())
@@ -85,7 +85,7 @@ class Interfaz:
                 print(f"Error inesperado: {e}")
 
     def main(self):
-        """Punto de entrada principal de la aplicación."""
+        # Punto de entrada principal de la aplicación.
         while True:
             self.mostrar_menu()
             opcion = self.obtener_opcion_menu()

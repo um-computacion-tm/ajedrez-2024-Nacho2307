@@ -131,3 +131,27 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - test_checkmate_exception: prueba que se lanza una CheckmateException cuando se produce un jaque mate.
 - test_color_exception: prueba que se lanza una ColorException cuando se intenta utilizar un color incorrecto.
 - test_turn_exception: prueba que se lanza una TurnException cuando no es el turno del jugador.
+
+## [0.0.12] - 2024-08-27
+
+### Añadido
+ 
+- Se agrego el archivo 'Test_exception.py' para la clase 'Exception'.
+- Se modificaron los archivos 'Pawn.py' y 'Rook.py' para la duplicacion de codigo.
+
+## [0.0.13] - 2024-08-28
+
+### Cambio
+
+- Se cambio el archivo 'Pawn.py' por la duplicacion de codigo
+- Se cambio el archivo 'Rookpy' por la duplicacion de codigo.
+
+## [0.0.14] - 2024-08-29
+
+### Añadido
+
+- Nuevo Método parse_position(input_str): Convierte la entrada del usuario en coordenadas numéricas.
+- Nuevo Método get_piece_or_raise(pos): Obtiene la pieza en la posición indicada o lanza una excepción si no existe.
+- Nuevo Método validate_turn(piece): Valida si el turno es correcto en función del color de la pieza.
+- Nuevo Método execute_move(from_pos, to_pos, piece): Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
+

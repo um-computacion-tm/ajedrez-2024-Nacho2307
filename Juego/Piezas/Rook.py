@@ -5,14 +5,11 @@ class Rook(Piece):
         super().__init__(color, 'Rook', x, y)
 
     def movimiento_correcto(self, from_pos, to_pos, board):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-
         if not self.dentro_de_limites(from_pos, to_pos):
             return False
         
         if self._movimiento_en_linea_recta(from_pos, to_pos):
-            return self._camino_libre_y_captura(from_row, from_col, to_row, to_col, from_pos, to_pos, board)
+            return self._camino_libre_y_captura(from_pos, to_pos, board)
 
         return False
 
@@ -22,24 +19,28 @@ class Rook(Piece):
         return to_row == from_row or to_col == from_col
 
     def _camino_libre_y_captura(self, from_pos, to_pos, board):
+        direction, start, end = self._determinar_direccion_y_límites(from_pos, to_pos)
+        return self._camino_libre(direction, start, end, board, from_pos)
+
+    def _determinar_direccion_y_límites(self, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
 
-        if from_row == to_row:
-            return self._camino_libre(from_row, from_col, to_col, 1 if to_col > from_col else -1, board, horizontal=True)
-        elif from_col == to_col:
-            return self._camino_libre(from_row, from_col, to_row, 1 if to_row > from_row else -1, board, horizontal=False)
+        if from_row == to_row:  # Movimiento horizontal
+            direction = "horizontal"
+            start, end = from_col, to_col
+        else:  # Movimiento vertical
+            direction = "vertical"
+            start, end = from_row, to_row
 
-        return False
+        paso = 1 if end > start else -1
+        return direction, start + paso, end
 
-    def _camino_libre(self, start, end, paso, board, horizontal):
-        if horizontal:
-            for col in range(start + paso, end, paso):
-                if board.get_piece(start, col) is not None:
-                    return False
-        else:
-            for row in range(start + paso, end, paso):
-                if board.get_piece(row, start) is not None:
-                    return False
+    def _camino_libre(self, direction, start, end, board, from_pos):
+        from_row, from_col = from_pos
+        for pos in range(start, end, 1 if end > start else -1):
+            if direction == "horizontal" and board.get_piece(from_row, pos) is not None:
+                return False
+            elif direction == "vertical" and board.get_piece(pos, from_col) is not None:
+                return False
         return True
- 
