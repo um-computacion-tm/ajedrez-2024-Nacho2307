@@ -24,13 +24,15 @@ class TestRook(unittest.TestCase):
     def test_movimiento_invalido_diagonal(self):
         self._test_movimiento_invalido((0, 0), (3, 3))
 
+    def _test_movimiento_obstruido(self, obstruccion_pos, from_pos, to_pos):
+     self.board.set_piece(obstruccion_pos[0], obstruccion_pos[1], Rook('black', *obstruccion_pos))
+     self._test_movimiento_invalido(from_pos, to_pos)
+
     def test_movimiento_obstruido_horizontal(self):
-        self.board.set_piece(0, 3, Rook('black', 0, 3))
-        self._test_movimiento_invalido((0, 0), (0, 5))
+     self._test_movimiento_obstruido((0, 3), (0, 0), (0, 5))
 
     def test_movimiento_obstruido_vertical(self):
-        self.board.set_piece(3, 0, Rook('black', 3, 0))
-        self._test_movimiento_invalido((0, 0), (5, 0))
+     self._test_movimiento_obstruido((3, 0), (0, 0), (5, 0))
 
     def _test_movimiento_valido(self, from_pos, to_pos):
         self.assertTrue(self.rook.movimiento_correcto(from_pos, to_pos, self.board))
