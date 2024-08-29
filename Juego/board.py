@@ -7,12 +7,14 @@ from Juego.Piezas.Queen import Queen
 
 class Board:
     def __init__(self):
-        self.__positions__ = []
+        self.__positions__ = [[None] * 8 for _ in range(8)]
+        self.setup_pieces()
         # Inicializa un tablero de ajedrez vacío de 8x8
         for _ in range(8):
             col = [None] * 8
             self.__positions__.append(col)
-
+    
+    def setup_pieces(self):
         # Configura las piezas en sus posiciones iniciales
         self.__positions__[0] = [
             Rook("Black"), Knight("Black"), Bishop("Black"), Queen("Black"),
@@ -25,6 +27,15 @@ class Board:
             King("White"), Bishop("White"), Knight("White"), Rook("White")
         ]
 
+    def clear_board(self):
+    # Limpias el tablero con las piezas
+     self.__positions__ = [[None] * 8 for _ in range(8)]
+     
+    def place_piece(self, piece, position):
+        #Coloca una pieza en una posicion especifica en el tablero
+        row, col = position
+        self.__positions__[row][col] = piece
+    
     def __str__(self):
         # Retorna una representación en texto del tablero
         resultado = ""
@@ -49,8 +60,6 @@ class Board:
             raise IndexError("Posición fuera del tablero.")
 
     def get_piece(self, row, col):
-        # Devuelve la pieza en la posición (row, col) si está dentro del tablero
-        self._check_bounds(row, col)
         return self.__positions__[row][col]
 
     def set_piece(self, row, col, piece):

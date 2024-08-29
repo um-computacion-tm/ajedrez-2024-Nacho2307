@@ -13,13 +13,13 @@ class TestBishop(unittest.TestCase):
         # Movimiento diagonal inválido
         self.assertFalse(piece.movimiento_correcto(2, 2, 4, 5, self.board))
 
-    def test_diagonal_move(self):
+    def test_camino_despejado(self):
         piece = Bishop("white")
         # Movimiento diagonal válido (sin obstáculos)
-        self.assertTrue(piece.diagonal_move(self.board.__positions__, (4, 4)))
+        self.assertTrue(piece.movimiento_correcto(4, 4, 6, 6, self.board))
         # Movimiento diagonal inválido (con obstáculo)
-        self.board.__positions__[3][3] = '♟'  # Obstáculo
-        self.assertFalse(piece.diagonal_move(self.board.__positions__, (4, 4)))
+        self.board.__positions__[5][5] = '♟'  # Obstáculo en la posición (5, 5)
+        self.assertFalse(piece.movimiento_correcto(4, 4, 6, 6, self.board))
 
 if __name__ == '__main__':
     unittest.main()

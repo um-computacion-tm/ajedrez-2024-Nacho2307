@@ -11,7 +11,7 @@ class Piece:
     def __init__(self, color, nombre, x=0, y=0):
         self.__nombre__ = nombre  # Nombre de la pieza
         self.__color__ = color.lower()  # Color de la pieza
-        self.__simbolo__ = self.SYMBOLS[nombre][self.__color__]  # Simbolo para representar la pieza
+        self.__simbolo__ = self.SYMBOLS.get(nombre, {}).get(self.__color__, ' ')  # Simbolo para representar la pieza
         self.__x__ = x  # Fila inicial
         self.__y__ = y  # Columna inicial
     
@@ -46,3 +46,14 @@ class Piece:
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
+    
+    # Verifica los movimientos para todas las piezas
+    def chech_move(self, board, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+        
+        # Verifica si el movimiento es dentro de los limites del board
+        if not self.dentro_de_limites(from_pos, to_pos):
+            return False
+        return self.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+    

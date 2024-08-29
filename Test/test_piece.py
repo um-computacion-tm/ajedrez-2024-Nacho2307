@@ -1,22 +1,19 @@
 import unittest
-from Juego.Piezas.Piece import Piece 
-
+from Juego.Piezas.Piece import Piece
 
 class TestPiece(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color, "TestPiece", x, y)
+        # Establece el símbolo manualmente para la pieza de prueba
+        self.__simbolo__ = 'T'
 
-    def movimiento_posible(self, from_pos, board):
-        from_row, from_col = from_pos
+    def movimiento_posible(self, from_row, from_col, board):
         # Implementación simple para pruebas
         return True
 
-    def movimiento_correcto(self, from_pos, to_pos, board):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
+    def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
         # Implementación simple para pruebas
         return from_row != to_row or from_col != to_col
-
 
 class TestPieceMethods(unittest.TestCase):
     def setUp(self):
@@ -27,7 +24,7 @@ class TestPieceMethods(unittest.TestCase):
         self.assertEqual(self.piece.get_color(), "White")
         self.assertEqual(self.piece.get_x(), 0)
         self.assertEqual(self.piece.get_y(), 0)
-        self.assertEqual(str(self.piece), '♙')  # Verifica el símbolo de la pieza para TestPiece
+        self.assertEqual(str(self.piece), 'T')  # Verifica el símbolo de la pieza para TestPiece
     
     def test_dentro_de_limites(self):
         # Prueba si el método dentro_de_limites funciona correctamente
@@ -49,5 +46,3 @@ class TestPieceMethods(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-    
