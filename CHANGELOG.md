@@ -155,3 +155,9 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Nuevo Método validate_turn(piece): Valida si el turno es correcto en función del color de la pieza.
 - Nuevo Método execute_move(from_pos, to_pos, piece): Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
 
+
+## [0.0.15] - 2024-08-30
+
+### Añadido
+
+- Test queen 
