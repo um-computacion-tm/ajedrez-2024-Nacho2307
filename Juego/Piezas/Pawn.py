@@ -24,8 +24,6 @@ class Pawn(Piece):
         if self._captura_diagonal(from_pos, to_pos, direccion, board):
             return True
 
-        return False
-
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
