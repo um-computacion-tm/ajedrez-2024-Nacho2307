@@ -19,8 +19,10 @@ class Rook(Piece):
         return to_row == from_row or to_col == from_col
 
     def _camino_libre_y_captura(self, from_pos, to_pos, board):
-        direction, start, end = self._determinar_direccion_y_límites(from_pos, to_pos)
-        return self._camino_libre(direction, start, end, board, from_pos)
+     direction, start, end = self._determinar_direccion_y_límites(from_pos, to_pos)
+     camino_libre = self._camino_libre(direction, start, end, board, from_pos)
+     return camino_libre
+
 
     def _determinar_direccion_y_límites(self, from_pos, to_pos):
         from_row, from_col = from_pos

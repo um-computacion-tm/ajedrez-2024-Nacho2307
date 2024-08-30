@@ -35,7 +35,7 @@ class Interfaz:
                 from_row, from_col, to_row, to_col = map(int, movimiento.split())
 
                 # Mostrar la pieza en la posición de origen
-                piece = self._chess_.get_piece(from_row, from_col)
+                piece = self._chess_.__board__.get_piece(from_row, from_col)
                 if piece:
                     print(f"Pieza seleccionada: {piece} ({piece.__class__.__name__})")
                     print(f"Posición de origen: ({from_row}, {from_col})")
@@ -64,7 +64,7 @@ class Interfaz:
     def iniciar_juego(self):
         # Inicia el bucle principal del juego de ajedrez.
         while True:
-            print(f"\nTurno del jugador: {self._chess_.turn}")
+            print(f"\nTurno del jugador: {self._chess_.turn()}")
             print(self._chess_.__board__.mostrar_coords())
 
             movimiento = self.solicitar_movimiento()
