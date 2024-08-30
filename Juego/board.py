@@ -9,11 +9,7 @@ class Board:
     def __init__(self):
         self.__positions__ = [[None] * 8 for _ in range(8)]
         self.setup_pieces()
-        # Inicializa un tablero de ajedrez vacío de 8x8
-        for _ in range(8):
-            col = [None] * 8
-            self.__positions__.append(col)
-    
+        
     def setup_pieces(self):
         # Configura las piezas en sus posiciones iniciales
         self.__positions__[0] = [
@@ -35,6 +31,10 @@ class Board:
         #Coloca una pieza en una posicion especifica en el tablero
         row, col = position
         self.__positions__[row][col] = piece
+        
+    def remove_piece(self, row, col):
+        self._check_bounds(row, col)
+        self.__positions__[row][col] = None
     
     def __str__(self):
         # Retorna una representación en texto del tablero
