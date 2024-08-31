@@ -37,7 +37,6 @@ class Board:
         self.__positions__[row][col] = None
     
     def __str__(self):
-        # Retorna una representación en texto del tablero
         resultado = ""
         for row in self.__positions__:
             fila_texto = [str(piece) if piece else "." for piece in row]
@@ -45,11 +44,11 @@ class Board:
         return resultado
 
     def mostrar_coords(self):
-        # Muestra el tablero con coordenadas para referencia
         mostrar = "  0 1 2 3 4 5 6 7\n"
         for i, row in enumerate(self.__positions__):
             fila = f"{i} " + " ".join([piece.__str__() if piece else '.' for piece in row]) + "\n"
             mostrar += fila
+        print(mostrar)
         return mostrar
 
     def _check_bounds(self, row, col):
@@ -60,12 +59,14 @@ class Board:
             raise IndexError("Posición fuera del tablero.")
 
     def get_piece(self, row, col):
-        return self.__positions__[row][col]
+        pieza = self.__positions__[row][col]
+        print(f"Obteniendo pieza en ({row}, {col}): {pieza}")
+        return pieza
 
     def set_piece(self, row, col, piece):
-        # Coloca una pieza en la posición (row, col) si está dentro del tablero
         self._check_bounds(row, col)
         self.__positions__[row][col] = piece
+        print(f"Pieza colocada en ({row}, {col}): {piece}")
 
 if __name__ == "__main__":
     board = Board()
