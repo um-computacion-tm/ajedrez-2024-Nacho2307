@@ -20,6 +20,7 @@ class Piece:
         return self.__simbolo__
     
     def get_color(self):
+        print(f"Color de la pieza: {self.__color__}")
         return self.__color__.capitalize()
     
     def get_x(self):
@@ -38,6 +39,7 @@ class Piece:
     def get_coordinates(self, new_position):
         x, y = new_position
         current_x, current_y = self.__x__, self.__y__
+        print(f"Nueva posición: {new_position}, Posición actual: ({current_x}, {current_y})")
         return x, y, current_x, current_y
     
     # Método común para todas las piezas

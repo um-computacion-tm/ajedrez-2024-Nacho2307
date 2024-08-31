@@ -23,6 +23,8 @@ class Pawn(Piece):
         # Captura diagonal
         if self._captura_diagonal(from_pos, to_pos, direccion, board):
             return True
+        
+        return False
 
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos
@@ -37,8 +39,8 @@ class Pawn(Piece):
         to_row, to_col = to_pos
         pieza_destino = board.get_piece(to_row, to_col)
         es_movimiento_valido = (
-            (self.get_color() == "White" and from_row == 1) or 
-            (self.get_color() == "Black" and from_row == 6)
+            (self.get_color() == "White" and from_row == 6) or 
+            (self.get_color() == "Black" and from_row == 1)
         )
         return (es_movimiento_valido and 
                 to_row == from_row + 2 * direccion and 
