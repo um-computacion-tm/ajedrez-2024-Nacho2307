@@ -12,19 +12,13 @@ class Pawn(Piece):
         if not self.dentro_de_limites(from_pos, to_pos):
             return False
         
-        # Movimiento simple hacia adelante
-        if self._movimiento_simple(from_pos, to_pos, direccion, board):
-            return True
-        
-        # Movimiento doble inicial
-        if self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
-            return True
-        
-        # Captura diagonal
-        if self._captura_diagonal(from_pos, to_pos, direccion, board):
-            return True
-        
-        return False
+        movimiento_valido = (
+            self._movimiento_simple(from_pos, to_pos, direccion, board) or
+            self._movimiento_doble_inicial(from_pos, to_pos, direccion, board) or
+            self._captura_diagonal(from_pos, to_pos, direccion, board)
+        )
+
+        return movimiento_valido
 
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos
