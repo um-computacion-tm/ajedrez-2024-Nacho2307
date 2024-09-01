@@ -12,6 +12,19 @@ class TestPawn(unittest.TestCase):
             self.white_pawn = Pawn("White", 6, 1)
             self.__board__.set_piece(6, 1, self.white_pawn)
 
+    def _test_moves(self, moves, expected_result):
+        """
+        Testea una lista de movimientos y verifica si cada uno cumple con el resultado esperado.
+        """
+        for from_pos, to_pos in moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self.assertEqual(self._test_move(from_pos, to_pos), expected_result)
+
+    def _test_move(self, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.__board__)
+
     def test_valid_moves(self):
         valid_moves = [
             ((6, 1), (5, 1)),  # Movimiento simple hacia adelante
@@ -45,17 +58,6 @@ class TestPawn(unittest.TestCase):
             self.__board__.set_piece(pos[0], pos[1], Piece(color, "Knight"))
             with self.subTest(pos=pos, color=color):
                 self.assertEqual(self._test_move((6, 1), pos), expected)
-
-    def _test_moves(self, moves, expected_result):
-       
-        for from_pos, to_pos in moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self.assertEqual(self._test_move(from_pos, to_pos), expected_result)
-
-    def _test_move(self, from_pos, to_pos):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.__board__)
 
 if __name__ == '__main__':
     unittest.main()
