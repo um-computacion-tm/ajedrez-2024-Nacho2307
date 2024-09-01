@@ -4,21 +4,25 @@ class Pawn(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color, 'Pawn', x, y)
 
-    def movimiento_correcto(self, from_pos, to_pos, board):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
+    def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
+        from_pos = (from_row, from_col)
+        to_pos = (to_row, to_col)
         direccion = -1 if self.get_color() == "White" else 1
 
-        if not self.dentro_de_limites(from_pos, to_pos):
-            return False
+        # Chequeo de movimiento simple hacia adelante
+        if self._movimiento_simple(from_pos, to_pos, direccion, board):
+            return True
         
-        movimiento_valido = (
-            self._movimiento_simple(from_pos, to_pos, direccion, board) or
-            self._movimiento_doble_inicial(from_pos, to_pos, direccion, board) or
-            self._captura_diagonal(from_pos, to_pos, direccion, board)
-        )
-
-        return movimiento_valido
+        # Chequeo de movimiento doble inicial
+        if self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
+            return True
+        
+        # Chequeo de captura diagonal
+        if self._captura_diagonal(from_pos, to_pos, direccion, board):
+            return True
+        
+        # Si ningún movimiento es válido, retorna False
+        return False
 
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos

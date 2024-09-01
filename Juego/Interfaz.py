@@ -22,41 +22,40 @@ class Interfaz:
         return int(seleccion)
 
     def solicitar_movimiento(self):
-        # Solicita al usuario las coordenadas para mover una pieza y muestra información adicional.
-        while True:
-            try:
-                movimiento = input("Ingrese el movimiento en el siguiente formato:\n"
-                                   "  fila_origen columna_origen fila_destino columna_destino\n"
-                                   "Las filas y columnas deben estar entre 0 y 7 (inclusive).\n"
-                                   "Ejemplo: '1 0 2 0' para mover una pieza de la fila 1, columna 0 a la fila 2, columna 0.\n"
-                                   "Formato (o 'q' para salir): ")
-                if movimiento.lower() == 'q':
-                    return None
-                from_row, from_col, to_row, to_col = map(int, movimiento.split())
+     while True:
+        try:
+            movimiento = input("Ingrese el movimiento en el siguiente formato:\n"
+                                "  fila_origen columna_origen fila_destino columna_destino\n"
+                                "Las filas y columnas deben estar entre 0 y 7 (inclusive).\n"
+                                "Ejemplo: '1 0 2 0' para mover una pieza de la fila 1, columna 0 a la fila 2, columna 0.\n"
+                                "Formato (o 'q' para salir): ")
+            if movimiento.lower() == 'q':
+                return None
+            from_row, from_col, to_row, to_col = map(int, movimiento.split())
+            from_input = f"{from_row} {from_col}"
+            to_input = f"{to_row} {to_col}"
 
-                # Mostrar la pieza en la posición de origen
-                piece = self._chess_.__board__.get_piece(from_row, from_col)
-                if piece:
-                    print(f"Pieza seleccionada: {piece} ({piece.__class__.__name__})")
-                    print(f"Posición de origen: ({from_row}, {from_col})")
-                    
-                    # Mostrar las casillas a las que puede moverse la pieza
-                    valid_moves = piece.movimiento_posible(from_row, from_col, self._chess_.__board__)
-                    if valid_moves:
-                        print("Casillas a las que puede moverse:")
-                        for move in valid_moves:
-                            print(f" - ({move[0]}, {move[1]})")
-                    else:
-                        print("Esta pieza no puede moverse desde la posición que esta.")
-                    
-                return from_row, from_col, to_row, to_col
-            except ValueError:
-                print("Entrada inválida. Tenes que ingresar cuatro números separados por espacios.")
+            # Mostrar la pieza en la posición de origen
+            piece = self._chess_.__board__.get_piece(from_row, from_col)
+            if piece:
+                print(f"Pieza seleccionada: {piece} ({piece.__class__.__name__})")
+                print(f"Posición de origen: ({from_row}, {from_col})")
+                
+                # Obtener si el movimiento es válido
+                valid_move = piece.movimiento_correcto(from_row, from_col, to_row, to_col, self._chess_.__board__)
+                if valid_move:
+                    print("Movimiento válido.")
+                else:
+                    print("Movimiento no válido.")
+                
+            return from_input, to_input
+        except ValueError:
+            print("Entrada inválida. Tenes que ingresar cuatro números separados por espacios.")
+
 
     def manejar_excepcion(self, e):
         # Maneja las excepciones específicas del juego.
-        if isinstance(e, (InvalidMoveException, OutOfBoundsException, PieceAlreadyCapturedException,
-                          CheckException, CheckmateException, ColorException, TurnException)):
+        if isinstance(e, (InvalidMoveException, OutOfBoundsException, PieceAlreadyCapturedException, CheckException, CheckmateException, ColorException, TurnException)):
             print(f"Error: {e.message}")
         else:
             print(f"Error inesperado: {e}")
@@ -65,7 +64,7 @@ class Interfaz:
         # Inicia el bucle principal del juego de ajedrez.
         while True:
             print(f"\nTurno del jugador: {self._chess_.turn()}")
-            print(self._chess_.__board__.mostrar_coords())
+            self._chess_.__board__.mostrar_coords()
 
             movimiento = self.solicitar_movimiento()
             if movimiento is None:
