@@ -1,0 +1,90 @@
+import unittest
+from Juego.Piezas.Rook import Rook
+from Juego.Piezas.Knight import Knight
+from Juego.Piezas.King import King
+from Juego.Piezas.Bishop import Bishop
+from Juego.Piezas.Pawn import Pawn
+from Juego.Piezas.Queen import Queen
+from Juego.board import Board
+
+class TestBoard(unittest.TestCase):
+
+    def setUp(self):
+        self.board = Board()
+
+    def test_initial_setup(self):
+        """ Test que el tablero se inicializa correctamente con las piezas en las posiciones correctas. """
+        expected = (
+            "♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜\n"
+            "♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            "♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙\n"
+            "♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖\n"
+        )
+        self.assertEqual(str(self.board), expected)
+
+    def test_clear_board(self):
+        """ Test que el tablero se limpia correctamente. """
+        self.board.clear_board()
+        expected = (
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+            ". . . . . . . .\n"
+        )
+        self.assertEqual(str(self.board), expected)
+
+    def test_place_piece(self):
+        """ Test para verificar la colocación de piezas en el tablero. """
+        self.board.clear_board()
+        rook = Rook("White")
+        self.board.place_piece(rook, (4, 4))
+        self.assertEqual(self.board.get_piece(4, 4), rook)
+
+    def test_remove_piece(self):
+        """ Test para verificar la eliminación de piezas del tablero. """
+        self.board.clear_board()
+        rook = Rook("White")
+        self.board.place_piece(rook, (4, 4))
+        self.board.remove_piece(4, 4)
+        self.assertIsNone(self.board.get_piece(4, 4))
+
+    def test_show_coords(self):
+        """ Test para verificar la representación del tablero con coordenadas. """
+        expected_output = (
+            "  0 1 2 3 4 5 6 7\n"
+            "0 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜\n"
+            "1 ♟ ♟ ♟ ♟ ♟ ♟ ♟ ♟\n"
+            "2 . . . . . . . .\n"
+            "3 . . . . . . . .\n"
+            "4 . . . . . . . .\n"
+            "5 . . . . . . . .\n"
+            "6 ♙ ♙ ♙ ♙ ♙ ♙ ♙ ♙\n"
+            "7 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖\n"
+        )
+        self.assertEqual(self.board.mostrar_coords(), expected_output)
+
+    def test_get_piece(self):
+        """ Test para verificar la obtención de una pieza específica en una posición dada. """
+        rook = Rook("White")
+        self.board.place_piece(rook, (2, 3))
+        self.assertEqual(self.board.get_piece(2, 3), rook)
+
+    def test_check_bounds(self):
+        """ Test para verificar que la función de límites funciona correctamente. """
+        self.board._check_bounds(0, 0)  # Debería pasar sin excepción
+        self.board._check_bounds(7, 7)  # Debería pasar sin excepción
+        with self.assertRaises(IndexError):
+            self.board._check_bounds(-1, 0)
+        with self.assertRaises(IndexError):
+            self.board._check_bounds(0, 8)
+
+if __name__ == "__main__":
+    unittest.main()

@@ -51,7 +51,9 @@ class TestPawn(unittest.TestCase):
                 self.assertEqual(self._test_move((6, 1), pos), expected)
 
     def _test_move(self, from_pos, to_pos):
-        return self.white_pawn.movimiento_correcto(from_pos, to_pos, self.__board__)
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.__board__)
 
 if __name__ == '__main__':
     unittest.main()

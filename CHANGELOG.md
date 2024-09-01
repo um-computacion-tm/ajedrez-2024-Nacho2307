@@ -166,5 +166,9 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
--
--
+-test pawn
+
+
+## [0.0.17] - 2024-09-01
+
+### Añadido

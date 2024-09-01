@@ -35,23 +35,17 @@ class Chess:
             raise
 
     def parse_position(self, input_str):
-        
-        #Convierte la entrada del usuario en una posición del tablero.
-        #Espera un formato como '12' para la posición (1, 2).
-        
-        if len(input_str) != 2:
-            raise ValueError("La entrada tiene que tener 2 digitos como: '12'.")
+     try:
+        row, col = map(int, input_str.split())
+        row -= 1
+        col -= 1
 
-        try:
-            row = int(input_str[0]) - 1
-            col = int(input_str[1]) - 1
+        if not (0 <= row <= 7 and 0 <= col <= 7):
+            raise OutOfBoundsException(f"Position {input_str} esta fuera de los limites.")
+        return (row, col)
 
-            if not (0 <= row <= 7 and 0 <= col <= 7):
-                raise OutOfBoundsException(f"Position {input_str} esta fuera de los limites.")
-            return (row, col)
-
-        except ValueError:
-            raise ValueError(f"Ambos caracteres en [{input_str}] deben ser del 1 al 8.")
+     except ValueError:
+        raise ValueError(f"Entrada inválida: {input_str}. Debe tener el formato 'fila columna', donde ambos valores están entre 1 y 8.")
 
     def get_piece_or_raise(self, pos):
         piece = self.__board__.get_piece(*pos)
