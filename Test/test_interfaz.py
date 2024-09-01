@@ -1,71 +1,42 @@
 import unittest
-from Juego.Chess import Chess
-from Juego.Exception import *
 from Juego.Interfaz import Interfaz
 
 class TestInterfaz(unittest.TestCase):
+
     def setUp(self):
         self.interfaz = Interfaz()
 
-    def test_solicitar_movimiento(self):
+    def _simulate_input_output(self, inputs, target_function, expected_output):
+        """
+        Simula la entrada y salida para una función objetivo y verifica el resultado esperado.
+        """
         import io
         import sys
-    # Simula la entrada del usuario para que ingrese un movimiento válido
+        # Simula la entrada del usuario
         input_backup = sys.stdin
-        sys.stdin = io.StringIO('6 0 5 0\n')
-        output_backup = sys.stdout
-        sys.stdout = io.StringIO()
-    
-        from_input, to_input = self.interfaz.solicitar_movimiento()
-    
-    # Restaurar la entrada y salida estándar
-        sys.stdin = input_backup
-        output = sys.stdout.getvalue()
-        sys.stdout = output_backup
-    
-    # Verifica si el movimiento se procesa correctamente
-        self.assertTrue(self.interfaz._chess_.__board__.get_piece(6, 0).movimiento_correcto(6, 0, 5, 0, self.interfaz._chess_.__board__))
-
-
-    def test_iniciar_juego(self):
-        import io
-        import sys
-        # Simula la entrada del usuario para elegir la opción de iniciar el juego y luego salir
-        input_backup = sys.stdin
-        sys.stdin = io.StringIO('1\nq\n')
+        sys.stdin = io.StringIO(inputs)
         output_backup = sys.stdout
         sys.stdout = io.StringIO()
         
-        # Ejecuta el método iniciar_juego
-        self.interfaz.iniciar_juego()
+        # Ejecuta la función objetivo
+        target_function()
         
         # Restaurar la entrada y salida estándar
         sys.stdin = input_backup
         output = sys.stdout.getvalue()
         sys.stdout = output_backup
         
-        # Verifica que el mensaje de "Juego terminado" esté en la salida
-        self.assertIn("Juego terminado.", output)
+        # Verifica el resultado esperado
+        self.assertIn(expected_output, output)
+
+    def test_solicitar_movimiento(self):
+        self._simulate_input_output('6 0 5 0\n', self.interfaz.solicitar_movimiento, "Movimiento válido.")
+
+    def test_iniciar_juego(self):
+        self._simulate_input_output('1\nq\n', self.interfaz.iniciar_juego, "Juego terminado.")
 
     def test_main(self):
-        import io
-        import sys
-     # Simula la entrada del usuario para seleccionar la opción de salir
-        input_backup = sys.stdin
-        sys.stdin = io.StringIO('2\n')  # Opciones: 1 para jugar, 2 para salir
-        output_backup = sys.stdout
-        sys.stdout = io.StringIO()
-    
-        self.interfaz.main()
-    
-    # Restaurar la entrada y salida estándar
-        sys.stdin = input_backup
-        output = sys.stdout.getvalue()
-        sys.stdout = output_backup
-    
-    # Verifica si el mensaje de salida está presente en la salida
-        self.assertIn("Gracias por jugar. ¡Crack!", output)
-
+        self._simulate_input_output('2\n', self.interfaz.main, "Gracias por jugar. ¡Crack!")
 
 if __name__ == '__main__':
     unittest.main()

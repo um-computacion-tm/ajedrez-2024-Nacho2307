@@ -12,6 +12,19 @@ class TestPawn(unittest.TestCase):
             self.white_pawn = Pawn("White", 6, 1)
             self.__board__.set_piece(6, 1, self.white_pawn)
 
+    def _test_moves(self, moves, expected_result):
+        """
+        Testea una lista de movimientos y verifica si cada uno cumple con el resultado esperado.
+        """
+        for from_pos, to_pos in moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self.assertEqual(self._test_move(from_pos, to_pos), expected_result)
+
+    def _test_move(self, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.__board__)
+
     def test_valid_moves(self):
         valid_moves = [
             ((6, 1), (5, 1)),  # Movimiento simple hacia adelante
@@ -21,18 +34,14 @@ class TestPawn(unittest.TestCase):
         self.__board__.set_piece(5, 2, Piece("Black", "Knight"))
         valid_moves.append(((6, 1), (5, 2)))
 
-        for from_pos, to_pos in valid_moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self.assertTrue(self._test_move(from_pos, to_pos))
+        self._test_moves(valid_moves, True)
 
     def test_invalid_moves(self):
         invalid_moves = [
             ((6, 1), (3, 1)),  # Movimiento triple
             ((6, 1), (5, 3)),  # Movimiento diagonal incorrecto sin captura
         ]
-        for from_pos, to_pos in invalid_moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self.assertFalse(self._test_move(from_pos, to_pos))
+        self._test_moves(invalid_moves, False)
 
     def test_double_initial_move_with_obstruction(self):
         self.assertTrue(self._test_move((6, 1), (4, 1)))
@@ -49,11 +58,6 @@ class TestPawn(unittest.TestCase):
             self.__board__.set_piece(pos[0], pos[1], Piece(color, "Knight"))
             with self.subTest(pos=pos, color=color):
                 self.assertEqual(self._test_move((6, 1), pos), expected)
-
-    def _test_move(self, from_pos, to_pos):
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.__board__)
 
 if __name__ == '__main__':
     unittest.main()
