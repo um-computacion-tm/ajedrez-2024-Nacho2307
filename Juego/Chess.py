@@ -81,16 +81,25 @@ class Chess:
         print(f"Checking legal moves for {color}")
         for row in range(8):
             for col in range(8):
-                piece = self.__board__.get_piece(row, col)
-                if piece and piece.get_color().lower() == color.lower():
-                    from_pos = (row, col)
-                    print(f"Checking piece at {from_pos}: {piece}")
-                    for to_row in range(8):
-                        for to_col in range(8):
-                            if piece.movimiento_correcto(from_pos[0], from_pos[1], to_row, to_col, self.__board__):
-                                print(f"Legal move found for piece at {from_pos} to {(to_row, to_col)}")
-                                return True
+                if self.can_piece_move(row, col, color):
+                    print(f"Legal move found for {color} at position {(row, col)}")
+                    return True
         print("No legal moves found")
+        return False
+
+    def can_piece_move(self, row, col, color):
+        piece = self.__board__.get_piece(row, col)
+        if piece and piece.get_color().lower() == color.lower():
+            return self.piece_has_moves(piece, (row, col))
+        return False
+    
+    def piece_has_moves(self, piece, from_pos):
+        print(f"Checking piece at {from_pos}: {piece}")
+        for to_row in range(8):
+            for to_col in range(8):
+                if piece.movimiento_correcto(from_pos[0], from_pos[1], to_row, to_col, self.__board__):
+                    print(f"Legal move found for piece at {from_pos} to {(to_row, to_col)}")
+                    return True
         return False
 
     def is_in_check_after_move(self, color, destination):
