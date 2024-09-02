@@ -172,3 +172,9 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ## [0.0.17] - 2024-09-01
 
 ### Añadido
+
+- Test board
+
+## [0.0.18] - 2024-09-02
+
+### Añadido

@@ -26,7 +26,7 @@ class Board:
     def clear_board(self):
     # Limpias el tablero con las piezas
      self.__positions__ = [[None] * 8 for _ in range(8)]
-     
+
     def place_piece(self, piece, position):
         #Coloca una pieza en una posicion especifica en el tablero
         row, col = position
@@ -60,13 +60,32 @@ class Board:
 
     def get_piece(self, row, col):
         pieza = self.__positions__[row][col]
-        print(f"Obteniendo pieza en ({row}, {col}): {pieza}")
         return pieza
 
     def set_piece(self, row, col, piece):
         self._check_bounds(row, col)
         self.__positions__[row][col] = piece
-        print(f"Pieza colocada en ({row}, {col}): {piece}")
+
+    def pieces_on_board(self):
+        white_pieces = 0
+        black_pieces = 0
+        for row in self.__positions__:
+            for piece in row:
+                if piece:
+                    if piece.get_color().lower() == 'white':
+                        white_pieces += 1
+                    elif piece.get_color().lower() == 'black':
+                        black_pieces += 1
+        return white_pieces, black_pieces
+
+    def get_pieces(self):
+        # Devuelve todas las piezas en el tablero
+        pieces = []
+        for row in self.__positions__:
+            for piece in row:
+                if piece is not None:
+                    pieces.append(piece)
+        return pieces
 
 if __name__ == "__main__":
     board = Board()

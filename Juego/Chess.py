@@ -3,12 +3,11 @@ from Juego.Exception import (
     InvalidMoveException,
     OutOfBoundsException,
     PieceAlreadyCapturedException,
-    CheckException,
-    CheckmateException,
     ColorException,
     TurnException
 )
 from Juego.Piezas.Piece import Piece
+from Juego.Piezas.King import King
 
 class Chess:
     def __init__(self):
@@ -24,7 +23,7 @@ class Chess:
             self.execute_move(from_pos, to_pos, piece)
             status = self.check_victory()
 
-            if status != True:
+            if status != "No result":
                 return status
             self.change_turn()
             return True
@@ -35,22 +34,22 @@ class Chess:
             raise
 
     def parse_position(self, input_str):
-     try:
-        row, col = map(int, input_str.split())
-        row -= 1
-        col -= 1
+        try:
+            row, col = map(int, input_str.split())
+            row -= 1
+            col -= 1
 
-        if not (0 <= row <= 7 and 0 <= col <= 7):
-            raise OutOfBoundsException(f"Position {input_str} esta fuera de los limites.")
-        return (row, col)
+            if not (0 <= row <= 7 and 0 <= col <= 7):
+                raise OutOfBoundsException(f"Position {input_str} está fuera de los límites.")
+            return (row, col)
 
-     except ValueError:
-        raise ValueError(f"Entrada inválida: {input_str}. Debe tener el formato 'fila columna', donde ambos valores están entre 1 y 8.")
+        except ValueError:
+            raise ValueError(f"Entrada inválida: {input_str}. Debe tener el formato 'fila columna', donde ambos valores están entre 1 y 8.")
 
     def get_piece_or_raise(self, pos):
         piece = self.__board__.get_piece(*pos)
         if piece is None:
-            raise PieceAlreadyCapturedException(f'En la posicion {pos} no hay ninguna pieza.')
+            raise PieceAlreadyCapturedException(f'En la posición {pos} no hay ninguna pieza.')
         return piece
 
     def validate_turn(self, piece):
@@ -58,7 +57,7 @@ class Chess:
             raise ColorException("No se puede mover una pieza de un color diferente.")
 
     def execute_move(self, from_pos, to_pos, piece):
-        if not piece.chech_move(self.__board__, from_pos, to_pos):
+        if not piece.check_move(self.__board__, from_pos, to_pos):
             raise InvalidMoveException("Movimiento no válido para esta pieza.")
         
         self.__board__.set_piece(*to_pos, piece)
@@ -66,20 +65,89 @@ class Chess:
 
     def check_victory(self):
         pieces_alive = self.__board__.pieces_on_board()
+
         if pieces_alive[0] > 1 and pieces_alive[1] < 2 and self.__turn__ == "BLACK":
+        # Si el rey blanco tiene una pieza de mas y el rey negro esta solo y es su turno, entonces el rey blanco gana
             return "White wins"
         elif pieces_alive[1] > 1 and pieces_alive[0] < 2 and self.__turn__ == "WHITE":
+        # Si el rey negro tiene una pieza de mas y el rey blanco esta solo y es su turno, entonces el rey negro gana
             return "Black wins"
         elif pieces_alive[0] + pieces_alive[1] == 2:
+        # Si quedan los dos reyes solos, entonces el juego termina en empate
             return "Draw"
-        return True
+        return "No result"
+
+    def has_legal_moves(self, color):
+        print(f"Checking legal moves for {color}")
+        for row in range(8):
+            for col in range(8):
+                if self.can_piece_move(row, col, color):
+                    print(f"Legal move found for {color} at position {(row, col)}")
+                    return True
+        print("No legal moves found")
+        return False
+
+    def can_piece_move(self, row, col, color):
+        piece = self.__board__.get_piece(row, col)
+        if piece and piece.get_color().lower() == color.lower():
+            return self.piece_has_moves(piece, (row, col))
+        return False
+    
+    def piece_has_moves(self, piece, from_pos):
+        print(f"Checking piece at {from_pos}: {piece}")
+        for to_row in range(8):
+            for to_col in range(8):
+                if piece.movimiento_correcto(from_pos[0], from_pos[1], to_row, to_col, self.__board__):
+                    print(f"Legal move found for piece at {from_pos} to {(to_row, to_col)}")
+                    return True
+        return False
+
+    def is_in_check_after_move(self, color, destination):
+        # Simulate the move
+        piece = self.__board__.get_piece(*destination)
+        original_pos = piece.get_position()
+        self.__board__.set_piece(*destination, piece)
+        self.__board__.set_piece(*original_pos, None)
+
+        king = self.obtener_rey(color)
+        in_check = self.esta_en_jaque(king)
+
+        # Undo the move
+        self.__board__.set_piece(*original_pos, piece)
+        self.__board__.set_piece(*destination, None)
+
+        return in_check
+
+    def obtener_rey(self, color):
+        for row in range(8):
+            for col in range(8):
+                piece = self.__board__.get_piece(row, col)
+                if isinstance(piece, King) and piece.get_color().lower() == color.lower():
+                    return piece
+        return None
+
+    def es_empate(self):
+        white_pieces, black_pieces = self.__board__.pieces_on_board()
+        return (white_pieces == 1 and black_pieces == 1) or (white_pieces == 0 and black_pieces == 0)
 
     def change_turn(self):
         self.__turn__ = "BLACK" if self.__turn__ == "WHITE" else "WHITE"
 
     def print_board(self):
-        self.__board__.print_board()
-    
+        print(self.__board__)
+
     def turn(self):
         return self.__turn__
-    
+
+    def esta_en_jaque(self, rey):
+        rey_position = rey.get_position()
+        for row in range(8):
+            for col in range(8):
+                piece = self.__board__.get_piece(row, col)
+                if piece and piece.get_color() != rey.get_color():
+                    from_pos = (row, col)
+                    if piece.movimiento_correcto(row, col, rey_position[0], rey_position[1], self.__board__):
+                        return True
+        return False
+
+
