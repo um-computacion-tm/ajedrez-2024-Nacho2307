@@ -9,7 +9,7 @@ class Queen(Piece):
         self.__rook_moves__ = Rook(color)
     
     def movimiento_correcto(self, from_row, from_col, to_row, to_col, board=None):
-    # La reina puede moverse como un alfil o como una torre
-     bishop_correct = self.__bishop_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board)
-     rook_correct = self.__rook_moves__.movimiento_correcto((from_row, from_col), (to_row, to_col), board)
-     return bishop_correct or rook_correct
+        # La reina puede moverse como un alfil o como una torre
+        bishop_correct = self.__bishop_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+        rook_correct = self.__rook_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+        return bishop_correct or rook_correct
