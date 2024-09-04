@@ -160,21 +160,50 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
-- Test queen 
+- Se añadieron pruebas para la clase `Queen`:
+  - `test_movimiento_correcto`: Verifica los movimientos válidos de la reina, incluyendo movimientos en línea recta (como torre) y en diagonal (como alfil). Asegura que la reina se mueve correctamente en línea recta y verifica que el movimiento en diagonal no sea válido para una reina.
+  - `test_movimiento_incorrecto`: Comprueba movimientos inválidos de la reina para asegurar que los movimientos ilegales no sean aceptados.
 
 ## [0.0.16] - 2024-08-31
 
 ### Añadido
 
--test pawn
-
+- Se añadieron pruebas para la clase `Pawn`:
+  - `test_valid_moves`: Verifica los movimientos válidos de un peón blanco, incluyendo movimiento simple, movimiento doble inicial y captura diagonal.
+  - `test_invalid_moves`: Comprueba movimientos inválidos de un peón blanco, como movimientos triples y diagonales incorrectos sin captura.
+  - `test_double_initial_move_with_obstruction`: Asegura que un peón blanco no pueda realizar un movimiento doble inicial si hay una pieza que obstruye el camino.
+  - `test_diagonal_capture`: Valida las capturas diagonales del peón blanco, comprobando si captura piezas de color contrario y no captura piezas del mismo color.
 
 ## [0.0.17] - 2024-09-01
 
 ### Añadido
 
-- Test board
+- Se añadieron pruebas para la clase `Board`:
+  - `test_initial_setup`: Verifica que el tablero se inicializa correctamente con las piezas en las posiciones correctas.
+  - `test_clear_board`: Asegura que el tablero se limpia correctamente.
+  - `test_place_piece`: Comprueba la colocación de piezas en el tablero.
+  - `test_remove_piece`: Verifica la eliminación de piezas del tablero.
+  - `test_show_coords`: Valida la representación del tablero con coordenadas.
+  - `test_get_piece`: Prueba la obtención de una pieza específica en una posición dada.
+  - `test_check_bounds`: Verifica que la función de límites maneje correctamente las posiciones válidas e inválidas.
 
 ## [0.0.18] - 2024-09-02
 
 ### Añadido
+
+- Se añadieron pruebas para la clase `Chess`:
+  - `test_get_piece_or_raise_with_piece`: Verifica la obtención de una pieza.
+  - `test_get_piece_or_raise_without_piece`: Asegura que se lance una excepción cuando la pieza no esté presente.
+  - `test_check_victory_no_result`: Verifica si el estado de victoria retorna "No result".
+  - `test_esta_en_jaque`: Valida el estado de jaque del rey.
+  - `test_has_legal_moves`: Confirma si existen movimientos legales para el lado blanco.
+  - `test_is_in_check_after_move`: Prueba si el estado de jaque cambia después de un movimiento.
+  - `test_obtener_rey`: Obtiene y verifica la pieza del rey para el lado blanco.
+
+## [0.0.19] - 2024-09-04
+
+### Añadido
+
+- Se añadió la prueba `test_get_pieces` en el 'test_board.py' para cubrir el método `get_pieces` en la clase `Board`.
+- Esta prueba asegura que todas las piezas en el tablero sean devueltas correctamente por el método `get_pieces`.
+- Verifica que se obtengan las piezas correctas con sus respectivos colores y que la longitud de la lista de piezas sea la esperada.
