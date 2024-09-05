@@ -18,6 +18,7 @@ class King(Piece):
         return False
 
     def mover(self, x, y):
+    # Verifica que el movimiento esté dentro del rango permitido para el rey
         if abs(x - self.__x__) <= 1 and abs(y - self.__y__) <= 1:
             self.__x__ = x
             self.__y__ = y
