@@ -211,3 +211,18 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ## [0.0.20] - 2024-09-05
 
 ### Añadido
+
+- Nuevos test para la clase King, asegurando una cobertura completa del código:
+- test_incio: Verificación del color y símbolo del Rey al inicializarse.
+- test_mover_valido: Prueba de un movimiento válido del Rey dentro de su rango permitido.
+- test_mover_invalido: Prueba de un movimiento inválido fuera del rango permitido, asegurando que se - levante la excepción InvalidMoveException.
+- test_mismo_lugar: Verificación de que el Rey puede permanecer en su posición actual sin error.
+- test_movimiento_correcto: Pruebas para verificar movimientos correctos e incorrectos del Rey usando un MockBoard que simula un tablero.
+
+- Pruebas adicionales para cubrir completamente la clase Piece, asegurando que todos los métodos sean probados:
+- Método dentro_de_limites: Se añadieron pruebas que verifican diferentes combinaciones de coordenadas, tanto dentro como fuera del rango permitido (0 a 7).
+- Método check_move: Se añadieron pruebas para movimientos válidos e inválidos, cubriendo los casos cuando los movimientos están fuera de los límites del tablero.
+- Método get_coordinates: Prueba que verifica la correcta obtención de las coordenadas actuales y las nuevas de la pieza.
+- Métodomovimiento_correcto:Piecea
+- Métodopossible_moves:NotImplementedErrorse lanPiece.
+- Método movimiento_posible y movimiento_correcto no implementados: Pruebas para asegurar que se lance NotImplementedError al invocar estos métodos desde la clase base Piece
