@@ -207,3 +207,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Se añadió la prueba `test_get_pieces` en el 'test_board.py' para cubrir el método `get_pieces` en la clase `Board`.
 - Esta prueba asegura que todas las piezas en el tablero sean devueltas correctamente por el método `get_pieces`.
 - Verifica que se obtengan las piezas correctas con sus respectivos colores y que la longitud de la lista de piezas sea la esperada.
+
+## [0.0.20] - 2024-09-05
+
+### Añadido
