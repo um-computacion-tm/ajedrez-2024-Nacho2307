@@ -29,7 +29,7 @@ class TestRey(unittest.TestCase):
     
     def test_movimiento_correcto(self):
         # Simular un tablero (utiliza un mock o crea un tablero ficticio para esta prueba)
-        board = MockBoard()  # Asegúrate de que este mock simula el comportamiento de un tablero
+        board = MockBoard()  
         self.assertTrue(self.__rey__.movimiento_correcto(0, 0, 1, 1, board))
         self.assertFalse(self.__rey__.movimiento_correcto(0, 0, 2, 2, board))
 
