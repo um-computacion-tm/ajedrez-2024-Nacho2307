@@ -4,15 +4,12 @@ from Juego.Piezas.Piece import Piece
 class TestPiece(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color, "TestPiece", x, y)
-        # Establece el símbolo manualmente para la pieza de prueba
         self.__simbolo__ = 'T'
 
     def movimiento_posible(self, from_row, from_col, board):
-        # Implementación simple para pruebas
         return True
 
     def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
-        # Implementación simple para pruebas
         return from_row != to_row or from_col != to_col
 
 class TestPieceMethods(unittest.TestCase):
@@ -26,14 +23,13 @@ class TestPieceMethods(unittest.TestCase):
         self.assertEqual(str(self.piece), 'T')
 
     def test_dentro_de_limites(self):
-        # Lista de casos de prueba para dentro_de_limites
         casos = [
-            ((0, 0), (7, 7), True),  # Dentro de los límites
-            ((0, 0), (8, 8), False), # Fuera de los límites
-            ((-1, 0), (7, 7), False),# Fila negativa
-            ((0, -1), (7, 7), False),# Columna negativa
-            ((0, 0), (7, 8), False), # Columna fuera de rango
-            ((0, 0), (8, 7), False)  # Fila fuera de rango
+            ((0, 0), (7, 7), True),
+            ((0, 0), (8, 8), False),
+            ((-1, 0), (7, 7), False),
+            ((0, -1), (7, 7), False),
+            ((0, 0), (7, 8), False),
+            ((0, 0), (8, 7), False)
         ]
         
         for from_pos, to_pos, expected in casos:
@@ -41,12 +37,8 @@ class TestPieceMethods(unittest.TestCase):
                 self.assertEqual(Piece.dentro_de_limites(from_pos, to_pos), expected)
 
     def test_check_move(self):
-        # Prueba movimientos dentro y fuera de los límites para check_move
-        board = None 
-        # Caso dentro de los límites
+        board = None
         self.assertTrue(self.piece.check_move(board, (0, 0), (1, 1)))
-        
-        # Caso fuera de los límites
         self.assertFalse(self.piece.check_move(board, (0, 0), (8, 8)))
         self.assertFalse(self.piece.check_move(board, (-1, 0), (0, 0)))
         self.assertFalse(self.piece.check_move(board, (0, 0), (7, 8)))
@@ -72,6 +64,9 @@ class TestPieceMethods(unittest.TestCase):
     def test_movimiento_correcto_not_implemented(self):
         with self.assertRaises(NotImplementedError):
             super(TestPiece, self.piece).movimiento_correcto(0, 0, 1, 1, None)
+
+    def test_get_position(self):
+        self.assertEqual(self.piece.get_position(), (0, 0))
 
 if __name__ == '__main__':
     unittest.main()

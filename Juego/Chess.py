@@ -18,6 +18,14 @@ class Chess:
     def get_board(self):
         return self.__board__
 
+    def get_turn(self):
+        return self.__turn__
+
+    def print_board(self):
+        for row in self.__board__.__positions__:
+            print(" | ".join([Piece.get_symbol() if Piece else " " for Piece in row]))
+            print("-" * 33)
+
     def move(self, from_input, to_input):
         try:
             from_pos = self.parse_position(from_input)
@@ -25,7 +33,7 @@ class Chess:
             piece = self.get_piece_or_raise(from_pos)
             self.validate_turn(piece)
             
-            if self.is_in_check_after_move(self.__turn__, to_pos):
+            if self.is_in_check_after_move(self.__turn__, from_pos, to_pos):
                 raise InvalidMoveException("El movimiento resulta en jaque para el rey.")
 
             self.execute_move(from_pos, to_pos, piece)
@@ -66,7 +74,7 @@ class Chess:
             raise ColorException("No se puede mover una pieza de un color diferente.")
 
     def execute_move(self, from_pos, to_pos, piece):
-        if not piece.check_move(self.__board__, from_pos, to_pos):
+        if not piece.movimiento_correcto(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self.__board__):
             raise InvalidMoveException("Movimiento no válido para esta pieza.")
         
         self.__board__.set_piece(*to_pos, piece)
@@ -109,18 +117,14 @@ class Chess:
                     return True
         return False
 
-    def is_in_check_after_move(self, color, destination):
-        # Simula el movimiento en un tablero copiado
+    def is_in_check_after_move(self, color, from_pos, to_pos):
         board_copy = copy.deepcopy(self.__board__)
-        piece = board_copy.get_piece(*destination)
-        original_pos = piece.get_position()
-        board_copy.set_piece(*destination, piece)
-        board_copy.set_piece(*original_pos, None)
+        piece = board_copy.get_piece(*from_pos)
+        board_copy.set_piece(*to_pos, piece)
+        board_copy.set_piece(*from_pos, None)
 
         king = self.obtener_rey(color)
-        in_check = self.esta_en_jaque(king)
-
-        return in_check
+        return self.esta_en_jaque(king)
 
     def obtener_rey(self, color):
         for row in range(8):
@@ -130,26 +134,15 @@ class Chess:
                     return piece
         return None
 
-    def es_empate(self):
-        white_pieces, black_pieces = self.__board__.pieces_on_board()
-        return (white_pieces == 1 and black_pieces == 1) or (white_pieces == 0 and black_pieces == 0)
-
-    def change_turn(self):
-        self.__turn__ = "BLACK" if self.__turn__ == "WHITE" else "WHITE"
-
-    def print_board(self):
-        print(self.__board__)
-
-    def turn(self):
-        return self.__turn__
-
     def esta_en_jaque(self, rey):
         rey_position = rey.get_position()
         for row in range(8):
             for col in range(8):
                 piece = self.__board__.get_piece(row, col)
                 if piece and piece.get_color() != rey.get_color():
-                    from_pos = (row, col)
                     if piece.movimiento_correcto(row, col, rey_position[0], rey_position[1], self.__board__):
                         return True
         return False
+
+    def change_turn(self):
+        self.__turn__ = "BLACK" if self.__turn__ == "WHITE" else "WHITE"

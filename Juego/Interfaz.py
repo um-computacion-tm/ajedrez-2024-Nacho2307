@@ -1,100 +1,78 @@
 from Juego.Chess import Chess
-from Juego.Exception import *
+from Juego.Exception import ChessException
 
-class Interfaz:
+class ChessInterface:
     def __init__(self):
-        self._chess_ = Chess()
+        self.chess = Chess()
 
-    def mostrar_menu(self):
-        # Muestra el menú principal del juego.
-        print('\nChessGame - By Ignacio Aguilera Baigorria Jayat')
-        print('------------------------------\n')
-        print('Seleccione una opción:')
-        print('1. Iniciar Juego')
-        print('2. Salir\n')
+    def start(self):
+        print("Bienvenido al juego de Ajedrez.")
+        self.display_board()  # Muestra el tablero solo una vez al inicio
 
-    def obtener_opcion_menu(self):
-        # Obtiene y valida la opción del menú ingresada por el usuario.
-        seleccion = input("Escriba su selección aquí (1 o 2): ")
-        while seleccion not in ["1", "2"]:
-            print("Opción inválida. Por favor, seleccione 1 o 2.")
-            seleccion = input("Escriba su selección aquí (1 o 2): ")
-        return int(seleccion)
+        while True:
+            self.display_turn()
+            option = self.get_user_option()
 
-    def solicitar_movimiento(self):
-     while True:
+            if option == '1':
+                self.handle_move()
+            elif option == '2':
+                if self.handle_draw():
+                    break
+            elif option == '3':
+                print(f"{self.chess.get_turn()} se ha rendido. ¡El otro jugador gana!")
+                break
+            else:
+                print("Opción inválida, intenta de nuevo.")
+
+    def get_user_option(self):
+        return input("Opciones: \n1. Mover pieza\n2. Ofrecer tablas\n3. Rendirse\nElige una opción: ").strip()
+
+    def display_turn(self):
+        turn = self.chess.get_turn()
+        print(f"\nTurno de {turn}.")
+
+    def handle_move(self):
+        from_pos, to_pos = self.get_move_positions()
+        self.process_move(from_pos, to_pos)
+
+    def get_move_positions(self):
+        from_pos = input("Introduce las coordenadas de la pieza a mover (ej. 1 1 para fila 1, columna 1): ")
+        to_pos = input("Introduce las coordenadas de destino (ej. 3 3 para fila 3, columna 3): ")
+        return from_pos, to_pos
+
+    def process_move(self, from_pos, to_pos):
         try:
-            movimiento = input("Ingrese el movimiento en el siguiente formato:\n"
-                                "  fila_origen columna_origen fila_destino columna_destino\n"
-                                "Las filas y columnas deben estar entre 0 y 7 (inclusive).\n"
-                                "Ejemplo: '1 0 2 0' para mover una pieza de la fila 1, columna 0 a la fila 2, columna 0.\n"
-                                "Formato (o 'q' para salir): ")
-            if movimiento.lower() == 'q':
-                return None
-            from_row, from_col, to_row, to_col = map(int, movimiento.split())
-            from_input = f"{from_row} {from_col}"
-            to_input = f"{to_row} {to_col}"
+            result = self.chess.move(from_pos, to_pos)
 
-            # Mostrar la pieza en la posición de origen
-            piece = self._chess_.__board__.get_piece(from_row, from_col)
-            if piece:
-                print(f"Pieza seleccionada: {piece} ({piece.__class__.__name__})")
-                print(f"Posición de origen: ({from_row}, {from_col})")
-                
-                # Obtener si el movimiento es válido
-                valid_move = piece.movimiento_correcto(from_row, from_col, to_row, to_col, self._chess_.__board__)
-                if valid_move:
-                    print("Movimiento válido.")
-                else:
-                    print("Movimiento no válido.")
-                
-            return from_input, to_input
-        except ValueError:
-            print("Entrada inválida. Tenes que ingresar cuatro números separados por espacios.")
-
-
-    def manejar_excepcion(self, e):
-        # Maneja las excepciones específicas del juego.
-        if isinstance(e, (InvalidMoveException, OutOfBoundsException, PieceAlreadyCapturedException, CheckException, CheckmateException, ColorException, TurnException)):
-            print(f"Error: {e.message}")
-        else:
+            if isinstance(result, str):
+                print(result)
+                if result != "No result":
+                    return True
+            else:
+                print("Movimiento realizado con éxito.")
+                self.display_board()  # Muestra el tablero después de un movimiento
+        except ChessException as e:
+            print(f"Error: {e}")
+        except Exception as e:
             print(f"Error inesperado: {e}")
 
-    def iniciar_juego(self):
-        # Inicia el bucle principal del juego de ajedrez.
-        while True:
-            print(f"\nTurno del jugador: {self._chess_.turn()}")
-            self._chess_.__board__.mostrar_coords()
+    def handle_draw(self):
+        print(f"{self.chess.get_turn()} ofrece tablas.")
+        response = input(f"{self.chess.get_turn()}, ¿aceptas las tablas? (y/n): ").strip().lower()
 
-            movimiento = self.solicitar_movimiento()
-            if movimiento is None:
-                print("Juego terminado.")
-                break
+        if response == 'y':
+            print("\nJuego empatado.")
+            return True
+        elif response == 'n':
+            print("Tablas rechazadas.")
+            return False
+        else:
+            print("Respuesta inválida. Intenta de nuevo.")
+            return self.handle_draw()
 
-            try:
-                from_row, from_col, to_row, to_col = movimiento
-                if self._chess_.move(from_row, from_col, to_row, to_col):
-                    self._chess_.change_turn()  # Cambia el turno después del movimiento
-                else:
-                    print("Movimiento inválido. Intente de nuevo.")
-            except (InvalidMoveException, OutOfBoundsException, PieceAlreadyCapturedException,
-                    CheckException, CheckmateException, ColorException, TurnException) as e:
-                self.manejar_excepcion(e)
-            except Exception as e:
-                print(f"Error inesperado: {e}")
-
-    def main(self):
-        # Punto de entrada principal de la aplicación.
-        while True:
-            self.mostrar_menu()
-            opcion = self.obtener_opcion_menu()
-
-            if opcion == 1:
-                self.iniciar_juego()
-            elif opcion == 2:
-                print("Gracias por jugar. ¡Crack!")
-                break
+    def display_board(self):
+        print(self.chess.get_board().mostrar_coords())  # Muestra el tablero
 
 if __name__ == "__main__":
-    interfaz = Interfaz()
-    interfaz.main()
+    interface = ChessInterface()
+    interface.start()
