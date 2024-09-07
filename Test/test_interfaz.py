@@ -1,42 +1,36 @@
+from unittest.mock import patch
+from io import StringIO
 import unittest
-from Juego.Interfaz import Interfaz
+from Juego.Interfaz import ChessInterface
 
-class TestInterfaz(unittest.TestCase):
+class TestChessInterface(unittest.TestCase):
 
     def setUp(self):
-        self.interfaz = Interfaz()
+        #Inicializa una instancia de ChessInterface antes de cada prueba.
+        self.interface = ChessInterface()
 
-    def _simulate_input_output(self, inputs, target_function, expected_output):
-        """
-        Simula la entrada y salida para una función objetivo y verifica el resultado esperado.
-        """
-        import io
-        import sys
-        # Simula la entrada del usuario
-        input_backup = sys.stdin
-        sys.stdin = io.StringIO(inputs)
-        output_backup = sys.stdout
-        sys.stdout = io.StringIO()
+    def get_output_from_interface(self, inputs):
+        #Ejecuta la interfaz con una lista de entradas simuladas y retorna la salida.
+        with patch('builtins.input', side_effect=inputs), patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.interface.start()
+            return mock_stdout.getvalue()
+
+    def test_invalid_move(self):
+        #Prueba para simular un movimiento inválido.
+        output = self.get_output_from_interface(['1', '1 1', '8 8', '3'])
+        self.assertIn("Error: No se puede mover una pieza de un color diferente.", output)
+
+    def test_movement_and_surrender(self):
         
-        # Ejecuta la función objetivo
-        target_function()
-        
-        # Restaurar la entrada y salida estándar
-        sys.stdin = input_backup
-        output = sys.stdout.getvalue()
-        sys.stdout = output_backup
-        
-        # Verifica el resultado esperado
-        self.assertIn(expected_output, output)
+        #Prueba para simular un movimiento básico y luego la rendición de un jugador.
+        output = self.get_output_from_interface(['1', '1 2', '1 3', '3'])
+        self.assertIn("Turno de WHITE.", output)
+        self.assertIn("WHITE se ha rendido. ¡El otro jugador gana!", output)
 
-    def test_solicitar_movimiento(self):
-        self._simulate_input_output('6 0 5 0\n', self.interfaz.solicitar_movimiento, "Movimiento válido.")
-
-    def test_iniciar_juego(self):
-        self._simulate_input_output('1\nq\n', self.interfaz.iniciar_juego, "Juego terminado.")
-
-    def test_main(self):
-        self._simulate_input_output('2\n', self.interfaz.main, "Gracias por jugar. ¡Crack!")
+    def test_offer_draw(self):
+        #Prueba para simular la oferta de tablas y la aceptación.
+        output = self.get_output_from_interface(['2', 'y'])
+        self.assertIn("Juego empatado.", output)
 
 if __name__ == '__main__':
     unittest.main()

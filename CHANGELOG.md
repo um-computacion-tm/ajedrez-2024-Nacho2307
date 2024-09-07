@@ -240,3 +240,88 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ### Correcciones
 
 - **Simulación de Movimiento**: Usado `copy.deepcopy` para simular y deshacer movimientos de manera más confiable.
+
+## [0.2.22] - 2024-09-07
+
+### Cambios en la interfaz
+
+- **Nombre de la clase**:
+  - La clase `Interfaz` ha sido renombrada a `ChessInterface`.
+
+- **Estructura y lógica**:
+  - **Método `start`**:
+    - Ahora gestiona el flujo del juego principal.
+    - Muestra el turno actual y maneja las opciones del usuario (mover pieza, ofrecer tablas, rendirse).
+  
+  - **Métodos adicionales**:
+    - Se han añadido los métodos `display_turn` y `get_user_option` para mejorar la claridad y modularidad del código.
+    - `get_user_option` obtiene la opción del usuario y `display_turn` muestra el turno actual del jugador.
+  
+  - **Método `handle_move`**:
+    - Se ha dividido en `get_move_positions` para obtener las posiciones de movimiento y `process_move` para procesar el movimiento.
+    - Mejora la modularidad al separar la obtención y el procesamiento de los movimientos.
+  
+  - **Método `handle_draw`**:
+    - No ha cambiado en funcionalidad, pero ahora tiene una estructura más clara y modular.
+  
+  - **Método `display_board`**:
+    - Muestra el estado actual del tablero.
+  
+- **Errores y Excepciones**:
+  - Se ha simplificado el manejo de excepciones en el método `process_move`, centralizando la lógica de errores en un solo lugar.
+
+- **Entrada/Salida**:
+  - **Uso de `input` y `print`**:
+    - Las entradas del usuario se manejan con `input`, y las salidas con `print`, siguiendo una estructura más limpia y modular.
+
+### Eliminaciones
+
+- **Métodos eliminados**:
+  - `mostrar_menu`, `obtener_opcion_menu`, `solicitar_movimiento`, `manejar_excepcion`, `iniciar_juego`, y `main` han sido eliminados en favor de una interfaz más simple y directa.
+
+- **Atributos eliminados**:
+  - `self._chess_` ha sido reemplazado por `self.chess`.
+
+### Mejoras
+
+- **Modularidad**:
+  - La nueva interfaz es más modular y legible, con funciones separadas para cada responsabilidad específica.
+  
+- **Manejo de errores**:
+  - Se ha mejorado el manejo de errores y se ha centralizado la lógica en el método `process_move`.
+
+- **Claridad**:
+  - El flujo del programa es más claro, con funciones específicas para cada tarea, facilitando la comprensión y el mantenimiento del código.
+
+### Cambios en el test de la interfaz
+
+- **Renombramiento de la clase de prueba**:
+  - La clase `TestInterfaz` ha sido renombrada a `TestChessInterface` para reflejar el nuevo nombre de la clase de la interfaz (`ChessInterface`).
+
+- **Modularización de pruebas**:
+  - Se ha añadido el método `setUp` para inicializar una instancia de `ChessInterface` antes de cada prueba, mejorando la organización y la reutilización del código de prueba.
+
+- **Método auxiliar `get_output_from_interface`**:
+  - Se ha introducido el método `get_output_from_interface` para simplificar la simulación de entradas y la captura de salidas, reemplazando la lógica personalizada utilizada anteriormente.
+
+- **Pruebas actualizadas**:
+  - **`test_invalid_move`**:
+    - Se ha simplificado para usar `get_output_from_interface` en lugar de lógica de simulación de entrada/salida personalizada.
+    - Verifica si el mensaje de error para movimiento inválido está presente en la salida.
+
+  - **`test_movement_and_surrender`**:
+    - Se ha actualizado para usar `get_output_from_interface`.
+    - Verifica la salida después de simular un movimiento básico y la rendición del jugador.
+
+  - **`test_offer_draw`**:
+    - Se ha actualizado para usar `get_output_from_interface`.
+    - Verifica si el mensaje de aceptación de tablas está presente en la salida.
+
+### Eliminaciones y mejoras
+
+- **Eliminación de código redundante**:
+  - Se ha eliminado el método `_simulate_input_output`, que estaba duplicado con `get_output_from_interface`.
+
+- **Mejora en la claridad y mantenimiento**:
+  - La nueva estructura permite una mejor claridad y mantenimiento al utilizar métodos auxiliares para las simulaciones de entrada/salida.
+

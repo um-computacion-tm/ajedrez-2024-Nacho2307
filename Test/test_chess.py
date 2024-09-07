@@ -26,7 +26,7 @@ class TestChess(unittest.TestCase):
         self.assertTrue(self.chess.has_legal_moves("WHITE"))
 
     def test_is_in_check_after_move(self):
-        self.assertFalse(self.chess.is_in_check_after_move("WHITE", (1, 1)))
+        self.assertFalse(self.chess.is_in_check_after_move("WHITE", (1, 1), (3, 1)))  # Añadir posición de origen y destino correctas
 
     def test_obtener_rey(self):
         king = self.chess.obtener_rey("WHITE")

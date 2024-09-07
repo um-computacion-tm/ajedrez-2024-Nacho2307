@@ -1,5 +1,5 @@
-from Juego.Interfaz import Interfaz
+from Juego.Interfaz import ChessInterface
 
 if __name__ == "__main__":
-    Interfaz = Interfaz()
-    Interfaz.main()
+    interface = ChessInterface()
+    interface.start()

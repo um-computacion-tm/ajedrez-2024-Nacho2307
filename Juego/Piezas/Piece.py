@@ -42,20 +42,21 @@ class Piece:
         return x, y, current_x, current_y
     
     def get_position(self):
-        # Devuelve las coordenadas actuales de la pieza
         return self.__x__, self.__y__
-    
+
     @staticmethod
     def dentro_de_limites(from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
-    
+
     def check_move(self, board, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
-        
+
         if not self.dentro_de_limites(from_pos, to_pos):
             return False
-        
+
         return self.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+
+
