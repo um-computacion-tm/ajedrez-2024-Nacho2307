@@ -1,3 +1,4 @@
+import copy
 from Juego.board import Board
 from Juego.Exception import (
     InvalidMoveException,
@@ -14,17 +15,25 @@ class Chess:
         self.__board__ = Board()
         self.__turn__ = "WHITE"
 
+    def get_board(self):
+        return self.__board__
+
     def move(self, from_input, to_input):
         try:
             from_pos = self.parse_position(from_input)
             to_pos = self.parse_position(to_input)
             piece = self.get_piece_or_raise(from_pos)
             self.validate_turn(piece)
+            
+            if self.is_in_check_after_move(self.__turn__, to_pos):
+                raise InvalidMoveException("El movimiento resulta en jaque para el rey.")
+
             self.execute_move(from_pos, to_pos, piece)
             status = self.check_victory()
 
             if status != "No result":
                 return status
+            
             self.change_turn()
             return True
 
@@ -65,15 +74,13 @@ class Chess:
 
     def check_victory(self):
         pieces_alive = self.__board__.pieces_on_board()
+        white_pieces, black_pieces = pieces_alive
 
-        if pieces_alive[0] > 1 and pieces_alive[1] < 2 and self.__turn__ == "BLACK":
-        # Si el rey blanco tiene una pieza de mas y el rey negro esta solo y es su turno, entonces el rey blanco gana
-            return "White wins"
-        elif pieces_alive[1] > 1 and pieces_alive[0] < 2 and self.__turn__ == "WHITE":
-        # Si el rey negro tiene una pieza de mas y el rey blanco esta solo y es su turno, entonces el rey negro gana
+        if white_pieces == 1 and black_pieces == 0:
             return "Black wins"
-        elif pieces_alive[0] + pieces_alive[1] == 2:
-        # Si quedan los dos reyes solos, entonces el juego termina en empate
+        elif black_pieces == 1 and white_pieces == 0:
+            return "White wins"
+        elif white_pieces == 1 and black_pieces == 1:
             return "Draw"
         return "No result"
 
@@ -103,18 +110,15 @@ class Chess:
         return False
 
     def is_in_check_after_move(self, color, destination):
-        # Simulate the move
-        piece = self.__board__.get_piece(*destination)
+        # Simula el movimiento en un tablero copiado
+        board_copy = copy.deepcopy(self.__board__)
+        piece = board_copy.get_piece(*destination)
         original_pos = piece.get_position()
-        self.__board__.set_piece(*destination, piece)
-        self.__board__.set_piece(*original_pos, None)
+        board_copy.set_piece(*destination, piece)
+        board_copy.set_piece(*original_pos, None)
 
         king = self.obtener_rey(color)
         in_check = self.esta_en_jaque(king)
-
-        # Undo the move
-        self.__board__.set_piece(*original_pos, piece)
-        self.__board__.set_piece(*destination, None)
 
         return in_check
 
@@ -149,5 +153,3 @@ class Chess:
                     if piece.movimiento_correcto(row, col, rey_position[0], rey_position[1], self.__board__):
                         return True
         return False
-
-

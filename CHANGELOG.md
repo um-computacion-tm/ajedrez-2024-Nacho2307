@@ -117,7 +117,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Agregada `ColorException` para intentar mover una pieza del color equivocado.
 - Agregada `TurnException` para intentar mover una pieza fuera de turno.
 
-## [0.0.11] - 2024-08-23
+## [0.1.11] - 2024-08-23
 
 ### Añadido
 
@@ -132,21 +132,21 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - test_color_exception: prueba que se lanza una ColorException cuando se intenta utilizar un color incorrecto.
 - test_turn_exception: prueba que se lanza una TurnException cuando no es el turno del jugador.
 
-## [0.0.12] - 2024-08-27
+## [0.1.12] - 2024-08-27
 
 ### Añadido
  
 - Se agrego el archivo 'Test_exception.py' para la clase 'Exception'.
 - Se modificaron los archivos 'Pawn.py' y 'Rook.py' para la duplicacion de codigo.
 
-## [0.0.13] - 2024-08-28
+## [0.1.13] - 2024-08-28
 
 ### Cambio
 
 - Se cambio el archivo 'Pawn.py' por la duplicacion de codigo
 - Se cambio el archivo 'Rookpy' por la duplicacion de codigo.
 
-## [0.0.14] - 2024-08-29
+## [0.1.14] - 2024-08-29
 
 ### Añadido
 
@@ -156,7 +156,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Nuevo Método execute_move(from_pos, to_pos, piece): Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
 
 
-## [0.0.15] - 2024-08-30
+## [0.1.15] - 2024-08-30
 
 ### Añadido
 
@@ -164,7 +164,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_movimiento_correcto`: Verifica los movimientos válidos de la reina, incluyendo movimientos en línea recta (como torre) y en diagonal (como alfil). Asegura que la reina se mueve correctamente en línea recta y verifica que el movimiento en diagonal no sea válido para una reina.
   - `test_movimiento_incorrecto`: Comprueba movimientos inválidos de la reina para asegurar que los movimientos ilegales no sean aceptados.
 
-## [0.0.16] - 2024-08-31
+## [0.1.16] - 2024-08-31
 
 ### Añadido
 
@@ -174,7 +174,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_double_initial_move_with_obstruction`: Asegura que un peón blanco no pueda realizar un movimiento doble inicial si hay una pieza que obstruye el camino.
   - `test_diagonal_capture`: Valida las capturas diagonales del peón blanco, comprobando si captura piezas de color contrario y no captura piezas del mismo color.
 
-## [0.0.17] - 2024-09-01
+## [0.1.17] - 2024-09-01
 
 ### Añadido
 
@@ -187,7 +187,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_get_piece`: Prueba la obtención de una pieza específica en una posición dada.
   - `test_check_bounds`: Verifica que la función de límites maneje correctamente las posiciones válidas e inválidas.
 
-## [0.0.18] - 2024-09-02
+## [0.1.18] - 2024-09-02
 
 ### Añadido
 
@@ -200,7 +200,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_is_in_check_after_move`: Prueba si el estado de jaque cambia después de un movimiento.
   - `test_obtener_rey`: Obtiene y verifica la pieza del rey para el lado blanco.
 
-## [0.0.19] - 2024-09-04
+## [0.1.19] - 2024-09-04
 
 ### Añadido
 
@@ -208,7 +208,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Esta prueba asegura que todas las piezas en el tablero sean devueltas correctamente por el método `get_pieces`.
 - Verifica que se obtengan las piezas correctas con sus respectivos colores y que la longitud de la lista de piezas sea la esperada.
 
-## [0.0.20] - 2024-09-05
+## [0.1.20] - 2024-09-05
 
 ### Añadido
 
@@ -226,3 +226,17 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Métodomovimiento_correcto:Piecea
 - Métodopossible_moves:NotImplementedErrorse lanPiece.
 - Método movimiento_posible y movimiento_correcto no implementados: Pruebas para asegurar que se lance NotImplementedError al invocar estos métodos desde la clase base Piece
+
+## [0.2.21] - 2024-09-06
+
+### Añadido
+
+- **Verificación de Movimiento**: Implementada simulación de movimiento usando `copy.deepcopy` para evitar manipulaciones manuales del tablero.
+- **Condiciones de Victoria**: Ajustadas las condiciones en `check_victory` para detectar correctamente la victoria y el empate.
+- **Optimización de Movimientos Legales**: Mejorada la eficiencia en la comprobación de movimientos legales en `has_legal_moves` y `can_piece_move`.
+- **Entrada de Posición**: Mejorado el manejo de errores y los mensajes en `parse_position` para entradas inválidas.
+- **Documentación y Estilo**: Añadidos comentarios descriptivos y mejoras en la consistencia del estilo de codificación.
+
+### Correcciones
+
+- **Simulación de Movimiento**: Usado `copy.deepcopy` para simular y deshacer movimientos de manera más confiable.
