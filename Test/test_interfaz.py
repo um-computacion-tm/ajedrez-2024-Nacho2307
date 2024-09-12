@@ -25,7 +25,8 @@ class TestChessInterface(unittest.TestCase):
         # Prueba para simular un movimiento básico y luego la rendición de un jugador.
         output = self.get_output_from_interface(['1', '1 2', '1 3', '3'])
         self.assertIn("Turno de WHITE.", output)
-        self.assertIn("WHITE se ha rendido. ¡El otro jugador gana!", output)
+        self.assertIn("WHITE ha decidido rendirse...", output)
+        self.assertIn("¡El otro jugador es el campeón!", output)
 
     def test_offer_draw(self):
         # Prueba para simular la oferta de tablas y la aceptación.
@@ -73,6 +74,14 @@ class TestChessInterface(unittest.TestCase):
             output = self.get_output_from_interface(['1', '1 2', '1 3', '3'])
             self.assertIn("Movimiento realizado con éxito.", output)  # Verifica que el mensaje de éxito se imprime
             self.assertIn("0 1 2 3 4 5 6 7", output)  # Verifica que el tablero se imprime después del movimiento
+
+    def test_show_instructions(self):
+        # Simula la selección de la opción '4' para mostrar las instrucciones y luego salir con la opción '3'
+        output = self.get_output_from_interface(['4', '3'])  # Agrega '3' para rendirse después de mostrar las instrucciones
+        self.assertIn("Instrucciones del juego de Ajedrez", output)  # Verifica que las instrucciones se imprimen
+        self.assertIn("Tablero de juego", output)  # Verifica que se menciona el tablero
+        self.assertIn("Piezas del juego", output)  # Verifica que se mencionan las piezas
+        self.assertIn("Jugabilidad", output)  # Verifica que se menciona la jugabilidad
 
 if __name__ == '__main__':
     unittest.main()

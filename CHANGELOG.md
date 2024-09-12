@@ -7,24 +7,24 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ## [0.0.1] - 2024-08-11
 
 ### Añadido
-- Integración con CircleCI para la integración continua.
-- Integración con CodeClimate para el análisis de calidad del código.
+- Integración con `CircleCI` para la integración continua.
+- Integración con `CodeClimate` para el análisis de calidad del código.
 - Archivo `README.md` con información básica del proyecto.
 - Archivo `CHANGELOG.md` para registrar los cambios importantes.
-- Archivo `codeclimate.yml` para la configuración de CodeClimate.
+- Archivo `codeclimate.yml` para la configuración de `CodeClimate`.
 - Archivo `requirements.txt` con las dependencias del proyecto.
 - Archivo `.gitignore` para excluir archivos innecesarios del control de versiones.
-- Archivo `.circleci/config.yml` para configurar el pipeline de CircleCI.
+- Archivo `.circleci/config.yml` para configurar el pipeline de `CircleCI`.
 - Archivo `main.py` con la función `multiply` que toma dos argumentos y devuelve su producto.
 - Archivo `test.py` con pruebas unitarias para la función `multiply` importada desde `main.py`, para asegurar que devuelve el resultado esperado.
 
 ## [0.0.2] - 2024-08-13
 
 ### Añadido
-- Clase 'Board' para representar el tablero del ajedrez
-- Clase Piece para representar una pieza de ajedrez.
-- Clases 'Rook', 'Knight', 'Bishop', 'Pawn', 'Queen' y 'King' para representar las diferentes piezas de ajedrez.
-- Método 'get_piece' en la clase 'Board' para obtener una pieza en una posición específica del tablero.
+- Clase `Board` para representar el tablero del ajedrez
+- Clase `Piece` para representar una pieza de ajedrez.
+- Clases `Rook`, `Knight`, `Bishop`, `Pawn`, `Queen` y `King` para representar las diferentes piezas de ajedrez.
+- Método `get_piece` en la clase 'Board' para obtener una pieza en una posición específica del tablero.
 
 ## [0.0.3] - 2024-08-14
 
@@ -42,12 +42,12 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
--Se agrego el metodo '__str__' para una representacion en texto del tablero, en el archivo board.py
--Se creo la clase 'Rook' que hereda de 'Piece'.
--Se implemento el '__init__' que inicializa la torre con su color, nombre y simbolo.
+-Se agrego el metodo `__str__` para una representacion en texto del tablero, en el archivo `board.py`.
+-Se creo la clase 'Rook' que hereda de `Piece`.
+-Se implemento el `__init__` que inicializa la torre con su color, nombre y simbolo.
 -Se implemento el metodo 'movimiento_correcto' que determina si un movimiento de la torre es valido.
--Se creo la clase 'Piece' para representar una pieza cualquiera en el ajedrez.
--Se implemento el metodo '__str__' que devuelve el simbolo de la pieza como texto.
+-Se creo la clase `Piece` para representar una pieza cualquiera en el ajedrez.
+-Se implemento el metodo `__str__` que devuelve el simbolo de la pieza como texto.
 
 #### Cambios Generales
 - Refactorización del código para mejorar la legibilidad y eliminar duplicaciones.
@@ -60,14 +60,14 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Se eliminó la lógica de movimiento y cambio de turno que estaba duplicada en otros archivos, como `cli.py`, centralizándola en la clase `Chess`.
 
 ## Cambios 
--Correcion de la funcion '__str__' en board.py, ahora muestra el tablero en texto.
+-Correcion de la funcion `__str__` en `board.py`, ahora muestra el tablero en texto.
 
 ## [0.0.5] - 2024-08-16
 
 ### Añadido
 
-- Se agrego la carpeta 'Test' para verificar el testeo de las piezas.
-- Se agrego el 'test_rook.py' para verificar el movimiento correcto de la pieza 'Rook'.
+- Se agrego la carpeta `Test` para verificar el testeo de las piezas.
+- Se agrego el `test_rook.py` para verificar el movimiento correcto de la pieza `Rook`.
 
 ## Refactorización de pruebas de Rook
 
@@ -78,8 +78,8 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
-- Se agrego el archivo 'Bishop.py' para el movimiento diagonal de la pieza.
-- Se agrego el archivo 'test_bishop.py' para el testeo de la pieza.
+- Se agrego el archivo `Bishop.py` para el movimiento diagonal de la pieza.
+- Se agrego el archivo `test_bishop.py` para el testeo de la pieza.
 
 ## [0.0.7] - 2024-08-19
 
@@ -101,8 +101,8 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
-- Archivo llamado "Knight.py" donde esta el movimiento del caballo.
-- Archivo llamado "test_knight.py" para la clase "Knight".
+- Archivo llamado `Knight.py` donde esta el movimiento del caballo.
+- Archivo llamado `test_knight.py` para la clase `Knight`.
 
 ## [0.0.10] - 2024-08-22
 
@@ -121,39 +121,39 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 ### Añadido
 
-- Implementación del método 'mostrar_coords' para mostrar el tablero de ajedrez con coordenadas de filas y columnas.
+- Implementación del método `mostrar_coords` para mostrar el tablero de ajedrez con coordenadas de filas y columnas.
 - El tablero ahora muestra números del `0` al `7` en la parte superior e izquierda, facilitando a los jugadores la referencia de posiciones.
-- Se agrego el 'test_exception.py' para la clase 'Exception'.
-- test_invalid_move_exception: prueba que se lanza una InvalidMoveException cuando se intenta realizar un movimiento inválido.
-- test_out_of_bounds_exception: prueba que se lanza una OutOfBoundsException cuando se intenta realizar un movimiento fuera del tablero.
-- test_piece_already_captured_exception: prueba que se lanza una PieceAlreadyCapturedException cuando se intenta capturar una pieza que ya ha sido capturada.
-- test_check_exception: prueba que se lanza una CheckException cuando el rey está en jaque.
-- test_checkmate_exception: prueba que se lanza una CheckmateException cuando se produce un jaque mate.
-- test_color_exception: prueba que se lanza una ColorException cuando se intenta utilizar un color incorrecto.
-- test_turn_exception: prueba que se lanza una TurnException cuando no es el turno del jugador.
+- Se agrego el `test_exception.py` para la clase `Exception`.
+- `test_invalid_move_exception`: prueba que se lanza una `InvalidMoveException` cuando se intenta realizar un movimiento inválido.
+- `test_out_of_bounds_exception`: prueba que se lanza una `OutOfBoundsException` cuando se intenta realizar un movimiento fuera del tablero.
+- `test_piece_already_captured_exception`: prueba que se lanza una `PieceAlreadyCapturedException` cuando se intenta capturar una pieza que ya ha sido capturada.
+- `test_check_exception`: prueba que se lanza una `CheckException` cuando el rey está en jaque.
+- `test_checkmate_exception`: prueba que se lanza una `CheckmateException` cuando se produce un jaque mate.
+- `test_color_exception`: prueba que se lanza una `ColorException` cuando se intenta utilizar un color incorrecto.
+- `test_turn_exception`: prueba que se lanza una `TurnException` cuando no es el turno del jugador.
 
 ## [0.1.12] - 2024-08-27
 
 ### Añadido
  
-- Se agrego el archivo 'Test_exception.py' para la clase 'Exception'.
-- Se modificaron los archivos 'Pawn.py' y 'Rook.py' para la duplicacion de codigo.
+- Se agrego el archivo `Test_exception.py` para la clase `Exception`.
+- Se modificaron los archivos `Pawn.py` y `Rook.py` para la duplicacion de codigo.
 
 ## [0.1.13] - 2024-08-28
 
 ### Cambio
 
-- Se cambio el archivo 'Pawn.py' por la duplicacion de codigo
-- Se cambio el archivo 'Rookpy' por la duplicacion de codigo.
+- Se cambio el archivo `Pawn.py` por la duplicacion de codigo
+- Se cambio el archivo `Rook.py` por la duplicacion de codigo.
 
 ## [0.1.14] - 2024-08-29
 
 ### Añadido
 
-- Nuevo Método parse_position(input_str): Convierte la entrada del usuario en coordenadas numéricas.
-- Nuevo Método get_piece_or_raise(pos): Obtiene la pieza en la posición indicada o lanza una excepción si no existe.
-- Nuevo Método validate_turn(piece): Valida si el turno es correcto en función del color de la pieza.
-- Nuevo Método execute_move(from_pos, to_pos, piece): Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
+- `Nuevo Método parse_position(input_str)`: Convierte la entrada del usuario en coordenadas numéricas.
+- `Nuevo Método get_piece_or_raise(pos)`: Obtiene la pieza en la posición indicada o lanza una excepción si no existe.
+- `Nuevo Método validate_turn(piece)`: Valida si el turno es correcto en función del color de la pieza.
+- `Nuevo Método execute_move(from_pos, to_pos, piece)`: Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
 
 
 ## [0.1.15] - 2024-08-30
@@ -213,19 +213,19 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 ### Añadido
 
 - Nuevos test para la clase King, asegurando una cobertura completa del código:
-- test_incio: Verificación del color y símbolo del Rey al inicializarse.
-- test_mover_valido: Prueba de un movimiento válido del Rey dentro de su rango permitido.
-- test_mover_invalido: Prueba de un movimiento inválido fuera del rango permitido, asegurando que se - levante la excepción InvalidMoveException.
-- test_mismo_lugar: Verificación de que el Rey puede permanecer en su posición actual sin error.
-- test_movimiento_correcto: Pruebas para verificar movimientos correctos e incorrectos del Rey usando un MockBoard que simula un tablero.
+- **test_incio**: Verificación del color y símbolo del Rey al inicializarse.
+- **test_mover_valido**: Prueba de un movimiento válido del Rey dentro de su rango permitido.
+- **test_mover_invalido**: Prueba de un movimiento inválido fuera del rango permitido, asegurando que se - levante la excepción InvalidMoveException.
+- **test_mismo_lugar**: Verificación de que el Rey puede permanecer en su posición actual sin error.
+- **test_movimiento_correcto**: Pruebas para verificar movimientos correctos e incorrectos del Rey usando un MockBoard que simula un tablero.
 
 - Pruebas adicionales para cubrir completamente la clase Piece, asegurando que todos los métodos sean probados:
-- Método dentro_de_limites: Se añadieron pruebas que verifican diferentes combinaciones de coordenadas, tanto dentro como fuera del rango permitido (0 a 7).
-- Método check_move: Se añadieron pruebas para movimientos válidos e inválidos, cubriendo los casos cuando los movimientos están fuera de los límites del tablero.
-- Método get_coordinates: Prueba que verifica la correcta obtención de las coordenadas actuales y las nuevas de la pieza.
-- Métodomovimiento_correcto:Piecea
-- Métodopossible_moves:NotImplementedErrorse lanPiece.
-- Método movimiento_posible y movimiento_correcto no implementados: Pruebas para asegurar que se lance NotImplementedError al invocar estos métodos desde la clase base Piece
+- **Método dentro_de_limites**: Se añadieron pruebas que verifican diferentes combinaciones de coordenadas, tanto dentro como fuera del rango permitido (0 a 7).
+- **Método check_move**: Se añadieron pruebas para movimientos válidos e inválidos, cubriendo los casos cuando los movimientos están fuera de los límites del tablero.
+- **Método get_coordinates**: Prueba que verifica la correcta obtención de las coordenadas actuales y las nuevas de la pieza.
+- **Métodomovimiento_correcto**:Piecea
+- **Métodopossible_moves**:NotImplementedErrorse lanPiece.
+- **Método movimiento_posible y movimiento_correcto no implementados**: Pruebas para asegurar que se lance NotImplementedError al invocar estos métodos desde la clase base Piece
 
 ## [0.2.21] - 2024-09-06
 
@@ -325,18 +325,60 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Mejora en la claridad y mantenimiento**:
   - La nueva estructura permite una mejor claridad y mantenimiento al utilizar métodos auxiliares para las simulaciones de entrada/salida.
 
-
-
 ## [0.2.23] - 2024-09-11
 
 ### Cambios en el test de la interfaz
 
--Nueva prueba test_reject_draw: Agregada para cubrir el caso donde un jugador rechaza una oferta de tablas.
--Nueva prueba test_invalid_option: Simula la entrada de una opción inválida en el menú y asegura que el sistema maneje el error correctamente.
--Nueva prueba test_process_move_exception: Verifica que se maneje correctamente una excepción de tipo ChessException durante el movimiento de una pieza.
--Nueva prueba test_process_move_unexpected_exception: Añadida para simular y cubrir una excepción inesperada durante el movimiento de una pieza.
--Nueva prueba test_process_move_victory: Verifica que cuando un movimiento devuelve un resultado de victoria (por ejemplo, "Black wins"), se imprime el resultado correcto.
--Nueva prueba test_invalid_draw_response: Cubre el caso donde un jugador da una respuesta inválida a una oferta de tablas, seguido por la aceptación de la misma.
--Nueva prueba test_display_board_after_successful_move: Asegura que el tablero se imprime después de un movimiento exitoso, cubriendo la línea self.display_board().
+-**Nueva prueba test_reject_draw**: Agregada para cubrir el caso donde un jugador rechaza una oferta de tablas.
+-**Nueva prueba test_invalid_option**: Simula la entrada de una opción inválida en el menú y asegura que el sistema maneje el error correctamente.
+-**Nueva prueba test_process_move_exception**: Verifica que se maneje correctamente una excepción de tipo ChessException durante el movimiento de una pieza.
+-**Nueva prueba test_process_move_unexpected_exception**: Añadida para simular y cubrir una excepción inesperada durante el movimiento de una pieza.
+-**Nueva prueba test_process_move_victory**: Verifica que cuando un movimiento devuelve un resultado de victoria (por ejemplo, "Black wins"), se imprime el resultado correcto.
+-**Nueva prueba test_invalid_draw_response**: Cubre el caso donde un jugador da una respuesta inválida a una oferta de tablas, seguido por la aceptación de la misma.
+-**Nueva prueba test_display_board_after_successful_move**: Asegura que el tablero se imprime después de un movimiento exitoso, cubriendo la línea self.display_board().
 -Cobertura de casos adicionales para manejar excepciones durante el movimiento y respuestas inválidas del jugador.
 -Cobertura de todas las líneas de la clase ChessInterface, incluyendo las verificaciones del tablero después de movimientos exitosos y condiciones de victoria.
+
+## [0.2.24] - 2024-09-12
+
+### Agregado
+
+- **Color y estilo con Colorama**: Se ha añadido la librería `colorama` para mejorar la experiencia visual en la consola. Los mensajes ahora tienen colores específicos:
+  - Mensaje de bienvenida con texto amarillo brillante.
+  - Turnos de los jugadores mostrados en verde.
+  - Mensajes de errores en rojo.
+  - Mensajes de éxito en azul o cian.
+
+- **Nueva opción de instrucciones**: Se ha agregado una nueva opción al menú principal para ver las instrucciones del juego (`opción 4`). Esto proporciona a los jugadores una descripción de las reglas básicas y cómo interactuar con el juego.
+
+- **Animación dramática de mensajes**: Se ha implementado una animación al mostrar mensajes importantes, como la rendición de un jugador. Los caracteres se muestran uno a uno con un retraso temporal para mejorar la experiencia del usuario.
+
+### Cambio
+
+- **Gestión de tablas**: La opción de tablas (`opción 2`) ahora muestra mensajes en color magenta cuando el juego termina en tablas.
+
+- **Manejo de rendición**: La rendición de un jugador (`opción 3`) ahora incluye un mensaje animado con colores para mostrar que el otro jugador ha ganado.
+
+- **Interfaz de consola mejorada**: 
+  - Los mensajes de bienvenida y las interacciones han sido mejorados visualmente.
+  - La función `display_turn()` ahora muestra el turno del jugador con estilo y color.
+
+### Agregado en `test_interfaz.py`
+- **Test para mostrar instrucciones**: Se ha agregado el test `test_show_instructions` que simula la selección de la opción `4` en el menú, mostrando las instrucciones del juego y finalizando con la opción `3` (rendición).
+
+- **Test de excepción inesperada**: En `test_process_move_unexpected_exception`, se simula una excepción inesperada durante el movimiento, verificando que se maneja correctamente.
+
+- **Test para victoria**: Se añadió `test_process_move_victory`, que simula un movimiento exitoso que da como resultado una victoria y verifica que el mensaje de victoria ("Black wins") se imprime.
+
+### Cambio `Test_interfaz.py`
+- **Test de rendición mejorado**: El test `test_movement_and_surrender` ha sido modificado para reflejar el nuevo mensaje de rendición ("WHITE ha decidido rendirse..." y "¡El otro jugador es el campeón!") utilizando `colorama` para el formato de texto.
+
+- **Test de oferta de tablas**: El test `test_offer_draw` ha sido mejorado para incluir la verificación de un mensaje con formato que indica que el juego ha terminado en empate con estilo y color en la consola.
+
+- **Uso de `colorama` en tests**: Todos los tests que verifican mensajes impresos han sido actualizados para manejar el formato de texto y colores proporcionado por `colorama`.
+
+- **Opción inválida mejorada**: El test `test_invalid_option` ahora incluye mensajes estilizados en rojo para manejar mejor la selección de opciones inválidas por el usuario.
+
+- **Manejo de excepciones de movimiento**: Los tests `test_process_move_exception` y `test_process_move_unexpected_exception` ahora cubren tanto errores específicos del juego como errores inesperados, asegurando una cobertura completa en el manejo de excepciones.
+
+- **Test de tablero después del movimiento**: En `test_display_board_after_successful_move`, se verificó que el tablero se imprime correctamente después de un movimiento exitoso, incluyendo el formato visual con coordenadas.

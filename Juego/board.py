@@ -48,7 +48,6 @@ class Board:
         for i, row in enumerate(self.__positions__):
             fila = f"{i} " + " ".join([piece.__str__() if piece else '.' for piece in row]) + "\n"
             mostrar += fila
-        print(mostrar)
         return mostrar
 
     def _check_bounds(self, row, col):
