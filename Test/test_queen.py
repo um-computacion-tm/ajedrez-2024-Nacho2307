@@ -5,13 +5,13 @@ from Juego.board import Board
 class TestQueen(unittest.TestCase):
 
     def setUp(self):
-     self.__board__ = Board()
-     self.__white_queen__ = Queen('white')
-     self.__black_queen__ = Queen('black')
+        self.__board__ = Board()
+        self.__white_queen__ = Queen('white')
+        self.__black_queen__ = Queen('black')
 
     # Coloca las reinas en posiciones iniciales diferentes para las pruebas
-     self.__board__.place_piece(self.__white_queen__, (4, 4))  # Reina blanca en (4, 4)
-     self.__board__.place_piece(self.__black_queen__, (7, 4))  # Reina negra en (7, 4)
+        self.__board__.place_piece(self.__white_queen__, (4, 4))  # Reina blanca en (4, 4)
+        self.__board__.place_piece(self.__black_queen__, (7, 4))  # Reina negra en (7, 4)
 
     def test_movimiento_correcto(self):
         # Remueve cualquier pieza que pueda bloquear el movimiento de la reina

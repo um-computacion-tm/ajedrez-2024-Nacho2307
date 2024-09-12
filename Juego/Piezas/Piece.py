@@ -58,5 +58,3 @@ class Piece:
             return False
 
         return self.movimiento_correcto(from_row, from_col, to_row, to_col, board)
-
-
