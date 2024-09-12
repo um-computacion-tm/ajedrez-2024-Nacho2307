@@ -29,4 +29,3 @@ class Bishop(Piece):
             current_row += step_row
             current_col += step_col
         return True
-

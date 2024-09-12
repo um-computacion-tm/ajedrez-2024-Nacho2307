@@ -325,3 +325,18 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Mejora en la claridad y mantenimiento**:
   - La nueva estructura permite una mejor claridad y mantenimiento al utilizar métodos auxiliares para las simulaciones de entrada/salida.
 
+
+
+## [0.2.23] - 2024-09-11
+
+### Cambios en el test de la interfaz
+
+-Nueva prueba test_reject_draw: Agregada para cubrir el caso donde un jugador rechaza una oferta de tablas.
+-Nueva prueba test_invalid_option: Simula la entrada de una opción inválida en el menú y asegura que el sistema maneje el error correctamente.
+-Nueva prueba test_process_move_exception: Verifica que se maneje correctamente una excepción de tipo ChessException durante el movimiento de una pieza.
+-Nueva prueba test_process_move_unexpected_exception: Añadida para simular y cubrir una excepción inesperada durante el movimiento de una pieza.
+-Nueva prueba test_process_move_victory: Verifica que cuando un movimiento devuelve un resultado de victoria (por ejemplo, "Black wins"), se imprime el resultado correcto.
+-Nueva prueba test_invalid_draw_response: Cubre el caso donde un jugador da una respuesta inválida a una oferta de tablas, seguido por la aceptación de la misma.
+-Nueva prueba test_display_board_after_successful_move: Asegura que el tablero se imprime después de un movimiento exitoso, cubriendo la línea self.display_board().
+-Cobertura de casos adicionales para manejar excepciones durante el movimiento y respuestas inválidas del jugador.
+-Cobertura de todas las líneas de la clase ChessInterface, incluyendo las verificaciones del tablero después de movimientos exitosos y condiciones de victoria.
