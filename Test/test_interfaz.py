@@ -18,7 +18,7 @@ class TestChessInterface(unittest.TestCase):
 
     def test_invalid_move(self):
         # Prueba para simular un movimiento inválido.
-        output = self.get_output_from_interface(['1', '1 1', '8 8', '3'])
+        output = self.get_output_from_interface(['1', '1 1', '6 0', '3'])  # Cambiar '8 8' a una posición válida
         self.assertIn("Error: No se puede mover una pieza de un color diferente.", output)
 
     def test_movement_and_surrender(self):

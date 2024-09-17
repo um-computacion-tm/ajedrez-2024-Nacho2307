@@ -74,11 +74,10 @@ class ChessInterface:
             print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)  # Maneja cualquier otro error inesperado.
 
     def handle_draw(self):
-        #Maneja la oferta de tablas entre los jugadores.
-        #Returns:
-            #bool: True si las tablas son aceptadas, False de lo contrario.
-        print(f"{self.__chess__.get_turn()} ofrece tablas.")
-        response = input(f"{self.__chess__.get_turn()}, ¿aceptas las tablas? (y/n): ").strip().lower()
+        current_turn = self.__chess__.get_turn()
+        opponent = "BLACK" if current_turn == "WHITE" else "WHITE"  # Identificar al oponente
+        print(f"{current_turn} ofrece tablas.")
+        response = input(f"{opponent}, ¿aceptas las tablas? (y/n): ").strip().lower()  # Preguntar al oponente
 
         if response == 'y':
             print("\nJuego empatado.")
