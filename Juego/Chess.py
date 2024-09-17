@@ -23,7 +23,7 @@ class Chess:
 
     def print_board(self):
         for row in self.__board__.__positions__:
-            print(" | ".join([Piece.get_symbol() if Piece else " " for Piece in row]))
+            print(" | ".join([str(Piece) if Piece else " " for Piece in row]))
             print("-" * 33)
 
     def move(self, from_input, to_input):
@@ -53,9 +53,6 @@ class Chess:
     def parse_position(self, input_str):
         try:
             row, col = map(int, input_str.split())
-            row -= 1
-            col -= 1
-
             if not (0 <= row <= 7 and 0 <= col <= 7):
                 raise OutOfBoundsException(f"Position {input_str} está fuera de los límites.")
             return (row, col)
@@ -70,7 +67,7 @@ class Chess:
         return piece
 
     def validate_turn(self, piece):
-        if piece.get_color().lower() != self.__turn__.lower():
+        if piece.get_color().lower() != self.current_turn:
             raise ColorException("No se puede mover una pieza de un color diferente.")
 
     def execute_move(self, from_pos, to_pos, piece):
