@@ -22,17 +22,24 @@ class Chess:
         return self.__turn__
 
     def print_board(self):
-        for row in self.__board__.__positions__:
-            print(" | ".join([str(Piece) if Piece else " " for Piece in row]))
-            print("-" * 33)
+        print("  0 1 2 3 4 5 6 7")
+        for i in range(8):
+            fila = f"{i} " + " ".join(
+                [str(self.__board__.get_piece(i, j)) if self.__board__.get_piece(i, j) else '.' for j in range(8)]
+            )
+            print(fila)
 
     def move(self, from_input, to_input):
         try:
             from_pos = self.parse_position(from_input)
             to_pos = self.parse_position(to_input)
             piece = self.get_piece_or_raise(from_pos)
-            self.validate_turn(piece)
-            
+
+            print(f"Turno actual: {self.__turn__}, pieza seleccionada: {piece}")  # Depuración
+
+            # Validar turno antes de realizar el movimiento
+            self.validate_turn(piece)  # Asegurarse de que la pieza coincide con el turno actual
+
             if self.is_in_check_after_move(self.__turn__, from_pos, to_pos):
                 raise InvalidMoveException("El movimiento resulta en jaque para el rey.")
 
@@ -41,8 +48,10 @@ class Chess:
 
             if status != "No result":
                 return status
-            
-            self.change_turn()
+
+            self.change_turn()  # Cambiar turno después del movimiento
+            print(f"Nuevo turno después de movimiento: {self.__turn__}")  # Depuración
+            print(f"Legal move found for piece {piece} desde {from_pos} hasta {to_pos}")
             return True
 
         except (OutOfBoundsException, InvalidMoveException, PieceAlreadyCapturedException,
@@ -67,15 +76,16 @@ class Chess:
         return piece
 
     def validate_turn(self, piece):
-        if piece.get_color().lower() != self.current_turn:
+        print(f"Validando turno: {self.__turn__}, color de la pieza: {piece.get_color()}")
+        if piece.get_color().lower() != self.__turn__.lower():
             raise ColorException("No se puede mover una pieza de un color diferente.")
 
     def execute_move(self, from_pos, to_pos, piece):
         if not piece.movimiento_correcto(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self.__board__):
             raise InvalidMoveException("Movimiento no válido para esta pieza.")
-        
-        self.__board__.set_piece(*to_pos, piece)
-        self.__board__.set_piece(*from_pos, None)
+    
+        self.__board__.set_piece(to_pos[0], to_pos[1], piece)  # Mover la pieza a la nueva posición
+        self.__board__.remove_piece(from_pos[0], from_pos[1])  # Eliminar la pieza de la posición anterior
 
     def check_victory(self):
         pieces_alive = self.__board__.pieces_on_board()
@@ -90,28 +100,60 @@ class Chess:
         return "No result"
 
     def has_legal_moves(self, color):
-        print(f"Checking legal moves for {color}")
+        king = self.obtener_rey(color)
+
+    # Check if the king is in checkmate
+        if self.esta_en_jaque(king) and not self.hay_movimientos_legales_para_salir_del_jaque(king):
+            return False
+
+    # Iterate over all pieces of the given color and check for legal moves
         for row in range(8):
             for col in range(8):
-                if self.can_piece_move(row, col, color):
-                    print(f"Legal move found for {color} at position {(row, col)}")
+                piece = self.__board__.get_piece(row, col)
+                if piece and piece.get_color().lower() == color.lower():
+                    # Verificar si la pieza tiene algún movimiento legal
+                    if self.piece_has_moves(piece, (row, col)):
+                        # Asegurarse de que el movimiento no deja al rey en jaque
+                        if not self.is_in_check_after_move(piece.get_color(), (row, col), (row, col)):
+                            return True
+
+        # Si no se encontraron movimientos y el rey está en jaque, return False
+        return not self.esta_en_jaque(king)
+
+    def hay_movimientos_legales_para_salir_del_jaque(self, king):
+        king_position = king.get_position()
+        for row in range(8):
+            for col in range(8):
+                if abs(row - king_position[0]) <= 1 and abs(col - king_position[1]) <= 1:
+                    # Check if moving the king to this position removes the check
+                    new_position = (row, col)
+                    if self.is_in_check_after_move(king.get_color(), king_position, new_position):
+                        continue
+                    # If the move removes check
+                    print(f"Legal move found for piece {king} desde {king_position} hasta {new_position}")
                     return True
-        print("No legal moves found")
         return False
 
     def can_piece_move(self, row, col, color):
         piece = self.__board__.get_piece(row, col)
         if piece and piece.get_color().lower() == color.lower():
-            return self.piece_has_moves(piece, (row, col))
-        return False
-    
+            # Verificar si la pieza tiene algún movimiento legal que no resulte en jaque
+            for to_row in range(8):
+                for to_col in range(8):
+                    if piece.movimiento_correcto(row, col, to_row, to_col, self.__board__):
+                        # Verificar si el movimiento deja al rey en jaque
+                        if not self.is_in_check_after_move(piece.get_color(), (row, col), (to_row, to_col)):
+                            print(f"Legal move found for piece {piece} desde ({row}, {col}) hasta ({to_row}, {to_col})")
+                            return True
+        return False  # Si no se encuentra ningún movimiento legal
+
     def piece_has_moves(self, piece, from_pos):
-        print(f"Checking piece at {from_pos}: {piece}")
         for to_row in range(8):
             for to_col in range(8):
                 if piece.movimiento_correcto(from_pos[0], from_pos[1], to_row, to_col, self.__board__):
-                    print(f"Legal move found for piece at {from_pos} to {(to_row, to_col)}")
-                    return True
+                    # Verificar si el movimiento deja al rey en jaque
+                    if not self.is_in_check_after_move(piece.get_color(), from_pos, (to_row, to_col)):
+                        return True
         return False
 
     def is_in_check_after_move(self, color, from_pos, to_pos):
@@ -132,14 +174,30 @@ class Chess:
         return None
 
     def esta_en_jaque(self, rey):
+        # Obtener la posición actual del rey
         rey_position = rey.get_position()
+        print(f"Rey {rey} en posición {rey_position}")  # Depuración
+    
+        # Recorrer todo el tablero para encontrar piezas enemigas que puedan amenazar al rey
         for row in range(8):
             for col in range(8):
                 piece = self.__board__.get_piece(row, col)
+
+                # Verificar si la pieza es del equipo contrario
                 if piece and piece.get_color() != rey.get_color():
+                    print(f"Evaluando pieza {piece} en posición ({row}, {col})")  # Depuración
+
+                    # Verificar si esta pieza puede atacar al rey
                     if piece.movimiento_correcto(row, col, rey_position[0], rey_position[1], self.__board__):
-                        return True
+                        print(f"{piece} amenaza al rey desde ({row}, {col}) hasta {rey_position}")  # Depuración
+                        return True  # El rey está en jaque
+
+        # Si no se encontraron piezas que amenacen al rey, el rey no está en jaque
+        print("El rey no está en jaque.")  # Depuración
         return False
 
     def change_turn(self):
-        self.__turn__ = "BLACK" if self.__turn__ == "WHITE" else "WHITE"
+        if self.__turn__.lower() == "white":
+            self.__turn__ = "black"
+        else:
+            self.__turn__ = "white"
