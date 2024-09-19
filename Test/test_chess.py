@@ -82,5 +82,6 @@ class TestChess(unittest.TestCase):
         result = self.chess.has_legal_moves("White")
         self.assertFalse(result, "El rey blanco debería estar en jaque mate y no tener movimientos legales")
 
+
 if __name__ == "__main__":
     unittest.main()
