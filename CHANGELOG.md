@@ -383,9 +383,34 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 - **Test de tablero después del movimiento**: En `test_display_board_after_successful_move`, se verificó que el tablero se imprime correctamente después de un movimiento exitoso, incluyendo el formato visual con coordenadas.
 
-## [0.2.25] - 2024-09-16
-## [0.2.26] - 2024-09-17 
-## [0.2.27] - 2024-09-18 (refactorizacion chess duplicacion)
+
+## [0.2.27] - 2024-09-18 # Refactorizacion de Chess
+
+- **`has_legal_moves` Method**:
+  - Renombrado `hay_movimientos_legales_para_salir_del_jaque` a `has_legal_moves` para verificar si el jugador tiene movimientos legales disponibles.
+  - Ahora devuelve `True` si hay movimientos legales o si el rey no está en jaque; de lo contrario, devuelve `False`.
+
+- **`piece_has_moves` Method**:
+  - Se ha añadido el método `has_legal_move_for_piece`, que verifica si una pieza tiene algún movimiento legal sin poner al rey en jaque.
+  - `piece_has_moves` se ha simplificado para usar el nuevo método `has_legal_move_for_piece`.
+
+- **`is_in_check_after_move` Method**:
+  - Se ha cambiado la lógica para utilizar `self.esta_en_jaque(self.obtener_rey(color))` en lugar de verificar el estado del rey manualmente en la copia del tablero.
+
+- **`can_piece_move` Method**:
+  - Ahora utiliza `has_legal_move_for_piece` para verificar si una pieza puede realizar movimientos válidos.
+
+  - Se han eliminado algunos comentarios y líneas de depuración innecesarias.
+  - Se han corregido algunos errores menores de formato y estilo.
+
+### Agregado
+- **`has_legal_move_for_piece` Method**:
+  - Nuevo método para verificar si una pieza tiene movimientos legales que no resulten en jaque.
+
+### Removido
+- **`hay_movimientos_legales_para_salir_del_jaque` Method**:
+  - El método ha sido renombrado y reubicado dentro del nuevo método `has_legal_moves`.
+
 ## [0.2.28] - 2024-09-19 ( refactorizacion test interfaz)
 
 *Refactorización de tests repetitivos*:
@@ -398,3 +423,6 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Ahora utiliza el nuevo método `simulate_move_exception` para simular excepciones relacionadas con los movimientos de ajedrez.
 - `test_process_move_unexpected_exception`:
 Reutiliza el método `simulate_move_exception` para manejar excepciones inesperadas de manera más clara.
+
+## [0.2.27] - 2024-09-20
+
