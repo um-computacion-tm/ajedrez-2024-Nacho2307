@@ -105,7 +105,6 @@ class Chess:
         if self.esta_en_jaque(king) and not self.hay_movimientos_legales_para_salir_del_jaque(king):
             return False
 
-        # Iterate over all pieces of the given color and check for legal moves
         for row in range(8):
             for col in range(8):
                 piece = self.__board__.get_piece(row, col)
@@ -116,7 +115,6 @@ class Chess:
         return not self.esta_en_jaque(king)
 
     def has_legal_move_for_piece(self, piece, from_pos):
-        # Itera sobre todas las posibles posiciones a las que la pieza podría moverse
         for to_row in range(8):
             for to_col in range(8):
                 # Verifica si el movimiento es correcto para la pieza
