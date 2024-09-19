@@ -382,3 +382,19 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Manejo de excepciones de movimiento**: Los tests `test_process_move_exception` y `test_process_move_unexpected_exception` ahora cubren tanto errores específicos del juego como errores inesperados, asegurando una cobertura completa en el manejo de excepciones.
 
 - **Test de tablero después del movimiento**: En `test_display_board_after_successful_move`, se verificó que el tablero se imprime correctamente después de un movimiento exitoso, incluyendo el formato visual con coordenadas.
+
+## [0.2.25] - 2024-09-16
+## [0.2.26] - 2024-09-17 
+## [0.2.27] - 2024-09-18 (refactorizacion chess duplicacion)
+## [0.2.28] - 2024-09-19 ( refactorizacion test interfaz)
+
+*Refactorización de tests repetitivos*:
+
+- Se refactorizó la lógica común entre `test_process_move_exception` y `test_process_move_unexpected_exception`.
+- Creación de un método auxiliar `simulate_move_exception` para manejar la simulación de excepciones durante los movimientos.
+***Cambios en los tests***:
+
+- `test_process_move_exception`:
+- Ahora utiliza el nuevo método `simulate_move_exception` para simular excepciones relacionadas con los movimientos de ajedrez.
+- `test_process_move_unexpected_exception`:
+Reutiliza el método `simulate_move_exception` para manejar excepciones inesperadas de manera más clara.
