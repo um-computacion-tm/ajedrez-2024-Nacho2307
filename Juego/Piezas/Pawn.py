@@ -12,22 +12,23 @@ class Pawn(Piece):
         # Verificar si la casilla de destino tiene una pieza del mismo color
         destino = board.get_piece(to_row, to_col)
         if destino is not None and destino.get_color() == self.get_color():
-            return False
-    
+            return False  # Puedes dejar este return ya que es importante
+
+        # Inicializa la variable de resultado
+        movimiento_valido = False
+
         # Chequeo de movimiento simple hacia adelante
         if self._movimiento_simple(from_pos, to_pos, direccion, board):
-            return True
-    
+            movimiento_valido = True
         # Chequeo de movimiento doble inicial
-        if self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
-            return True
-    
+        elif self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
+            movimiento_valido = True
         # Chequeo de captura diagonal
-        if self._captura_diagonal(from_pos, to_pos, direccion, board):
-            return True
-    
-        # Si ningún movimiento es válido, retorna False
-        return False
+        elif self._captura_diagonal(from_pos, to_pos, direccion, board):
+            movimiento_valido = True
+
+        # Retorna el resultado de las comprobaciones
+        return movimiento_valido
 
     def _movimiento_simple(self, from_pos, to_pos, direccion, board):
         from_row, from_col = from_pos

@@ -486,4 +486,5 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
   - Se cambió la inicialización del tablero a un tablero real que se limpia antes de cada prueba mediante el método `clear_board`.
   - Se colocó el alfil en la posición inicial `(4, 4)` para facilitar las pruebas.
 
-
+## [0.2.28] - 2024-09-21 (agregregar Pawn, knight, King)
+## [0.2.29] - 2024-09-22 (Cambio de chess y board)
