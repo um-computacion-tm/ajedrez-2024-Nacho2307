@@ -2,80 +2,67 @@
 class ChessException(Exception):
     pass
 
-# Excepción para movimientos inválidos en el juego de ajedrez
-class InvalidMoveException(ChessException):
-    def __init__(self, message):
-        self.message = message
+# Clase base para excepciones con mensaje opcional
+class ChessMessageException(ChessException):
+    def __init__(self, message=None):
+        if message is None:
+            message = "Error en el juego de ajedrez."
         super().__init__(message)
+
+# Excepción para movimientos inválidos en el juego de ajedrez
+class InvalidMoveException(ChessMessageException):
+    pass
 
 # Excepción para cuando una pieza se mueve fuera del tablero
-class OutOfBoundsException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class OutOfBoundsException(ChessMessageException):
+    pass
 
 # Excepción para cuando se intenta capturar una pieza que ya ha sido capturada
-class PieceAlreadyCapturedException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class PieceAlreadyCapturedException(ChessMessageException):
+    pass
 
 # Excepción para cuando el rey está en jaque (en amenaza de ser capturado)
-class CheckException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class CheckException(ChessMessageException):
+    pass
 
 # Excepción para cuando el rey está en jaque mate (no puede evitar la captura)
-class CheckmateException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class CheckmateException(ChessMessageException):
+    pass
 
 # Excepción para cuando se intenta mover una pieza del color equivocado
-class ColorException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class ColorException(ChessMessageException):
+    pass
 
 # Excepción para cuando se intenta mover una pieza fuera de turno
-class TurnException(ChessException):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class TurnException(ChessMessageException):
+    pass
 
 # Excepción para posiciones inválidas en el tablero
-class InvalidPositionException(ChessException):
+class InvalidPositionException(ChessMessageException):
     def __init__(self, message="La posición es inválida. Debe estar dentro del tablero."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 # Excepción para movimientos inválidos para una pieza específica
-class InvalidPieceMovementException(ChessException):
+class InvalidPieceMovementException(ChessMessageException):
     def __init__(self, message="Movimiento no válido para esta pieza."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 # Excepción para cuando se intenta capturar al rey (lo cual no está permitido)
-class CantEatKingException(ChessException):
+class CantEatKingException(ChessMessageException):
     def __init__(self, message="No puedes capturar al Rey."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 # Excepción para cuando se intenta hacer un movimiento en el turno de otro jugador
-class WrongTurnException(ChessException):
+class WrongTurnException(ChessMessageException):
     def __init__(self, message="Es el turno del otro jugador."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 # Excepción general para errores en el juego de ajedrez
-class GeneralChessError(ChessException):
+class GeneralChessError(ChessMessageException):
     def __init__(self, message="Ha ocurrido un error en el juego de ajedrez."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
 
 # Excepción para cuando una pieza no se encuentra en el tablero
-class PieceNotFoundError(ChessException):
+class PieceNotFoundError(ChessMessageException):
     def __init__(self, message="Pieza no encontrada en el tablero."):
-        self.message = message
-        super().__init__(self.message)
+        super().__init__(message)
