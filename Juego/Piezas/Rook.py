@@ -3,20 +3,24 @@ from Juego.Piezas.Piece import Piece
 class Rook(Piece):
     def __init__(self, color, x=0, y=0):
         super().__init__(color, 'Rook', x, y)
-        
+
     def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
         from_pos = (from_row, from_col)
         to_pos = (to_row, to_col)
-        
+    
+        # Verificar si la posición está dentro de los límites
         if not self.dentro_de_limites(from_pos, to_pos):
             return False
-        
+    
+        # Verificar si el movimiento es en línea recta (horizontal o vertical)
         if self._movimiento_en_linea_recta(from_pos, to_pos):
-            return self._camino_libre_y_captura(from_pos, to_pos, board)
+            # Verificar si el camino está libre y no se está capturando una pieza del mismo color
+            pieza_destino = board.get_piece(to_row, to_col)
+            if pieza_destino is None or pieza_destino.get_color() != self.get_color():
+                return self._camino_libre_y_captura(from_pos, to_pos, board)
 
         return False
 
-    
     def _movimiento_en_linea_recta(self, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos

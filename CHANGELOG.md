@@ -426,3 +426,64 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 
 ## [0.2.27] - 2024-09-20
 
+### Añadido
+- **Verificación de captura de piezas del mismo color**: Ahora el método `movimiento_correcto` revisa si la pieza de destino es del mismo color antes de permitir el movimiento. Esto evita que la torre capture piezas aliadas.
+  - Código implementado:
+    ```python
+    pieza_destino = board.get_piece(to_row, to_col)
+    if pieza_destino is None o pieza_destino.get_color() != self.get_color():
+    ```
+
+### Cambiado
+- **Simplificación de la lógica de captura**: La verificación de captura de piezas del mismo color se ha trasladado al método `movimiento_correcto`, simplificando el método `_camino_libre_y_captura` para que se encargue únicamente de verificar si el camino está libre.
+  
+### Mejorado
+- **Comentarios y claridad en el código**: Se han añadido comentarios explicativos en el método `movimiento_correcto` para mejorar la legibilidad y hacer más clara la intención de cada paso:
+  - Verificación de los límites del tablero.
+  - Verificación de movimiento en línea recta (horizontal o vertical).
+  - Verificación del color de la pieza de destino.
+
+### Añadido *Test_rook*
+- **Nuevas pruebas para capturar piezas del mismo color**: Se agregó una nueva lógica en los métodos de prueba para verificar que la torre no pueda capturar piezas del mismo color, en concordancia con los cambios realizados en la clase `Rook`.
+
+### Cambiado
+- **Simplificación del método de pruebas**: No se realizaron cambios significativos en la estructura de los tests, pero se simplificó el proceso de verificación de movimiento de la torre para que sea compatible con la nueva lógica de la clase `Rook`.
+
+### Añadido *Queen*
+- **Verificación de captura de piezas del mismo color**: Se ha añadido una verificación en el método `movimiento_correcto` para asegurarse de que la reina no pueda capturar piezas del mismo color.
+  - **Código implementado**:
+    ```python
+    destino = board.__positions__[to_row][to_col]
+    if destino is not None and destino.get_color() == self.get_color():
+        return False
+    ```
+
+### Cambiado
+- **Lógica de movimiento mejorada**: Ahora, antes de verificar si el movimiento es válido como alfil o torre, se comprueba que la pieza de destino no sea del mismo color que la reina.
+
+### Añadido *Test_queen*
+- **Verificación de captura de piezas del mismo color**: 
+  - Las pruebas ahora consideran que la reina no debe capturar piezas del mismo color, en concordancia con los cambios realizados en la clase `Queen`.
+  
+### Cambiado
+- **Lógica de pruebas mejorada**:
+  - No se realizaron cambios en la estructura general de las pruebas, pero se actualizó el comportamiento esperado de `movimiento_correcto` para reflejar las nuevas reglas de captura de piezas.
+
+### Añadido *Bishop*
+- **Verificación de piezas del mismo color**:
+  - Ahora se comprueba si la casilla de destino contiene una pieza del mismo color antes de permitir el movimiento del alfil.
+
+### Cambiado
+- **Lógica de movimiento diagonal**:
+  - La validación de movimientos ahora incluye la verificación de si la casilla de destino está ocupada por una pieza del mismo color. Si es así, el movimiento es declarado inválido.
+
+### Añadido *Test_bishop*
+- **Prueba de movimiento a casilla ocupada por la misma pieza**:
+  - Se añadió un nuevo test `test_movimiento_a_casilla_ocupada_por_misma_pieza` que verifica que un alfil no puede moverse a una casilla ocupada por otra pieza del mismo color.
+
+### Cambiado
+- **Inicialización del tablero**:
+  - Se cambió la inicialización del tablero a un tablero real que se limpia antes de cada prueba mediante el método `clear_board`.
+  - Se colocó el alfil en la posición inicial `(4, 4)` para facilitar las pruebas.
+
+
