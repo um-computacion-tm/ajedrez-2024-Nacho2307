@@ -1,25 +1,39 @@
 import unittest
 from Juego.Piezas.Bishop import Bishop
+from Juego.Piezas.Piece import Piece
 from Juego.board import Board
 
 class TestBishop(unittest.TestCase):
     def setUp(self):
-        self.board = Board()  # Inicializa un tablero vacío
+        self.board = Board()  # Inicializa el tablero real
+        self.board.clear_board()  # Limpia el tablero antes de cada prueba
+        self.bishop = Bishop("white")
+        self.board.place_piece(self.bishop, (4, 4))  # Coloca el alfil en la posición (4, 4)
 
     def test_movimiento_correcto_diagonal(self):
-        piece = Bishop("white")
         # Movimiento diagonal válido
-        self.assertTrue(piece.movimiento_correcto(2, 2, 4, 4, self.board))
-        # Movimiento diagonal inválido
-        self.assertFalse(piece.movimiento_correcto(2, 2, 4, 5, self.board))
+        self.assertTrue(self.bishop.movimiento_correcto(4, 4, 6, 6, self.board))
+        # Movimiento diagonal inválido (no diagonal)
+        self.assertFalse(self.bishop.movimiento_correcto(4, 4, 6, 5, self.board))
 
     def test_camino_despejado(self):
-        piece = Bishop("white")
         # Movimiento diagonal válido (sin obstáculos)
-        self.assertTrue(piece.movimiento_correcto(4, 4, 6, 6, self.board))
-        # Movimiento diagonal inválido (con obstáculo)
-        self.board.__positions__[5][5] = '♟'  # Obstáculo en la posición (5, 5)
-        self.assertFalse(piece.movimiento_correcto(4, 4, 6, 6, self.board))
+        self.assertTrue(self.bishop.movimiento_correcto(4, 4, 6, 6, self.board))
+
+        # Coloca una pieza como obstáculo
+        obstaculo = Bishop("black")
+        self.board.place_piece(obstaculo, (5, 5))  # Obstáculo en la posición (5, 5)
+
+        # Movimiento diagonal inválido debido al obstáculo
+        self.assertFalse(self.bishop.movimiento_correcto(4, 4, 6, 6, self.board))
+
+    def test_movimiento_a_casilla_ocupada_por_misma_pieza(self):
+        # Coloca una pieza del mismo color en la casilla de destino (6, 6)
+        misma_pieza = Bishop("white")
+        self.board.place_piece(misma_pieza, (6, 6))
+
+        # Verifica que no se puede mover a una casilla ocupada por una pieza del mismo color
+        self.assertFalse(self.bishop.movimiento_correcto(4, 4, 6, 6, self.board))
 
 if __name__ == '__main__':
     unittest.main()

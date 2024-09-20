@@ -9,6 +9,8 @@ class Queen(Piece):
         self.__rook_moves__ = Rook(color)
 
     def movimiento_correcto(self, from_row, from_col, to_row, to_col, board=None):
-        # La reina puede moverse como un alfil o una torre
+        destino = board.__positions__[to_row][to_col]
+        if destino is not None and destino.get_color() == self.get_color():
+            return False
         return (self.__bishop_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board) or
                 self.__rook_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board))

@@ -9,18 +9,23 @@ class Pawn(Piece):
         to_pos = (to_row, to_col)
         direccion = -1 if self.get_color() == "White" else 1
 
+        # Verificar si la casilla de destino tiene una pieza del mismo color
+        destino = board.get_piece(to_row, to_col)
+        if destino is not None and destino.get_color() == self.get_color():
+            return False
+    
         # Chequeo de movimiento simple hacia adelante
         if self._movimiento_simple(from_pos, to_pos, direccion, board):
             return True
-        
+    
         # Chequeo de movimiento doble inicial
         if self._movimiento_doble_inicial(from_pos, to_pos, direccion, board):
             return True
-        
+    
         # Chequeo de captura diagonal
         if self._captura_diagonal(from_pos, to_pos, direccion, board):
             return True
-        
+    
         # Si ningún movimiento es válido, retorna False
         return False
 
