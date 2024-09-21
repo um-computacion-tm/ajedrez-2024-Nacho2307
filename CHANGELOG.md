@@ -487,4 +487,13 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
   - Se colocó el alfil en la posición inicial `(4, 4)` para facilitar las pruebas.
 
 ## [0.2.28] - 2024-09-21 (agregregar Pawn, knight, King)
-## [0.2.29] - 2024-09-22 (Cambio de chess y board)
+
+### Agregado
+- Implementación inicial del método `mover`, que verifica si el movimiento está dentro del rango permitido para el rey (1 casilla en cualquier dirección).
+- Lógica para levantar la excepción `InvalidMoveException` cuando el movimiento no es válido.
+- Método `get_position` para obtener la posición actual del rey.
+
+### Cambio
+- Corrección en `movimiento_correcto`: ahora el rey no puede moverse a una casilla ocupada por una pieza del mismo color.
+
+## [0.2.29] - 2024-09-22 (Cambio de chess y board, pawn, caballo)
