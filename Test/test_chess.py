@@ -45,15 +45,6 @@ class TestChess(unittest.TestCase):
         self.chess.move("1 0", "2 0")  # Mover un peón negro
         self.assertEqual(self.chess.get_turn(), "WHITE")
 
-    def test_victory_white_wins(self):
-        # Simular victoria de las blancas
-        board = self.chess.get_board()
-        board.clear_board()
-        white_king = King("white")
-        board.place_piece(white_king, (7, 4))  # Coloca el rey blanco
-        result = self.chess.check_victory()
-        self.assertEqual(result, "White wins")
-
     def test_draw(self):
         # Simular tablas: solo queda el rey blanco y el rey negro
         board = self.chess.get_board()
@@ -65,15 +56,6 @@ class TestChess(unittest.TestCase):
         result = self.chess.check_victory()
         self.assertEqual(result, "Draw")
 
-    def test_black_wins(self):
-        # Simular victoria de las negras: solo queda el rey negro
-        board = self.chess.get_board()
-        board.clear_board()
-        black_king = King("black")
-        board.place_piece(black_king, (0, 4))  # Coloca el rey negro
-        result = self.chess.check_victory()
-        self.assertEqual(result, "Black wins")
-
     def test_victory_status_returned(self):
         # Simular victoria de las blancas y verificar que el estado se devuelve correctamente
         board = self.chess.get_board()
@@ -83,3 +65,21 @@ class TestChess(unittest.TestCase):
         board.place_piece(white_king, (7, 4))  # Coloca el rey blanco
         result = self.chess.move("7 4", "6 4")  # Este movimiento debería devolver el estado del juego
         self.assertEqual(result, "White wins")
+
+    def simulate_victory(self, king_color, expected_result):
+        board = self.chess.get_board()
+        board.clear_board()
+        king = King(king_color)
+        # Colocar al rey en la fila correspondiente según el color
+        row = 7 if king_color == "white" else 0
+        board.place_piece(king, (row, 4))
+        result = self.chess.check_victory()
+        self.assertEqual(result, expected_result)
+
+    def test_victory_white_wins(self):
+        # Simular victoria de las blancas
+        self.simulate_victory("white", "White wins")
+
+    def test_black_wins(self):
+        # Simular victoria de las negras
+        self.simulate_victory("black", "Black wins")

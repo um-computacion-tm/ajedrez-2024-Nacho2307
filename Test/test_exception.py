@@ -13,7 +13,8 @@ from Juego.Exception import (
     CheckmateException,
     ColorException,
     TurnException,
-    PieceNotFoundError  
+    PieceNotFoundError,
+    ChessMessageException  
 )
 
 class TestChessExceptions(unittest.TestCase):
@@ -64,6 +65,12 @@ class TestChessExceptions(unittest.TestCase):
 
     def test_piece_not_found_error(self):  
         self._test_exception(PieceNotFoundError, "Pieza no encontrada en el tablero.")
+
+    def test_chess_message_exception_default_message(self):
+        # Verificar que el mensaje por defecto sea "Error en el juego de ajedrez."
+        with self.assertRaises(ChessMessageException) as context:
+            raise ChessMessageException()
+        self.assertEqual(str(context.exception), "Error en el juego de ajedrez.")
 
 if __name__ == '__main__':
     unittest.main()
