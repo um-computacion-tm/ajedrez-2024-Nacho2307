@@ -486,7 +486,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
   - Se cambió la inicialización del tablero a un tablero real que se limpia antes de cada prueba mediante el método `clear_board`.
   - Se colocó el alfil en la posición inicial `(4, 4)` para facilitar las pruebas.
 
-## [0.2.28] - 2024-09-21 (agregregar Pawn, knight, King)
+## [0.2.28] - 2024-09-21 
 
 ### Agregado
 - Implementación inicial del método `mover`, que verifica si el movimiento está dentro del rango permitido para el rey (1 casilla en cualquier dirección).
@@ -496,4 +496,30 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 ### Cambio
 - Corrección en `movimiento_correcto`: ahora el rey no puede moverse a una casilla ocupada por una pieza del mismo color.
 
-## [0.2.29] - 2024-09-22 (Cambio de chess y board, pawn, caballo)
+## [0.2.29] - 2024-09-22 
+
+### Cambios generales *Chess*
+- Se mejoró la estructura y la claridad del código en varios métodos.
+
+### Funcionalidades
+
+- **Método `move`:**
+  - Se eliminaron comprobaciones redundantes para validar el movimiento de piezas. Ahora se realiza directamente la verificación en el método `execute_move`.
+  - Se añadió la verificación para detectar si se captura al rey durante un movimiento. Si se captura, se retorna el estado de victoria correspondiente.
+  - Ahora se retornan mensajes más claros al usuario sobre el estado del movimiento (éxito, victoria, etc.).
+
+- **Método `check_victory`:**
+  - Se mejoró la lógica para determinar el estado de victoria, considerando la captura de reyes y el empate si solo quedan los reyes en el tablero.
+
+### Cambios generales *Board*
+- Se mejoró la organización del código y se eliminaron comentarios innecesarios.
+
+### Funcionalidades
+- **Método `is_valid_move`:**
+  - Se añadió el método `is_valid_move` para encapsular la lógica de validación de movimientos de piezas. Esto facilita la reutilización de esta funcionalidad en otras partes del código.
+
+### Limpieza de código
+- Se eliminó el método `get_piece` y se mejoró la legibilidad del código en otros métodos como `set_piece` y `remove_piece` al simplificar las operaciones y verificar los límites.
+- Se ajustaron los métodos de impresión (`__str__` y `mostrar_coords`) para mayor claridad en la presentación del tablero.
+
+
