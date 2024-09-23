@@ -9,8 +9,10 @@ class Bishop(Piece):
             return False
         # Verificar si la casilla de destino tiene una pieza del mismo color
         destino = board.__positions__[to_row][to_col]
-        if destino is not None and destino.get_color() == self.get_color():
-            return False
+        if destino is not None:
+            if destino.get_color() == self.get_color():
+                return False  # No puede moverse a una casilla ocupada por una pieza del mismo color
+            # Si es una pieza de color contrario, es una captura, así que permitimos el movimiento
         return self.es_camino_despejado(board.__positions__, (from_row, from_col), (to_row, to_col))
 
     def es_movimiento_diagonal(self, from_row, from_col, to_row, to_col):

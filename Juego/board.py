@@ -81,40 +81,5 @@ class Board:
                         black_pieces += 1
         return white_pieces, black_pieces
 
-    def obtener_rey(self, color):
-        for row in range(8):
-            for col in range(8):
-                piece = self.get_piece(row, col)
-                if isinstance(piece, King) and piece.get_color().lower() == color.lower():
-                    return piece
-        return None
-
-    def esta_en_jaque(self, color):
-        king = self.obtener_rey(color)
-        if not king:
-            return False
-        
-        king_position = king.get_position()
-        for row in range(8):
-            for col in range(8):
-                piece = self.get_piece(row, col)
-                if piece and piece.get_color().lower() != color.lower():
-                    if piece.movimiento_correcto(row, col, king_position[0], king_position[1], self):
-                        return True
-        return False
-
     def is_valid_move(self, piece, from_pos, to_pos):
-        if not piece.movimiento_correcto(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self):
-            return False
-        if self.is_in_check_after_move(piece.get_color(), from_pos, to_pos):
-            return False
-        return True
-
-    def is_in_check_after_move(self, color, from_pos, to_pos):
-        board_copy = copy.deepcopy(self)
-        piece = board_copy.get_piece(*from_pos)
-        board_copy.set_piece(*to_pos, piece)
-        board_copy.remove_piece(*from_pos)
-
-        king = board_copy.obtener_rey(color)
-        return board_copy.esta_en_jaque(color)
+        return piece.movimiento_correcto(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self)
