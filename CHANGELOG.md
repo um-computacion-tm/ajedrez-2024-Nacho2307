@@ -568,3 +568,5 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - Se actualizó el mensaje de bienvenida en el método `start` para hacerlo más conciso.
 - El método `handle_move` ahora también muestra las puntuaciones después de cada movimiento.
 - Se mejoró la organización del menú de opciones, aumentando las opciones disponibles para los jugadores.
+
+(Es para enviar el redis)
