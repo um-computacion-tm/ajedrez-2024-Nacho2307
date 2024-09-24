@@ -17,6 +17,21 @@ class TestChess(unittest.TestCase):
     def setUp(self):
         self.chess = Chess()
 
+    def test_load_game(self):
+        # Configurar un juego inicial y guardarlo
+        self.chess.get_board().place_piece(King("white"), (7, 4))
+        self.chess.get_board().place_piece(Rook("black"), (0, 4))
+        self.chess.save_game("test_game")
+
+        # Crear una nueva instancia de Chess y cargar el juego guardado
+        new_chess = Chess()
+        new_chess.load_game("test_game")
+
+        # Verificar que el estado del tablero y el turno sean correctos
+        self.assertIsNotNone(new_chess.get_board().get_piece(7, 4))  # Rey blanco en (7, 4)
+        self.assertIsNotNone(new_chess.get_board().get_piece(0, 4))  # Torre negra en (0, 4)
+        self.assertEqual(new_chess.get_turn(), "WHITE")  # El turno debe ser blanco
+
     def test_invalid_move_king_in_check(self):
         # Intentar mover una pieza que deja al rey en jaque
         self.chess.get_board().place_piece(King("white"), (7, 4))  # Coloca el rey blanco

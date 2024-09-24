@@ -84,5 +84,31 @@ class TestChessInterface(unittest.TestCase):
         self.assertIn("Piezas del juego", output)
         self.assertIn("Jugabilidad", output)
 
+    def test_load_game(self, exception=None, message=None, expected_output=None):
+        # Simula la carga de una partida, manejando excepciones según sea necesario.
+        if exception is None:
+            with patch('Juego.Interfaz.Chess.load_game', return_value=None):
+                output = self.get_output_from_interface(['6', 'partida123', '3'])  # Usa un ID de partida simulado y luego salir.
+                self.assertIn("Partida cargada con éxito.", output)
+                self.assertIn("0 1 2 3 4 5 6 7", output) 
+        else:
+            with patch('Juego.Interfaz.Chess.load_game', side_effect=exception(message)):
+                output = self.get_output_from_interface(['6', 'partida123', '3'])  # Usa un ID de partida simulado y luego salir.
+                self.assertIn(expected_output, output)
+
+    def test_load_game_success(self):
+        self.test_load_game()
+
+    def test_load_game_chess_exception(self):
+        self.test_load_game(ChessException, "Error de carga", "Error al cargar la partida: Error de carga")
+
+    def test_load_game_unexpected_exception(self):
+        self.test_load_game(Exception, "Error inesperado", "Error inesperado: Error inesperado")
+
+    def test_show_scores(self):
+        # Simula la selección de la opción '7' para mostrar las puntuaciones.
+        output = self.get_output_from_interface(['7', '3'])  # Selecciona mostrar puntajes y luego salir
+        self.assertIn("Puntuaciones actuales:", output)  # Verifica que las puntuaciones se muestren correctamente
+
 if __name__ == '__main__':
     unittest.main()

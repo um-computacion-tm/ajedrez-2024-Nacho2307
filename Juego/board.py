@@ -1,4 +1,3 @@
-import copy
 from Juego.Piezas.Rook import Rook
 from Juego.Piezas.Knight import Knight
 from Juego.Piezas.King import King
@@ -12,12 +11,18 @@ class Board:
         self.setup_pieces()
 
     def setup_pieces(self):
+        # Piezas negras
         self.__positions__[0] = [
             Rook("Black"), Knight("Black"), Bishop("Black"), Queen("Black"),
             King("Black"), Bishop("Black"), Knight("Black"), Rook("Black")
         ]
-        self.__positions__[1] = [Pawn("Black")] * 8
-        self.__positions__[6] = [Pawn("White")] * 8
+        # Crear 8 peones negros únicos
+        self.__positions__[1] = [Pawn("Black") for _ in range(8)]
+
+        # Crear 8 peones blancos únicos
+        self.__positions__[6] = [Pawn("White") for _ in range(8)]
+
+        # Piezas blancas
         self.__positions__[7] = [
             Rook("White"), Knight("White"), Bishop("White"), Queen("White"),
             King("White"), Bishop("White"), Knight("White"), Rook("White")
@@ -53,6 +58,21 @@ class Board:
             return True
         else:
             raise IndexError("Posición fuera del tablero.")
+
+    # Metodo para mover una pieza y capturar si es necesario
+    def move_piece(self, from_pos, to_pos):
+        from_row, from_col = from_pos
+        to_row, to_col = to_pos
+
+        piece_to_move = self.get_piece(from_row, from_col)
+        captured_piece = self.get_piece(to_row, to_col)
+
+        # Mover la pieza a la nueva posición
+        self.set_piece(to_row, to_col, piece_to_move)
+        self.remove_piece(from_row, from_col)
+
+        # Devolver la pieza capturada, si es que la hay
+        return captured_piece
 
     def get_piece(self, row, col):
         return self.__positions__[row][col]

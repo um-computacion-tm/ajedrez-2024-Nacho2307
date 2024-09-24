@@ -7,6 +7,14 @@ class Piece:
         'Queen':  {'white': '♕', 'black': '♛'},
         'King':   {'white': '♔', 'black': '♚'}
     }
+    VALUES = {
+        'Pawn': 1,
+        'Rook': 5,
+        'Knight': 3,
+        'Bishop': 3,
+        'Queen': 9,
+        'King': 8
+    }
 
     def __init__(self, color, nombre, x=0, y=0):
         self.__nombre__ = nombre
@@ -58,3 +66,7 @@ class Piece:
             return False
 
         return self.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+
+    # Método para obtener el valor de la pieza
+    def get_value(self):
+        return self.VALUES.get(self.__nombre__, 0)  # Devuelve el valor de la pieza

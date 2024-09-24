@@ -9,33 +9,67 @@ class ChessInterface:
         self.__chess__ = Chess()  # Atributo que guarda la instancia del juego de ajedrez.
 
     def start(self):
-        #Inicia el bucle principal del juego donde los jugadores interactúan mediante el input de consola.
-        print(Fore.YELLOW + "✨ ¡Bienvenido al juego de Ajedrez, creado por Ignacio Aguilera Baigorria Jayat! ✨" + Style.RESET_ALL)
+        print(Fore.YELLOW + "✨ ¡Bienvenido al juego de Ajedrez! ✨" + Style.RESET_ALL)
         self.display_board()
 
         while True:
-            self.display_turn()  # Muestra el turno actual.
-            option = self.get_user_option()  # Obtiene la opción del jugador.
+            self.display_turn()
+            option = self.get_user_option()
 
             if option == '1':
-                self.handle_move()  # Maneja el movimiento de una pieza.
+                self.handle_move()
             elif option == '2':
-                if self.handle_draw():  # Maneja la oferta de tablas.
-                    print(Fore.MAGENTA + "El juego ha terminado en tablas. ¡Buen juego!" + Style.RESET_ALL)
+                if self.handle_draw():
                     break
             elif option == '3':
-                self.handle_surrender()  # Maneja la rendición.
+                self.handle_surrender()
                 break
             elif option == '4':
-                self.show_instructions()  # Muestra las instrucciones del juego.
+                self.show_instructions()
+            elif option == '5':
+                game_id = input("Introduce un ID para guardar la partida: ")
+                self.__chess__.save_game(game_id)
+            elif option == '6':
+                game_id = input("Introduce el ID de la partida que deseas cargar: ")
+                try:
+                    self.__chess__.load_game(game_id)
+                    print(Fore.GREEN + "Partida cargada con éxito." + Style.RESET_ALL)
+                    self.display_board()
+                except ChessException as e:
+                    print(Fore.RED + f"Error al cargar la partida: {e}" + Style.RESET_ALL)
+                except Exception as e:
+                    print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)
+            elif option == '7':  # Nueva opción para mostrar puntajes
+                self.show_scores()
             else:
                 print(Fore.RED + "Opción inválida, intenta de nuevo." + Style.RESET_ALL)
+
+    def handle_draw(self):
+        current_turn = self.__chess__.get_turn()  # Obtener el turno actual
+        opponent = "BLACK" if current_turn == "WHITE" else "WHITE"  # Identificar al oponente
+        print(f"{current_turn} ofrece tablas.")
+        response = input(f"{opponent}, ¿aceptas las tablas? (y/n): ").strip().lower()  # Preguntar al oponente
+
+        if response == 'y':
+            print("Juego empatado.")
+            return True  # Las tablas fueron aceptadas, termina el juego
+        elif response == 'n':
+            print("Tablas rechazadas.")
+            return False  # Las tablas fueron rechazadas, el juego continúa
+        else:
+            print("Respuesta inválida. Intenta de nuevo.")
+            return self.handle_draw()  # Volver a solicitar respuesta si es inválida
+
+    # Método para mostrar las puntuaciones actuales
+    def show_scores(self):
+        print(Fore.CYAN + "\nPuntuaciones actuales:" + Style.RESET_ALL)
+        self.__chess__.show_scores()  # Mostrar las puntuaciones usando el método en Chess
 
     def get_user_option(self):
         #Muestra las opciones disponibles y obtiene la opción elegida por el jugador.
         #Returns:
             #str: La opción elegida por el jugador.
-        return input("Opciones: \n1. Mover pieza\n2. Ofrecer tablas\n3. Rendirse\n4. Ver instrucciones\nElige una opción: ").strip()
+        return input("Opciones: \n1. Mover pieza\n2. Ofrecer tablas\n3. Rendirse\n4. Ver instrucciones\n5. Guardar partida\n6. Cargar partida\n7. Mostrar puntajes\nElige una opción: ").strip()
 
     def display_turn(self):
         #Muestra el turno del jugador actual.
@@ -56,38 +90,20 @@ class ChessInterface:
         return from_pos, to_pos
 
     def process_move(self, from_pos, to_pos):
-        #Procesa el movimiento de una pieza y muestra el resultado.
-        #Args:
-            #from_pos (str): Coordenadas de origen.
-            #to_pos (str): Coordenadas de destino.
+        # Procesa el movimiento de una pieza y muestra el resultado.
         try:
             result = self.__chess__.move(from_pos, to_pos)  # Intenta realizar el movimiento.
 
             if isinstance(result, str):
-                print(Fore.CYAN + result + Style.RESET_ALL)  # Si hay un mensaje de éxito, lo muestra.
+                print(Fore.CYAN + result + Style.RESET_ALL)  # Si hay un mensaje de victoria, lo muestra.
             else:
                 print(Fore.BLUE + "Movimiento realizado con éxito." + Style.RESET_ALL)  # Movimiento exitoso.
                 self.display_board()  # Muestra el tablero después del movimiento.
+                self.show_scores()  # Muestra las puntuaciones después del movimiento
         except ChessException as e:
             print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)  # Maneja errores específicos del juego.
         except Exception as e:
             print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)  # Maneja cualquier otro error inesperado.
-
-    def handle_draw(self):
-        current_turn = self.__chess__.get_turn()
-        opponent = "BLACK" if current_turn == "WHITE" else "WHITE"  # Identificar al oponente
-        print(f"{current_turn} ofrece tablas.")
-        response = input(f"{opponent}, ¿aceptas las tablas? (y/n): ").strip().lower()  # Preguntar al oponente
-
-        if response == 'y':
-            print("\nJuego empatado.")
-            return True  # Las tablas fueron aceptadas.
-        elif response == 'n':
-            print("Tablas rechazadas.")
-            return False  # Las tablas fueron rechazadas.
-        else:
-            print("Respuesta inválida. Intenta de nuevo.")
-            return self.handle_draw()  # Si la respuesta es inválida, vuelve a solicitarla.
 
     def handle_surrender(self):
         #Maneja la rendición de un jugador y finaliza el juego.
