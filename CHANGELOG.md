@@ -523,3 +523,48 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - Se ajustaron los métodos de impresión (`__str__` y `mostrar_coords`) para mayor claridad en la presentación del tablero.
 
 
+## [0.3.30] - 2024-09-24
+
+### Cambios principales *Board*
+
+- **Creación de peones únicos**:
+  - Se modificó la inicialización de los peones negros y blancos para que se creen instancias únicas de `Pawn` en lugar de usar una sola instancia replicada.
+    - **Antes**:
+      ```python
+      self.__positions__[1] = [Pawn("Black")] * 8
+      self.__positions__[6] = [Pawn("White")] * 8
+      ```
+    - **Ahora**:
+      ```python
+      self.__positions__[1] = [Pawn("Black") for _ in range(8)]
+      self.__positions__[6] = [Pawn("White") for _ in range(8)]
+      ```
+
+- **Nuevo método `move_piece`**:
+  - Se agregó un nuevo método `move_piece` que permite mover una pieza de una posición a otra, capturando la pieza en la posición de destino si existe.
+    - **Detalles del método**:
+      - Mueve la pieza de la posición de origen a la de destino.
+      - Elimina la pieza de la posición de origen.
+      - Devuelve la pieza capturada (si la hay).
+
+### Agregado *Chess*
+- Implementación de un sistema de puntuación para las piezas capturadas.
+- Métodos `add_score` para añadir puntos a los jugadores según las piezas capturadas.
+- Métodos `save_game` y `load_game` para guardar y cargar el estado del juego en Redis.
+- Método `show_scores` para mostrar las puntuaciones actuales de ambos jugadores.
+- Manejo de serialización y deserialización del estado del juego utilizando `pickle`.
+
+### Cambios
+- El método `execute_move` ahora añade puntos al jugador al capturar piezas.
+- El método `move` imprime el estado del tablero después de cada movimiento.
+- Se agregó el manejo de captura de piezas en el método `move_piece` de la clase `Board`.
+
+### Agregado *Interfaz*
+- Opción para **guardar** la partida mediante `save_game`.
+- Opción para **cargar** una partida existente con `load_game`, incluyendo manejo de excepciones.
+- Nueva opción para **mostrar** las puntuaciones actuales de ambos jugadores mediante `show_scores`.
+
+### Cambios 
+- Se actualizó el mensaje de bienvenida en el método `start` para hacerlo más conciso.
+- El método `handle_move` ahora también muestra las puntuaciones después de cada movimiento.
+- Se mejoró la organización del menú de opciones, aumentando las opciones disponibles para los jugadores.

@@ -1,5 +1,14 @@
-import copy
+import redis 
+import pickle
+from Juego.Piezas.King import King
+from Juego.Piezas.Piece import Piece
 from Juego.board import Board
+from Juego.Piezas.Bishop import Bishop
+from Juego.Piezas.King import King
+from Juego.Piezas.Knight import Knight
+from Juego.Piezas.Pawn import Pawn
+from Juego.Piezas.Queen import Queen
+from Juego.Piezas.Rook import Rook
 from Juego.Exception import (
     InvalidMoveException,
     OutOfBoundsException,
@@ -7,13 +16,67 @@ from Juego.Exception import (
     ColorException,
     TurnException
 )
-from Juego.Piezas.King import King
-from Juego.Piezas.Piece import Piece
 
 class Chess:
     def __init__(self):
         self.__board__ = Board()
         self.__turn__ = "WHITE"
+        self.__scores__ = {"WHITE": 0, "BLACK": 0} # Inicializa el sistema de puntacion 
+        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+    # Método para sumar puntos al jugador
+    def add_score(self, color, points):
+        self.__scores__[color.upper()] += points
+
+    def save_game(self, game_id):
+        # Serializa el estado del tablero y el turno actual
+        board_state = [[f"{piece.__class__.__name__}_{piece.get_color().lower()}" if piece else None for piece in row] for row in self.__board__.__positions__]
+        game_state = {
+            "board": board_state,
+            "turn": self.__turn__
+        }
+        serialized_game = pickle.dumps(game_state)
+        # Guarda el estado en Redis
+        self.redis_client.set(game_id, serialized_game)
+        print(f"Partida guardada con ID: {game_id}")
+
+    def load_game(self, game_id):
+        # Carga el estado del juego desde Redis
+        serialized_game = self.redis_client.get(game_id)
+        if serialized_game:
+            game_state = pickle.loads(serialized_game)
+
+            # Restaura el estado del tablero
+            self.__board__.clear_board()  # Limpiar el tablero actual
+            for i in range(8):
+                for j in range(8):
+                    piece_info = game_state["board"][i][j]
+                    if piece_info:  # Si hay una pieza en la posición
+                        piece_type, color = piece_info.split('_')  # Separar tipo y color
+                        piece = None
+                    
+                        # Crear una nueva instancia de la pieza
+                        if piece_type == "Pawn":
+                            piece = Pawn(color.capitalize())
+                        elif piece_type == "Rook":
+                            piece = Rook(color.capitalize())
+                        elif piece_type == "Knight":
+                            piece = Knight(color.capitalize())
+                        elif piece_type == "Bishop":
+                            piece = Bishop(color.capitalize())
+                        elif piece_type == "Queen":
+                            piece = Queen(color.capitalize())
+                        elif piece_type == "King":
+                            piece = King(color.capitalize())
+                    
+                        # Verifica que la pieza no sea nula antes de colocarla
+                        if piece:
+                            self.__board__.place_piece(piece, (i, j))
+
+            self.__turn__ = game_state["turn"]  # Restaura el turno
+            print(f"Partida {game_id} cargada.")
+        else:
+            print(f"No se encontró ninguna partida con el ID: {game_id}")
 
     def get_board(self):
         return self.__board__
@@ -45,6 +108,9 @@ class Chess:
 
             # Ejecutar el movimiento
             status = self.execute_move(from_pos, to_pos, piece)
+
+            # Imprime el tablero despues del movimiento
+            self.print_board()
 
             # Cambiar el turno si no hay resultado de victoria
             if status is None:
@@ -78,14 +144,17 @@ class Chess:
             raise ColorException("No se puede mover una pieza de un color diferente.")
 
     def execute_move(self, from_pos, to_pos, piece):
-        target_piece = self.__board__.get_piece(to_pos[0], to_pos[1])
+        # Mover la pieza y capturar si es necesario
+        captured_piece = self.__board__.move_piece(from_pos, to_pos)
 
-        # Mover la pieza
-        self.__board__.set_piece(to_pos[0], to_pos[1], piece)
-        self.__board__.remove_piece(from_pos[0], from_pos[1])
+        # Si se captura una pieza
+        if captured_piece:
+            color = piece.get_color().capitalize()
+            points = captured_piece.get_value()  # Obtener el valor de la pieza capturada
+            self.add_score(color, points)  # Añadir puntos al jugador
 
         # Verificar si se captura el rey
-        if target_piece and target_piece.__nombre__.lower() == "king":
+        if captured_piece and isinstance(captured_piece, King):
             return f"{piece.get_color().capitalize()} wins"
 
         # Verificar el estado de victoria
@@ -94,6 +163,10 @@ class Chess:
             return status
 
         return None  # Retornar None si no hay estado de victoria
+
+    # Método para mostrar las puntuaciones actuales
+    def show_scores(self):
+        print(f"Puntuación: Blanco: {self.__scores__['WHITE']}, Negro: {self.__scores__['BLACK']}")
 
     def check_victory(self):
         # Obtener las piezas blancas y negras que están en el tablero
