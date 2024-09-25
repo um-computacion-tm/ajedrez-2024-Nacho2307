@@ -22,7 +22,7 @@ class Chess:
         self.__board__ = Board()
         self.__turn__ = "WHITE"
         self.__scores__ = {"WHITE": 0, "BLACK": 0} # Inicializa el sistema de puntacion 
-        self.redis_client = redis.Redis(host='localhost', port=6379, db=0)
+        self.redis_client = redis.Redis(host='redis', port=6379, db=0)
 
     # Método para sumar puntos al jugador
     def add_score(self, color, points):
