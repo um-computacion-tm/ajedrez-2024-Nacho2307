@@ -17,6 +17,18 @@ jobs:
           name: Install dependencies
           command: pip install -r requirements.txt
       - run:
+          name: Check Redis availability
+          command: |
+            for i in {1..10}; do
+              if redis-cli -h redis ping; then
+                echo "Redis is ready!"
+                break
+              else
+                echo "Waiting for Redis..."
+                sleep 2
+              fi
+            done
+      - run:
           name: Run tests
           command: coverage run -m unittest && coverage xml && coverage report -m
       - run:
