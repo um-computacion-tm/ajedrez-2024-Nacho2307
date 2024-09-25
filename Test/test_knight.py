@@ -1,6 +1,6 @@
 import unittest
 from Juego.Piezas.Knight import Knight
-from Juego.Piezas.Bishop import Bishop  # Para usar como pieza de destino
+from Juego.Piezas.Bishop import Bishop  
 from Juego.board import Board
 
 class TestKnight(unittest.TestCase):
