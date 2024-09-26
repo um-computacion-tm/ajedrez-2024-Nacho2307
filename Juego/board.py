@@ -6,11 +6,13 @@ from Juego.Piezas.Pawn import Pawn
 from Juego.Piezas.Queen import Queen
 
 class Board:
+    #Inicializa el tablero de ajedrez y coloca las piezas en sus posiciones iniciales.
     def __init__(self):
         self.__positions__ = [[None] * 8 for _ in range(8)]
-        self.setup_pieces()
+        self.__setup_pieces__()
 
-    def setup_pieces(self):
+    #Coloca todas las piezas en el tablero en sus posiciones iniciales.
+    def __setup_pieces__(self):
         # Piezas negras
         self.__positions__[0] = [
             Rook("Black"), Knight("Black"), Bishop("Black"), Queen("Black"),
@@ -28,17 +30,21 @@ class Board:
             King("White"), Bishop("White"), Knight("White"), Rook("White")
         ]
 
-    def clear_board(self):
+    # Limpia el tablero, removiendo todas las piezas.
+    def __clear_board__(self):
         self.__positions__ = [[None] * 8 for _ in range(8)]
 
-    def place_piece(self, piece, position):
+    #Coloca una pieza en una posición específica del tablero.
+    def __place_piece__(self, piece, position):
         row, col = position
         self.__positions__[row][col] = piece
 
-    def remove_piece(self, row, col):
-        self._check_bounds(row, col)
+    # Remueve una pieza de una posición específica del tablero.
+    def __remove_piece__(self, row, col):
+        self.__check_bounds__(row, col)
         self.__positions__[row][col] = None
 
+    # Retorna una representación en cadena del tablero.
     def __str__(self):
         resultado = ""
         for row in self.__positions__:
@@ -46,42 +52,47 @@ class Board:
             resultado += " ".join(fila_texto) + "\n"
         return resultado
 
-    def mostrar_coords(self):
+    # Imprime las coordenadas del tablero para referencia visual.
+    def __mostrar_coords__(self):
         mostrar = "  0 1 2 3 4 5 6 7\n"
         for i, row in enumerate(self.__positions__):
             fila = f"{i} " + " ".join([piece.__str__() if piece else '.' for piece in row]) + "\n"
             mostrar += fila
         return mostrar
 
-    def _check_bounds(self, row, col):
+    # Mueve una pieza de una posición inicial a una posición final.
+    def __check_bounds__(self, row, col):
         if 0 <= row < 8 and 0 <= col < 8:
             return True
         else:
             raise IndexError("Posición fuera del tablero.")
 
-    # Metodo para mover una pieza y capturar si es necesario
-    def move_piece(self, from_pos, to_pos):
+    # Método para mover una pieza y capturar si es necesario
+    def __move_piece__(self, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
 
-        piece_to_move = self.get_piece(from_row, from_col)
-        captured_piece = self.get_piece(to_row, to_col)
+        piece_to_move = self.__get_piece__(from_row, from_col)
+        captured_piece = self.__get_piece__(to_row, to_col)
 
         # Mover la pieza a la nueva posición
-        self.set_piece(to_row, to_col, piece_to_move)
-        self.remove_piece(from_row, from_col)
+        self.__set_piece__(to_row, to_col, piece_to_move)
+        self.__remove_piece__(from_row, from_col)
 
         # Devolver la pieza capturada, si es que la hay
         return captured_piece
 
-    def get_piece(self, row, col):
+    # Devuelve la pieza en la posición dada del tablero.
+    def __get_piece__(self, row, col):
         return self.__positions__[row][col]
 
-    def set_piece(self, row, col, piece):
-        self._check_bounds(row, col)
+    # Coloca una pieza en una posición específica del tablero.
+    def __set_piece__(self, row, col, piece):
+        self.__check_bounds__(row, col)
         self.__positions__[row][col] = piece
 
-    def get_pieces(self):
+    #  Devuelve todas las piezas actuales en el tablero.
+    def __get_pieces__(self):
         pieces = []
         for row in self.__positions__:
             for piece in row:
@@ -89,17 +100,19 @@ class Board:
                     pieces.append(piece)
         return pieces
 
-    def pieces_on_board(self):
+    # Devuelve una lista de todas las piezas en el tablero.
+    def __pieces_on_board__(self):
         white_pieces = 0
         black_pieces = 0
         for row in self.__positions__:
             for piece in row:
                 if piece:
-                    if piece.get_color().lower() == 'white':
+                    if piece.__get_color__().lower() == 'white':
                         white_pieces += 1
-                    elif piece.get_color().lower() == 'black':
+                    elif piece.__get_color__().lower() == 'black':
                         black_pieces += 1
         return white_pieces, black_pieces
 
-    def is_valid_move(self, piece, from_pos, to_pos):
-        return piece.movimiento_correcto(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self)
+    # Verifica si un movimiento de una posición inicial a una final es válido.
+    def __is_valid_move__(self, piece, from_pos, to_pos):
+        return piece.__movimiento_correcto__(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self)

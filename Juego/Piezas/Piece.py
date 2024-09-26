@@ -26,47 +26,47 @@ class Piece:
     def __str__(self):
         return self.__simbolo__
     
-    def get_color(self):
+    def __get_color__(self):
         return self.__color__.capitalize()
     
-    def get_x(self):
+    def __get_x__(self):
         return self.__x__
     
-    def get_y(self):
+    def __get_y__(self):
         return self.__y__
 
-    def possible_moves(self, board):
+    def __possible_moves__(self, board):
         raise NotImplementedError("Este método debe ser implementado en las subclases.")
 
-    def movimiento_posible(self, from_row, from_col, board):
+    def __movimiento_posible__(self, from_row, from_col, board):
         raise NotImplementedError("Este método debe ser implementado por subclases.")
 
-    def movimiento_correcto(self, from_row, from_col, to_row, to_col, board):
+    def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board):
         raise NotImplementedError("Este método debe ser implementado por subclases.")
 
-    def get_coordinates(self, new_position):
+    def __get_coordinates__(self, new_position):
         x, y = new_position
         current_x, current_y = self.__x__, self.__y__
         return x, y, current_x, current_y
     
-    def get_position(self):
+    def __get_position__(self):
         return self.__x__, self.__y__
 
     @staticmethod
-    def dentro_de_limites(from_pos, to_pos):
+    def __dentro_de_limites__(from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         return 0 <= from_row <= 7 and 0 <= from_col <= 7 and 0 <= to_row <= 7 and 0 <= to_col <= 7
 
-    def check_move(self, board, from_pos, to_pos):
+    def __check_move__(self, board, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
 
-        if not self.dentro_de_limites(from_pos, to_pos):
+        if not self.__dentro_de_limites__(from_pos, to_pos):
             return False
 
-        return self.movimiento_correcto(from_row, from_col, to_row, to_col, board)
+        return self.__movimiento_correcto__(from_row, from_col, to_row, to_col, board)
 
     # Método para obtener el valor de la pieza
-    def get_value(self):
+    def __get_value__(self):
         return self.VALUES.get(self.__nombre__, 0)  # Devuelve el valor de la pieza

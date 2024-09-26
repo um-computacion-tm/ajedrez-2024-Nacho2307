@@ -8,7 +8,7 @@ class TestPawn(unittest.TestCase):
     def setUp(self):
         self.board = Board()
         self.white_pawn = Pawn("white", 6, 1)  # Peón blanco en su posición inicial
-        self.board.set_piece(6, 1, self.white_pawn)
+        self.board.__set_piece__(6, 1, self.white_pawn)
 
     def _test_moves(self, moves, expected_result):
         """
@@ -21,7 +21,7 @@ class TestPawn(unittest.TestCase):
     def _test_move(self, from_pos, to_pos):
         from_row, from_col = from_pos
         to_row, to_col = to_pos
-        return self.white_pawn.movimiento_correcto(from_row, from_col, to_row, to_col, self.board)
+        return self.white_pawn.__movimiento_correcto__(from_row, from_col, to_row, to_col, self.board)
 
     def test_valid_moves(self):
         valid_moves = [
@@ -29,7 +29,7 @@ class TestPawn(unittest.TestCase):
             ((6, 1), (4, 1)),  # Movimiento doble inicial
         ]
         # Captura diagonal
-        self.board.set_piece(5, 2, Piece("black", "Knight"))
+        self.board.__set_piece__(5, 2, Piece("black", "Knight"))
         valid_moves.append(((6, 1), (5, 2)))
 
         self._test_moves(valid_moves, True)
@@ -45,7 +45,7 @@ class TestPawn(unittest.TestCase):
         # Verificar que el movimiento doble inicial sea válido
         self.assertTrue(self._test_move((6, 1), (4, 1)))
         # Bloquear el camino con otra pieza
-        self.board.set_piece(5, 1, Piece("black", "Rook"))
+        self.board.__set_piece__(5, 1, Piece("black", "Rook"))
         self.assertFalse(self._test_move((6, 1), (4, 1)))
 
     def test_diagonal_capture(self):
@@ -54,7 +54,7 @@ class TestPawn(unittest.TestCase):
             ((5, 2), "white", False),  # Captura inválida, mismo color
         ]
         for pos, color, expected in capture_cases:
-            self.board.set_piece(pos[0], pos[1], Piece(color, "Knight"))
+            self.board.__set_piece__(pos[0], pos[1], Piece(color, "Knight"))
             with self.subTest(pos=pos, color=color):
                 self.assertEqual(self._test_move((6, 1), pos), expected)
 
