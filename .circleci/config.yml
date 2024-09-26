@@ -4,7 +4,9 @@ jobs:
     docker:
       - image: cimg/python:3.10.1
       - image: redis:alpine
-        name: redis 
+        name: redis
+    environment:
+      REDIS_HOST: redis  # Define el host de Redis para CircleCI
     steps:
       - checkout
       - run:

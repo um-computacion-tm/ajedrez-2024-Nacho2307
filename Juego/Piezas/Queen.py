@@ -8,9 +8,9 @@ class Queen(Piece):
         self.__bishop_moves__ = Bishop(color)
         self.__rook_moves__ = Rook(color)
 
-    def movimiento_correcto(self, from_row, from_col, to_row, to_col, board=None):
+    def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board=None):
         destino = board.__positions__[to_row][to_col]
-        if destino is not None and destino.get_color() == self.get_color():
+        if destino is not None and destino.__get_color__() == self.__get_color__():  
             return False
-        return (self.__bishop_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board) or
-                self.__rook_moves__.movimiento_correcto(from_row, from_col, to_row, to_col, board))
+        return (self.__bishop_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board) or
+                self.__rook_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board))
