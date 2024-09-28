@@ -1,7 +1,7 @@
 from colorama import Fore, Style
 from Juego.Chess import Chess
 from Juego.Exception import ChessException
-
+import time
 
 class ChessInterface:
     def __init__(self):
@@ -9,41 +9,40 @@ class ChessInterface:
         self.__chess__ = Chess()  # Atributo que guarda la instancia del juego de ajedrez.
 
     def __start__(self):
-        self.__start_game__()
-        self.__game_loop__()
-
-    def __start_game__(self):
         print(Fore.YELLOW + "✨ ¡Bienvenido al juego de Ajedrez! ✨" + Style.RESET_ALL)
         self.__display_board__()
 
-    def __game_loop__(self):
         while True:
-            try:
-                action = input("Elija una opción:\n1. Mover pieza\n2. Ofrecer tablas\n3. Rendirse\n4. Instrucciones\n")
-                if action == '3':
-                    self.__handle_surrender__()
-                    break
-                elif action == '4':
-                    self.__show_instructions__()
-                elif action == '2':
-                    self.__offer_draw__()
-                elif action == '1':
-                    self.__handle_player_action__()
-                else:
-                    print("Opción no válida. Por favor, intente de nuevo.")
-            except Exception as e:
-                print(Fore.RED + "Error inesperado: " + str(e) + Style.RESET_ALL)
+            self.__display_turn__()
+            option = self.__get_user_option__()
 
-    def __handle_player_action__(self):
-    # Aquí manejas el proceso de mover piezas
-        move = input("Introduce el movimiento (formato: fila_inicial columna_inicial fila_final columna_final): ")
-        try:
-            self.__process_move__(move)
-            self.__display_board__()
-        except ChessException as e:
-            print(Fore.RED + "Error: " + str(e) + Style.RESET_ALL)
-        except Exception as e:
-            print(Fore.RED + "Error inesperado: " + str(e) + Style.RESET_ALL)
+            if option == '1':
+                self.__handle_move__()
+            elif option == '2':
+                if self.__handle_draw__():
+                    break
+            elif option == '3':
+                self.__handle_surrender__()
+                break
+            elif option == '4':
+                self.__show_instructions__()
+            elif option == '5':
+                game_id = input("Introduce un ID para guardar la partida: ")
+                self.__chess__.__save_game__(game_id)
+            elif option == '6':
+                game_id = input("Introduce el ID de la partida que deseas cargar: ")
+                try:
+                    self.__chess__.__load_game__(game_id)
+                    print(Fore.GREEN + "Partida cargada con éxito." + Style.RESET_ALL)
+                    self.display_board()
+                except ChessException as e:
+                    print(Fore.RED + f"Error al cargar la partida: {e}" + Style.RESET_ALL)
+                except Exception as e:
+                    print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)
+            elif option == '7':  # Nueva opción para mostrar puntajes
+                self.__show_scores__()
+            else:
+                print(Fore.RED + "Opción inválida, intenta de nuevo." + Style.RESET_ALL)
 
     def __handle_draw__(self):
         current_turn = self.__chess__.__get_turn__()  # Obtener el turno actual
@@ -100,7 +99,7 @@ class ChessInterface:
             else:
                 print(Fore.BLUE + "Movimiento realizado con éxito." + Style.RESET_ALL)  # Movimiento exitoso.
                 self.__display_board__()  # Muestra el tablero después del movimiento.
-                self.__show_scores__()  # Muestra las puntuaciones después del movimiento
+                self.s__how_scores__()  # Muestra las puntuaciones después del movimiento
         except ChessException as e:
             print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)  # Maneja errores específicos del juego.
         except Exception as e:
@@ -109,7 +108,15 @@ class ChessInterface:
     def __handle_surrender__(self):
         #Maneja la rendición de un jugador y finaliza el juego.
         message = f"{self.__chess__.__get_turn__()} ha decidido rendirse..."
+        self.__dramatic_message__(message)  # Muestra un mensaje dramático de rendición.
         print(Fore.RED + "¡El otro jugador es el campeón!" + Style.RESET_ALL)
+
+    def __dramatic_message__(self, message):
+        #Muestra un mensaje caracter por caracter de manera dramática.
+        for char in message:
+            print(char, end='', flush=True)  # Muestra el mensaje carácter a carácter.
+            time.sleep(0.05)  # Añade un pequeño retraso entre cada carácter.
+        print()
 
     def __display_board__(self):
         #Muestra el estado actual del tablero de ajedrez.
@@ -149,4 +156,4 @@ class ChessInterface:
 
 if __name__ == "__main__":
     interface = ChessInterface()
-    interface.start()
+    interface.__start__()

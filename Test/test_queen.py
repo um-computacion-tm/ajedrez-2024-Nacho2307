@@ -1,17 +1,16 @@
+
+        
 import unittest
 from Juego.Piezas.Queen import Queen
 from Juego.board import Board
 
 class TestQueen(unittest.TestCase):
-
     def setUp(self):
         self.__board__ = Board()
         self.__white_queen__ = Queen('white')
         self.__black_queen__ = Queen('black')
-
-        # Coloca las reinas en posiciones iniciales diferentes para las pruebas
-        self.__board__.__place_piece__(self.__white_queen__, (4, 4))  # Reina blanca en (4, 4)
-        self.__board__.__place_piece__(self.__black_queen__, (7, 4))  # Reina negra en (7, 4)
+        self.__board__.__place_piece__(self.__white_queen__, (4, 4))
+        self.__board__.__place_piece__(self.__black_queen__, (7, 4))
 
     def test_movimiento_correcto(self):
         # Remueve cualquier pieza que pueda bloquear el movimiento de la reina
@@ -28,10 +27,11 @@ class TestQueen(unittest.TestCase):
         self.assertFalse(self.__black_queen__.__movimiento_correcto__(7, 4, 4, 7, self.__board__))
 
     def test_movimiento_incorrecto(self):
-        # Movimientos inválidos para la reina.
-        # Movimientos ilegales
-        self.assertFalse(self.__white_queen__.__movimiento_correcto__(4, 4, 5, 6, self.__board__))
-        self.assertFalse(self.__black_queen__.__movimiento_correcto__(7, 4, 2, 5, self.__board__))
+        self.validar_movimiento_correcto(self.__white_queen__, (4, 4), (5, 6), False)
+        self.validar_movimiento_correcto(self.__black_queen__, (7, 4), (2, 5), False)
+
+    def validar_movimiento_correcto(self, pieza, inicio, destino, esperado):
+        self.assertEqual(pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], self.__board__), esperado)
 
 if __name__ == '__main__':
     unittest.main()
