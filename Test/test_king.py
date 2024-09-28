@@ -5,16 +5,15 @@ from Juego.Exception import InvalidMoveException
 
 class TestRey(unittest.TestCase):
     def setUp(self):
-        self.board = Board()  # Utiliza el tablero real
+        self.board = Board()
         self.__rey__ = King("white", 0, 0)
-        self.board.__clear_board__()  # Limpia el tablero antes de cada prueba
-        self.board.__set_piece__(0, 0, self.__rey__)  # Coloca al rey en la posición (0, 0)
+        self.board.__clear_board__()
+        self.board.__set_piece__(0, 0, self.__rey__)
 
     def verificar_posicion(self, x, y):
         self.assertEqual(self.__rey__.__get_position__(), (x, y))
 
     def test_incio(self):
-        # Verifica el color y símbolo
         self.assertEqual(self.__rey__.__get_color__(), "White")
         self.assertEqual(str(self.__rey__), '♔')
 
@@ -32,15 +31,16 @@ class TestRey(unittest.TestCase):
         self.verificar_posicion(0, 0)
 
     def test_movimiento_correcto(self):
-        # Verifica un movimiento correcto
-        self.assertTrue(self.__rey__.__movimiento_correcto__(0, 0, 1, 1, self.board))
-        self.assertFalse(self.__rey__.__movimiento_correcto__(0, 0, 2, 2, self.board))
+        self.validar_movimiento_correcto(self.__rey__, (0, 0), (1, 1), True)
+        self.validar_movimiento_correcto(self.__rey__, (0, 0), (2, 2), False)
+
+    def validar_movimiento_correcto(self, pieza, inicio, destino, esperado):
+        self.assertEqual(pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], self.board), esperado)
 
     def test_movimiento_casilla_ocupada(self):
-        # Coloca una pieza del mismo color en la posición (1, 1) para verificar que el rey no puede moverse allí
         otra_pieza = King("white", 1, 1)
         self.board.__set_piece__(1, 1, otra_pieza)
-        self.assertFalse(self.__rey__.__movimiento_correcto__(0, 0, 1, 1, self.board))  # No debe moverse a (1, 1)
+        self.assertFalse(self.__rey__.__movimiento_correcto__(0, 0, 1, 1, self.board))
 
 if __name__ == "__main__":
     unittest.main()

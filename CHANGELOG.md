@@ -570,3 +570,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - Se mejoró la organización del menú de opciones, aumentando las opciones disponibles para los jugadores.
 
 (Es para enviar el redis)
+
+## [0.3.31] - 2024-09-28
+
+(interfaz y test)
