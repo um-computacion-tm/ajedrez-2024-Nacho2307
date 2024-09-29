@@ -36,7 +36,6 @@ class TestRey(unittest.TestCase):
         self.assertEqual(self.__rey__.__get_position__(), (0, 0))
 
     def test_movimiento_correcto(self):
-        # Cambiar la estructura del diccionario para asegurar que se desempaquete correctamente
         movimientos = {
             (0, 0): [((1, 1), True), ((2, 2), False)]  # Lista de tuplas (destino, esperado)
         }
