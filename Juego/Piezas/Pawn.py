@@ -12,7 +12,7 @@ class Pawn(Piece):
         # Verificar si la casilla de destino tiene una pieza del mismo color
         destino = board.__get_piece__(to_row, to_col)
         if destino is not None and destino.__get_color__() == self.__get_color__():
-            return False  # Puedes dejar este return ya que es importante
+            return False  
 
         # Inicializa la variable de resultado
         movimiento_valido = False
