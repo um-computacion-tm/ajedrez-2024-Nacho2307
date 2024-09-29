@@ -11,9 +11,6 @@ class TestPawn(unittest.TestCase):
         self.board.__set_piece__(6, 1, self.white_pawn)
 
     def _test_moves(self, moves, expected_result):
-        """
-        Testea una lista de movimientos y verifica si cada uno cumple con el resultado esperado.
-        """
         for from_pos, to_pos in moves:
             with self.subTest(from_pos=from_pos, to_pos=to_pos):
                 self.assertEqual(self._test_move(from_pos, to_pos), expected_result)
@@ -28,10 +25,8 @@ class TestPawn(unittest.TestCase):
             ((6, 1), (5, 1)),  # Movimiento simple hacia adelante
             ((6, 1), (4, 1)),  # Movimiento doble inicial
         ]
-        # Captura diagonal
-        self.board.__set_piece__(5, 2, Piece("black", "Knight"))
+        self.board.__set_piece__(5, 2, Piece("black", "Knight"))  # Captura diagonal
         valid_moves.append(((6, 1), (5, 2)))
-
         self._test_moves(valid_moves, True)
 
     def test_invalid_moves(self):
@@ -44,8 +39,7 @@ class TestPawn(unittest.TestCase):
     def test_double_initial_move_with_obstruction(self):
         # Verificar que el movimiento doble inicial sea válido
         self.assertTrue(self._test_move((6, 1), (4, 1)))
-        # Bloquear el camino con otra pieza
-        self.board.__set_piece__(5, 1, Piece("black", "Rook"))
+        self.board.__set_piece__(5, 1, Piece("black", "Rook"))  # Bloquear el camino
         self.assertFalse(self._test_move((6, 1), (4, 1)))
 
     def test_diagonal_capture(self):
