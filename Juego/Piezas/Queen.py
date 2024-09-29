@@ -12,5 +12,10 @@ class Queen(Piece):
         destino = board.__positions__[to_row][to_col]
         if destino is not None and destino.__get_color__() == self.__get_color__():  
             return False
-        return (self.__bishop_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board) or
-                self.__rook_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board))
+        
+        # Validar movimientos de torre y alfil
+        movimiento_rook = self.__rook_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board)
+        movimiento_bishop = self.__bishop_moves__.__movimiento_correcto__(from_row, from_col, to_row, to_col, board)
+        
+        # La reina puede moverse como torre o alfil
+        return movimiento_rook or movimiento_bishop

@@ -573,4 +573,18 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 
 ## [0.3.31] - 2024-09-28
 
-(interfaz y test)
+### Cambios
+
+- Refactorizacion en los test: `King`, `Bishop` y `Queen`. Para evitar la duplicacion de codigo.
+
+## [0.3.32] - 2024-09-29
+
+### Refactorización de pruebas en `TestChessInterface`
+
+- **Refactorización de código duplicado**:
+  - Se identificaron varios bloques de código duplicado en los tests de la interfaz, específicamente en la verificación de la salida de la interfaz al simular entradas de usuario.
+  - Se creó un método auxiliar `check_output` para centralizar la verificación de la salida, reduciendo la duplicación de código en los tests.
+  
+- **Refactorización del método `get_output_from_interface`**:
+  - Se mantuvo este método para obtener la salida simulada de la interfaz, pero ahora se utiliza junto con el nuevo método `check_output` para hacer las pruebas más limpias.
+
