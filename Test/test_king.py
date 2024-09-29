@@ -12,7 +12,11 @@ class TestRey(unittest.TestCase):
 
     @staticmethod
     def validar_movimiento_correcto(pieza, inicio, destino, board, esperado):
-        assert pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], board) == esperado
+        resultado = pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], board)
+        assert resultado == esperado, (
+            f"Error: {pieza.__class__.__name__} debería retornar {esperado} "
+            f"para movimiento de {inicio} a {destino}, pero retornó {resultado}."
+        )
 
     def test_incio(self):
         self.assertEqual(self.__rey__.__get_color__(), "White")
@@ -32,8 +36,13 @@ class TestRey(unittest.TestCase):
         self.assertEqual(self.__rey__.__get_position__(), (0, 0))
 
     def test_movimiento_correcto(self):
-        self.validar_movimiento_correcto(self.__rey__, (0, 0), (1, 1), self.board, True)
-        self.validar_movimiento_correcto(self.__rey__, (0, 0), (2, 2), self.board, False)
+        # Cambiar la estructura del diccionario para asegurar que se desempaquete correctamente
+        movimientos = {
+            (0, 0): [((1, 1), True), ((2, 2), False)]  # Lista de tuplas (destino, esperado)
+        }
+        for inicio, destinos in movimientos.items():
+            for destino, esperado in destinos:
+                self.validar_movimiento_correcto(self.__rey__, inicio, destino, self.board, esperado)
 
     def test_movimiento_casilla_ocupada(self):
         otra_pieza = King("white", 1, 1)
