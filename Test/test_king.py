@@ -10,8 +10,9 @@ class TestRey(unittest.TestCase):
         self.board.__clear_board__()
         self.board.__set_piece__(0, 0, self.__rey__)
 
-    def verificar_posicion(self, x, y):
-        self.assertEqual(self.__rey__.__get_position__(), (x, y))
+    @staticmethod
+    def validar_movimiento_correcto(pieza, inicio, destino, board, esperado):
+        assert pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], board) == esperado
 
     def test_incio(self):
         self.assertEqual(self.__rey__.__get_color__(), "White")
@@ -19,23 +20,20 @@ class TestRey(unittest.TestCase):
 
     def test_mover_valido(self):
         self.__rey__.__mover__(1, 1)
-        self.verificar_posicion(1, 1)
+        self.assertEqual(self.__rey__.__get_position__(), (1, 1))
 
     def test_mover_invalido(self):
         with self.assertRaises(InvalidMoveException):
             self.__rey__.__mover__(3, 3)
-        self.verificar_posicion(0, 0)
+        self.assertEqual(self.__rey__.__get_position__(), (0, 0))
 
     def test_mismo_lugar(self):
         self.__rey__.__mover__(0, 0)
-        self.verificar_posicion(0, 0)
+        self.assertEqual(self.__rey__.__get_position__(), (0, 0))
 
     def test_movimiento_correcto(self):
-        self.validar_movimiento_correcto(self.__rey__, (0, 0), (1, 1), True)
-        self.validar_movimiento_correcto(self.__rey__, (0, 0), (2, 2), False)
-
-    def validar_movimiento_correcto(self, pieza, inicio, destino, esperado):
-        self.assertEqual(pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], self.board), esperado)
+        self.validar_movimiento_correcto(self.__rey__, (0, 0), (1, 1), self.board, True)
+        self.validar_movimiento_correcto(self.__rey__, (0, 0), (2, 2), self.board, False)
 
     def test_movimiento_casilla_ocupada(self):
         otra_pieza = King("white", 1, 1)

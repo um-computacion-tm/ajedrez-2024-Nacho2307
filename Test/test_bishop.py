@@ -9,12 +9,13 @@ class TestBishop(unittest.TestCase):
         self.bishop = Bishop("white")
         self.board.__place_piece__(self.bishop, (4, 4))
 
-    def test_movimiento_correcto_diagonal(self):
-        self.validar_movimiento_correcto(self.bishop, (4, 4), (6, 6), True)
-        self.validar_movimiento_correcto(self.bishop, (4, 4), (6, 5), False)
+    @staticmethod
+    def validar_movimiento_correcto(pieza, inicio, destino, board, esperado):
+        assert pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], board) == esperado
 
-    def validar_movimiento_correcto(self, pieza, inicio, destino, esperado):
-        self.assertEqual(pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], self.board), esperado)
+    def test_movimiento_correcto_diagonal(self):
+        self.validar_movimiento_correcto(self.bishop, (4, 4), (6, 6), self.board, True)
+        self.validar_movimiento_correcto(self.bishop, (4, 4), (6, 5), self.board, False)
 
     def test_camino_despejado(self):
         self.assertTrue(self.bishop.__movimiento_correcto__(4, 4, 6, 6, self.board))
@@ -24,8 +25,7 @@ class TestBishop(unittest.TestCase):
         self.assertFalse(self.bishop.__movimiento_correcto__(4, 4, 6, 6, self.board))
 
     def test_movimiento_a_casilla_ocupada_por_misma_pieza(self):
-        misma_pieza = Bishop("white")
-        self.board.__place_piece__(misma_pieza, (6, 6))
+        self.board.__place_piece__(self.bishop, (6, 6))  # Colocando la misma pieza
         self.assertFalse(self.bishop.__movimiento_correcto__(4, 4, 6, 6, self.board))
 
 if __name__ == '__main__':

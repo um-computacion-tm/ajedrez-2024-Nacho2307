@@ -1,5 +1,3 @@
-
-        
 import unittest
 from Juego.Piezas.Queen import Queen
 from Juego.board import Board
@@ -11,6 +9,11 @@ class TestQueen(unittest.TestCase):
         self.__black_queen__ = Queen('black')
         self.__board__.__place_piece__(self.__white_queen__, (4, 4))
         self.__board__.__place_piece__(self.__black_queen__, (7, 4))
+
+    @staticmethod
+    def validar_movimiento_correcto(pieza, inicio, destino, board, esperado):
+        resultado = pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], board)
+        assert resultado == esperado, f"Se esperaba {esperado} pero se obtuvo {resultado}."
 
     def test_movimiento_correcto(self):
         # Remueve cualquier pieza que pueda bloquear el movimiento de la reina
@@ -27,11 +30,8 @@ class TestQueen(unittest.TestCase):
         self.assertFalse(self.__black_queen__.__movimiento_correcto__(7, 4, 4, 7, self.__board__))
 
     def test_movimiento_incorrecto(self):
-        self.validar_movimiento_correcto(self.__white_queen__, (4, 4), (5, 6), False)
-        self.validar_movimiento_correcto(self.__black_queen__, (7, 4), (2, 5), False)
-
-    def validar_movimiento_correcto(self, pieza, inicio, destino, esperado):
-        self.assertEqual(pieza.__movimiento_correcto__(inicio[0], inicio[1], destino[0], destino[1], self.__board__), esperado)
+        self.validar_movimiento_correcto(self.__white_queen__, (4, 4), (5, 6), self.__board__, False)  # Movimiento diagonal inválido
+        self.validar_movimiento_correcto(self.__black_queen__, (7, 4), (2, 5), self.__board__, False)  # Movimiento diagonal inválido
 
 if __name__ == '__main__':
     unittest.main()
