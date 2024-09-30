@@ -28,3 +28,6 @@ class TestBishop(unittest.TestCase):
     def test_movimiento_a_casilla_ocupada_por_misma_pieza(self):
         self.board.__place_piece__(self.bishop, (6, 6))
         self.assertFalse(self.bishop.__movimiento_correcto__(4, 4, 6, 6, self.board))
+
+if __name__ == '__main__':
+    unittest.main()
