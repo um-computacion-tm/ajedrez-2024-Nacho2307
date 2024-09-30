@@ -9,7 +9,7 @@ class TestKnight(unittest.TestCase):
         self.board = Board()
         self.board.__clear_board__()
         self.caballo_blanco = Knight("white")
-    
+
     def configurar_pieza_y_verificar_movimiento(self, pieza, posicion_inicial, posicion_destino, esperado, es_captura=False):
         # Coloca la pieza en la posición inicial
         self.board.__place_piece__(pieza, posicion_inicial)

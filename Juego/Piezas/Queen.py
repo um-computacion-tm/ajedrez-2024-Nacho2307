@@ -10,7 +10,8 @@ class Queen(Piece):
 
     def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board=None):
         destino = board.__positions__[to_row][to_col]
-        if destino is not None and destino.__get_color__() == self.__get_color__():  
+        
+        if self.__misma_pieza_en_destino__(destino):
             return False
         
         # Validar movimientos de torre y alfil
