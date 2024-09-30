@@ -13,13 +13,13 @@ class King(Piece):
         # El rey se mueve solo una casilla en cualquier dirección
         if fila_diff <= 1 and columna_diff <= 1:
             destino = board.__get_piece__(hasta_fila, hasta_columna)
-            if destino is not None and destino.__get_color__() == self.__get_color__():
+            if self.__misma_pieza_en_destino__(destino):
                 return False  # No puede moverse a una casilla ocupada por una pieza del mismo color
             return True
         return False
 
     def __mover__(self, x, y):
-    # Verifica que el movimiento esté dentro del rango permitido para el rey
+        # Verifica que el movimiento esté dentro del rango permitido para el rey
         if abs(x - self.__x__) <= 1 and abs(y - self.__y__) <= 1:
             self.__x__ = x
             self.__y__ = y

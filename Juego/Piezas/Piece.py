@@ -70,3 +70,7 @@ class Piece:
     # Método para obtener el valor de la pieza
     def __get_value__(self):
         return self.VALUES.get(self.__nombre__, 0)  # Devuelve el valor de la pieza
+
+    def __misma_pieza_en_destino__(self, destino):
+        #Verifica si la casilla de destino tiene una pieza del mismo color.
+        return destino is not None and destino.__get_color__() == self.__get_color__()
