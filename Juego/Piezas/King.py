@@ -13,6 +13,7 @@ class King(Piece):
         # El rey se mueve solo una casilla en cualquier dirección
         if fila_diff <= 1 and columna_diff <= 1:
             destino = board.__get_piece__(hasta_fila, hasta_columna)
+            # Usamos la nueva función en Piece para verificar el color en destino
             if self.__misma_pieza_en_destino__(destino):
                 return False  # No puede moverse a una casilla ocupada por una pieza del mismo color
             return True
