@@ -15,6 +15,10 @@ class TestRook(unittest.TestCase):
         result = self.rook.__movimiento_correcto__(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self.board)
         self.assertEqual(result, expected_result)
 
+    def _setup_blocking_piece(self, pos, color):
+        #Coloca una pieza en la posición especificada para bloquear el movimiento.
+        self.board.__set_piece__(pos[0], pos[1], Rook(color))
+
     def test_valid_moves(self):
         valid_moves = [
             ((7, 0), (5, 0)),  # Movimiento hacia adelante
@@ -47,16 +51,15 @@ class TestRook(unittest.TestCase):
                 self._validate_move(from_pos, to_pos, False)
 
     def test_path_is_blocked(self):
-        self.board.__set_piece__(6, 0, Rook("black"))  # Colocamos una pieza negra en el camino
+        self._setup_blocking_piece((6, 0), "black")  # Colocamos una pieza negra en el camino
         self._validate_move((7, 0), (5, 0), False)  # Movimiento bloqueado hacia adelante
 
     def test_capture_same_color(self):
-        self.board.__set_piece__(5, 0, Rook("white"))  # Colocamos una pieza blanca en el camino
+        self._setup_blocking_piece((5, 0), "white")  # Colocamos una pieza blanca en el camino
         self._validate_move((7, 0), (5, 0), False)  # No debería permitir capturar la misma color
 
     def test_path_is_blocked_horizontal(self):
-        # Colocamos una pieza negra en el camino horizontal
-        self.board.__set_piece__(7, 4, Rook("black"))  # Colocamos una pieza negra en la fila 7, columna 4
+        self._setup_blocking_piece((7, 4), "black")  # Colocamos una pieza negra en el camino horizontal
         self._validate_move((7, 0), (7, 5), False)  # Movimiento bloqueado hacia la derecha
 
 if __name__ == '__main__':

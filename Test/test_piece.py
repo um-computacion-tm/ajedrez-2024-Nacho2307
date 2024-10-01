@@ -14,7 +14,8 @@ def test_dentro_de_limites(self, piece_class):
     
     for from_pos, to_pos, expected in casos:
         with self.subTest(from_pos=from_pos, to_pos=to_pos):
-            self.assertEqual(piece_class.__dentro_de_limites__(from_pos, to_pos), expected)
+            resultado = piece_class.__dentro_de_limites__(from_pos, to_pos)
+            self.assertEqual(resultado, expected)
 
 # Función auxiliar para probar el movimiento correcto
 def test_movimiento_correcto(self, piece, movimientos):
