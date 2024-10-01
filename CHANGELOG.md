@@ -588,3 +588,4 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - **Refactorización del método `get_output_from_interface`**:
   - Se mantuvo este método para obtener la salida simulada de la interfaz, pero ahora se utiliza junto con el nuevo método `check_output` para hacer las pruebas más limpias.
 
+Changelog.md (Cambios Piece)

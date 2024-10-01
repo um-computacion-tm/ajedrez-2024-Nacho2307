@@ -3,37 +3,61 @@ from Juego.Piezas.Rook import Rook
 from Juego.board import Board
 
 class TestRook(unittest.TestCase):
+
     def setUp(self):
         self.board = Board()
-        self.board.__clear_board__()
-        self.rook = Rook('white', 0, 0)
-        self.board.__place_piece__(self.rook, (0, 0))
+        self.board.__clear_board__()  # Limpiar el tablero antes de cada prueba
+        self.rook = Rook("white", 7, 0)  # Torre blanca en su posición inicial
+        self.board.__set_piece__(7, 0, self.rook)
 
-    def assert_move(self, from_pos, to_pos, should_move):
+    # Método que realiza la validación del movimiento correcto o incorrecto
+    def _validate_move(self, from_pos, to_pos, expected_result):
         result = self.rook.__movimiento_correcto__(from_pos[0], from_pos[1], to_pos[0], to_pos[1], self.board)
-        self.assertEqual(result, should_move)
+        self.assertEqual(result, expected_result)
 
-    def test_movimiento_correcto_horizontal(self):
-        self.assert_move((0, 0), (0, 5), True)
+    def test_valid_moves(self):
+        valid_moves = [
+            ((7, 0), (5, 0)),  # Movimiento hacia adelante
+            ((7, 0), (7, 7)),  # Movimiento lateral
+        ]
+        # Validamos todos los movimientos correctos
+        for from_pos, to_pos in valid_moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self._validate_move(from_pos, to_pos, True)
 
-    def test_movimiento_correcto_vertical(self):
-        self.assert_move((0, 0), (5, 0), True)
+    def test_invalid_moves(self):
+        invalid_moves = [
+            ((7, 0), (6, 1)),  # Movimiento diagonal inválido
+            ((7, 0), (5, 1)),  # Movimiento en L inválido
+        ]
+        # Validamos todos los movimientos incorrectos
+        for from_pos, to_pos in invalid_moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self._validate_move(from_pos, to_pos, False)
 
-    def test_movimiento_invalido_fuera_de_limites(self):
-        self.assert_move((0, 0), (0, 8), False)
+    def test_move_out_of_bounds(self):
+        out_of_bounds_moves = [
+            ((7, 0), (8, 0)),  # Movimiento fuera del límite inferior
+            ((7, 0), (7, 8)),  # Movimiento fuera del límite derecho
+            ((0, 0), (-1, 0)),  # Movimiento fuera del límite superior
+            ((0, 0), (0, -1)),  # Movimiento fuera del límite izquierdo
+        ]
+        for from_pos, to_pos in out_of_bounds_moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self._validate_move(from_pos, to_pos, False)
 
-    def test_movimiento_invalido_diagonal(self):
-        self.assert_move((0, 0), (3, 3), False)
+    def test_path_is_blocked(self):
+        self.board.__set_piece__(6, 0, Rook("black"))  # Colocamos una pieza negra en el camino
+        self._validate_move((7, 0), (5, 0), False)  # Movimiento bloqueado hacia adelante
 
-    def test_movimiento_obstruido_horizontal(self):
-        self._test_movimiento_obstruido((0, 3), (0, 0), (0, 5), False)
+    def test_capture_same_color(self):
+        self.board.__set_piece__(5, 0, Rook("white"))  # Colocamos una pieza blanca en el camino
+        self._validate_move((7, 0), (5, 0), False)  # No debería permitir capturar la misma color
 
-    def test_movimiento_obstruido_vertical(self):
-        self._test_movimiento_obstruido((3, 0), (0, 0), (5, 0), False)
+    def test_path_is_blocked_horizontal(self):
+        # Colocamos una pieza negra en el camino horizontal
+        self.board.__set_piece__(7, 4, Rook("black"))  # Colocamos una pieza negra en la fila 7, columna 4
+        self._validate_move((7, 0), (7, 5), False)  # Movimiento bloqueado hacia la derecha
 
-    def _test_movimiento_obstruido(self, obstruccion_pos, from_pos, to_pos, should_move):
-        self.board.__place_piece__(Rook('black', obstruccion_pos[0], obstruccion_pos[1]), obstruccion_pos)
-        self.assert_move(from_pos, to_pos, should_move)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
