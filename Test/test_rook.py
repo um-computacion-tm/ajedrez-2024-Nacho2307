@@ -16,8 +16,13 @@ class TestRook(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def _setup_blocking_piece(self, pos, color):
-        #Coloca una pieza en la posición especificada para bloquear el movimiento.
+        # Coloca una pieza en la posición especificada para bloquear el movimiento.
         self.board.__set_piece__(pos[0], pos[1], Rook(color))
+
+    def _test_moves(self, moves, expected_result):
+        for from_pos, to_pos in moves:
+            with self.subTest(from_pos=from_pos, to_pos=to_pos):
+                self._validate_move(from_pos, to_pos, expected_result)
 
     def test_valid_moves(self):
         valid_moves = [
@@ -25,9 +30,7 @@ class TestRook(unittest.TestCase):
             ((7, 0), (7, 7)),  # Movimiento lateral
         ]
         # Validamos todos los movimientos correctos
-        for from_pos, to_pos in valid_moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self._validate_move(from_pos, to_pos, True)
+        self._test_moves(valid_moves, True)
 
     def test_invalid_moves(self):
         invalid_moves = [
@@ -35,9 +38,7 @@ class TestRook(unittest.TestCase):
             ((7, 0), (5, 1)),  # Movimiento en L inválido
         ]
         # Validamos todos los movimientos incorrectos
-        for from_pos, to_pos in invalid_moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self._validate_move(from_pos, to_pos, False)
+        self._test_moves(invalid_moves, False)
 
     def test_move_out_of_bounds(self):
         out_of_bounds_moves = [
@@ -46,9 +47,7 @@ class TestRook(unittest.TestCase):
             ((0, 0), (-1, 0)),  # Movimiento fuera del límite superior
             ((0, 0), (0, -1)),  # Movimiento fuera del límite izquierdo
         ]
-        for from_pos, to_pos in out_of_bounds_moves:
-            with self.subTest(from_pos=from_pos, to_pos=to_pos):
-                self._validate_move(from_pos, to_pos, False)
+        self._test_moves(out_of_bounds_moves, False)
 
     def test_path_is_blocked(self):
         self._setup_blocking_piece((6, 0), "black")  # Colocamos una pieza negra en el camino
