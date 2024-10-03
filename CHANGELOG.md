@@ -590,4 +590,4 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 
 Changelog.md (Cambios Piece) 30
 
-(rook duplicaicon)31
+(rook duplicaicon)31 y 3 de octubre
