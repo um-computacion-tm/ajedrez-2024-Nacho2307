@@ -19,8 +19,10 @@ class TestRook(unittest.TestCase):
         # Coloca una pieza en la posición especificada para bloquear el movimiento.
         self.board.__set_piece__(pos[0], pos[1], Rook(color))
 
-    def _test_moves(self, moves, expected_result):
+    def _test_moves(self, moves, expected_result, setup_func=None):
         for from_pos, to_pos in moves:
+            if setup_func:
+                setup_func(from_pos)
             with self.subTest(from_pos=from_pos, to_pos=to_pos):
                 self._validate_move(from_pos, to_pos, expected_result)
 
@@ -50,16 +52,25 @@ class TestRook(unittest.TestCase):
         self._test_moves(out_of_bounds_moves, False)
 
     def test_path_is_blocked(self):
-        self._setup_blocking_piece((6, 0), "black")  # Colocamos una pieza negra en el camino
-        self._validate_move((7, 0), (5, 0), False)  # Movimiento bloqueado hacia adelante
+        def setup_blocking_piece(pos):
+            self._setup_blocking_piece((6, 0), "black")
+
+        movimientos = [((7, 0), (5, 0))]  # Movimiento bloqueado hacia adelante
+        self._test_moves(movimientos, False, setup_blocking_piece)
 
     def test_capture_same_color(self):
-        self._setup_blocking_piece((5, 0), "white")  # Colocamos una pieza blanca en el camino
-        self._validate_move((7, 0), (5, 0), False)  # No debería permitir capturar la misma color
+        def setup_same_color_piece(pos):
+            self._setup_blocking_piece((5, 0), "white")
+
+        movimientos = [((7, 0), (5, 0))]  # No debería permitir capturar la misma color
+        self._test_moves(movimientos, False, setup_same_color_piece)
 
     def test_path_is_blocked_horizontal(self):
-        self._setup_blocking_piece((7, 4), "black")  # Colocamos una pieza negra en el camino horizontal
-        self._validate_move((7, 0), (7, 5), False)  # Movimiento bloqueado hacia la derecha
+        def setup_blocking_piece_horizontal(pos):
+            self._setup_blocking_piece((7, 4), "black")
+
+        movimientos = [((7, 0), (7, 5))]  # Movimiento bloqueado hacia la derecha
+        self._test_moves(movimientos, False, setup_blocking_piece_horizontal)
 
 if __name__ == '__main__':
     unittest.main()
