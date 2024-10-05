@@ -1,99 +1,192 @@
 import unittest
-from unittest.mock import patch
-from io import StringIO
+from colorama import Fore, Style
+from unittest.mock import patch, MagicMock
+import io
 from Juego.Interfaz import ChessInterface
 from Juego.Exception import ChessException
 
 class TestChessInterface(unittest.TestCase):
 
     def setUp(self):
-        # Inicializa una instancia de ChessInterface antes de cada prueba.
         self.interface = ChessInterface()
 
-    def get_output_from_interface(self, inputs):
-        # Ejecuta la interfaz con una lista de entradas simuladas y retorna la salida.
-        with patch('builtins.input', side_effect=inputs), patch('sys.stdout', new_callable=StringIO) as mock_stdout:
-            self.interface.__start__()
-            return mock_stdout.getvalue()
+    def simulate_input(self, inputs):
+        return patch('builtins.input', side_effect=inputs)
 
-    def check_output(self, inputs, expected_outputs):
-        output = self.get_output_from_interface(inputs)
-        for expected in expected_outputs:
-            self.assertIn(expected, output)
+    def capture_output(self):
+        return patch('sys.stdout', new=io.StringIO())
 
-    def simulate_move_exception(self, exception_type, message, expected_output):
-        with patch('Juego.Interfaz.Chess.__move__', side_effect=exception_type(message)):
-            output = self.get_output_from_interface(['1', '1 2', '1 3', '3'])
-            self.assertIn(expected_output, output)
+    def check_draw_response(self, response, expected_result):
+        with self.simulate_input([response]):
+            result = self.interface.__handle_draw__()
+            self.assertEqual(result, expected_result)
 
-    def test_process_move_exception(self):
-        # Prueba para simular una excepción específica del movimiento de ajedrez.
-        self.simulate_move_exception(ChessException, "Error de movimiento", "Error: Error de movimiento")
+    def check_handle_option(self, option, method, return_value, expected_result):
+        with patch.object(self.interface, method, return_value=return_value) as mock_method:
+            result = self.interface.__handle_option__(option)
+            mock_method.assert_called_once()
+            self.assertEqual(result, expected_result)
 
-    def test_process_move_unexpected_exception(self):
-        # Prueba para simular una excepción inesperada durante el movimiento.
-        self.simulate_move_exception(Exception, "Error inesperado", "Error inesperado: Error inesperado")
+    def test_get_move_positions(self):
+        with patch('builtins.input', side_effect=['2 3', '4 5']):
+            from_pos, to_pos = self.interface.__get_move_positions__()
+            self.assertEqual(from_pos, '2 3')
+            self.assertEqual(to_pos, '4 5')
 
-    def test_invalid_move(self):
-        # Prueba para simular un movimiento inválido.
-        self.check_output(['1', '1 1', '6 0', '3'], ["Error: No se puede mover una pieza de un color diferente."])
+    def test_handle_draw_accept(self):
+        self.check_draw_response('y', True)
 
-    def test_movement_and_surrender(self):
-        # Prueba para simular un movimiento básico y luego la rendición de un jugador.
-        self.check_output(['1', '1 2', '1 3', '3'], ["Turno de WHITE.", "WHITE ha decidido rendirse...", "¡El otro jugador es el campeón!"])
+    def test_handle_draw_reject(self):
+        self.check_draw_response('n', False)
 
-    def test_offer_draw(self):
-        # Prueba para simular la oferta de tablas y la aceptación.
-        self.check_output(['2', 'y'], ["Juego empatado."])
+    def test_handle_draw_invalid_response(self):
+        with self.simulate_input(['maybe', 'y']):
+            with self.capture_output() as fake_stdout:
+                result = self.interface.__handle_draw__()
+                output = fake_stdout.getvalue()
+                self.assertIn("Respuesta inválida. Intenta de nuevo.", output)
+                self.assertTrue(result)
 
-    def test_reject_draw(self):
-        # Prueba para simular la oferta de tablas y el rechazo.
-        self.check_output(['2', 'n', '3'], ["Tablas rechazadas."])
+    def test_handle_surrender(self):
+        with self.capture_output() as fake_stdout:
+            self.interface.__handle_surrender__()
+            output = fake_stdout.getvalue()
+            self.assertIn("ha decidido rendirse", output)
+            self.assertIn("¡El otro jugador es el campeón!", output)
 
-    def test_invalid_option(self):
-        # Prueba para simular una opción inválida y asegurar que el sistema maneje el error.
-        self.check_output(['5', '1', '1 2', '1 3', '3'], ["Opción inválida, intenta de nuevo.", "Turno de WHITE."])
+    def test_save_game(self):
+        with self.simulate_input(['test_game_id']):
+            with self.capture_output() as fake_stdout:
+                self.interface.__save_game__()
+                output = fake_stdout.getvalue()
+                self.assertIn("Partida guardada con ID: test_game_id", output)
 
-    def test_process_move_victory(self):
-        # Simula un movimiento que devuelve un resultado de victoria.
-        with patch('Juego.Interfaz.Chess.__move__', return_value="Black wins"):
-            self.check_output(['1', '1 2', '1 3', '3'], ["Black wins"])
-
-    def test_invalid_draw_response(self):
-        # Simula una respuesta inválida seguida por la aceptación de tablas.
-        self.check_output(['2', 'invalid', 'y'], ["Respuesta inválida. Intenta de nuevo.", "Juego empatado."])
-
-    def test_display_board_after_successful_move(self):
-        # Simula un movimiento exitoso y verifica que el tablero se muestra después.
-        with patch('Juego.Interfaz.Chess.__move__', return_value=None):
-            self.check_output(['1', '1 2', '1 3', '3'], ["Movimiento realizado con éxito.", "0 1 2 3 4 5 6 7"])
-
-    def test_show_instructions(self):
-        # Simula la selección de la opción '4' para mostrar las instrucciones y luego salir con la opción '3'
-        self.check_output(['4', '3'], ["Instrucciones del juego de Ajedrez", "Tablero de juego", "Piezas del juego", "Jugabilidad"])
-
-    def test_load_game(self, exception=None, message=None, expected_output=None):
-        # Simula la carga de una partida, manejando excepciones según sea necesario.
-        if exception is None:
-            with patch('Juego.Interfaz.Chess.__load_game__', return_value=None):
-                self.check_output(['6', 'partida123', '3'], ["Partida cargada con éxito.", "0 1 2 3 4 5 6 7"]) 
-        else:
-            with patch('Juego.Interfaz.Chess.__load_game__', side_effect=exception(message)):
-                output = self.get_output_from_interface(['6', 'partida123', '3'])  # Usa un ID de partida simulado y luego salir.
-                self.assertIn(expected_output, output)
-
-    def test_load_game_success(self):
-        self.test_load_game()
-
-    def test_load_game_chess_exception(self):
-        self.test_load_game(ChessException, "Error de carga", "Error al cargar la partida: Error de carga")
-
-    def test_load_game_unexpected_exception(self):
-        self.test_load_game(Exception, "Error inesperado", "Error inesperado: Error inesperado")
+    def test_display_board(self):
+        tablero = self.interface.__chess__.__get_board__().__mostrar_coords__()
+        self.assertIn("♖", tablero)
+        self.assertIn("0", tablero)
 
     def test_show_scores(self):
-        # Simula la selección de la opción '7' para mostrar las puntuaciones.
-        self.check_output(['7', '3'], ["Puntuaciones actuales:"])  # Verifica que las puntuaciones se muestren correctamente
+        with self.capture_output() as fake_stdout:
+            self.interface.__show_scores__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Puntuaciones actuales:", output)
+
+    def test_show_instructions(self):
+        with self.capture_output() as fake_stdout:
+            self.interface.__show_instructions__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Instrucciones del juego de Ajedrez:", output)
+
+    def test_display_turn(self):
+        with self.capture_output() as fake_stdout:
+            self.interface.__display_turn__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Turno de", output)
+
+    def test_dramatic_message(self):
+        message = "Prueba"
+        with self.capture_output() as fake_stdout:
+            self.interface.__dramatic_message__(message)
+            output = fake_stdout.getvalue()
+            self.assertIn(message, output)
+
+    @patch('Juego.Interfaz.ChessInterface.__display_board__')
+    @patch('Juego.Interfaz.ChessInterface.__display_turn__')
+    @patch('Juego.Interfaz.ChessInterface.__get_user_option__', side_effect=['1', '3'])
+    @patch('Juego.Interfaz.ChessInterface.__handle_option__', side_effect=[False, True])
+    def test_main_game_loop(self, mock_handle_option, mock_get_user_option, mock_display_turn, mock_display_board):
+        self.interface.__start__()
+        mock_display_board.assert_called_once()
+        self.assertTrue(mock_display_turn.called)
+        self.assertEqual(mock_get_user_option.call_count, 2)
+        self.assertEqual(mock_handle_option.call_count, 2)
+        mock_handle_option.assert_any_call('1')
+        mock_handle_option.assert_any_call('3')
+
+    @patch('builtins.input', side_effect=['1'])
+    def test_get_user_option(self, mock_input):
+        result = self.interface.__get_user_option__()
+        self.assertEqual(result, '1')
+
+    def test_handle_option_move(self):
+        self.check_handle_option('1', '__handle_move__', None, False)
+
+    def test_handle_option_draw(self):
+        self.check_handle_option('2', '__handle_draw__', True, True)
+
+    def test_handle_option_surrender(self):
+        self.check_handle_option('3', '__handle_surrender__', None, True)
+
+    def test_handle_option_load_game(self):
+        with patch.object(self.interface.__chess__, '__load_game__') as mock_load_game:
+            with self.simulate_input(['test_game_id']):
+                with self.capture_output() as fake_stdout:
+                    result = self.interface.__handle_option__('6')
+                    mock_load_game.assert_called_once_with('test_game_id')
+                    output = fake_stdout.getvalue()
+                    self.assertIn("Partida cargada con éxito.", output)
+
+    def test_handle_option_show_scores(self):
+        self.check_handle_option('7', '__show_scores__', None, False)
+
+    def test_handle_option_show_instructions(self):
+        self.check_handle_option('4', '__show_instructions__', None, False)
+
+    def test_handle_option_save_game(self):
+        self.check_handle_option('5', '__save_game__', None, False)
+
+    def test_handle_option_load_game_chess_exception(self):
+        with patch.object(self.interface.__chess__, '__load_game__', side_effect=ChessException("Error de carga")):
+            with self.simulate_input(['test_game_id']):
+                with self.capture_output() as fake_stdout:
+                    result = self.interface.__handle_option__('6')
+                    output = fake_stdout.getvalue()
+                    self.assertIn("Error al cargar la partida: Error de carga", output)
+                    self.assertFalse(result)
+
+    def test_handle_option_load_game_unexpected_exception(self):
+        with patch.object(self.interface.__chess__, '__load_game__', side_effect=Exception("Error inesperado")):
+            with self.simulate_input(['test_game_id']):
+                with self.capture_output() as fake_stdout:
+                    result = self.interface.__handle_option__('6')
+                    output = fake_stdout.getvalue()
+                    self.assertIn("Error inesperado: Error inesperado", output)
+                    self.assertFalse(result)
+
+    def test_handle_move_unexpected_exception(self):
+        with patch.object(self.interface, '__get_move_positions__', return_value=('1', '1')), \
+                patch.object(self.interface.__chess__, '__move__', side_effect=Exception("Error inesperado")):
+            with self.capture_output() as fake_stdout:
+                self.interface.__handle_move__()
+                output = fake_stdout.getvalue()
+                self.assertIn("Error inesperado: Error inesperado", output)
+
+    def test_process_move_message_victory(self):
+        with patch.object(self.interface.__chess__, '__move__', return_value="¡Victoria!"), \
+                self.capture_output() as fake_stdout:
+            self.interface.__process_move__('1', '1')
+            output = fake_stdout.getvalue()
+            self.assertIn("¡Victoria!", output)
+
+    def test_process_move_successful_move(self):
+        with patch.object(self.interface.__chess__, '__move__', return_value=None):
+            with self.capture_output() as fake_stdout:
+                with patch.object(self.interface, '__display_board__') as mock_display_board, \
+                        patch.object(self.interface, '__show_scores__') as mock_show_scores:
+                    self.interface.__process_move__('1', '1')
+                    output = fake_stdout.getvalue()
+                    self.assertIn("Movimiento realizado con éxito.", output)
+                    mock_display_board.assert_called_once()
+                    mock_show_scores.assert_called_once()
+
+    def test_process_move_invalid_move(self):
+        with patch.object(self.interface.__chess__, '__move__', side_effect=ChessException("Movimiento no válido.")):
+            with self.capture_output() as fake_stdout:
+                result = self.interface.__process_move__('1', '1')
+                output = fake_stdout.getvalue()
+                self.assertFalse(result)
+                self.assertIn("Error: Movimiento no válido.", output)
 
 if __name__ == '__main__':
     unittest.main()

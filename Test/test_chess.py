@@ -158,5 +158,14 @@ class TestChess(unittest.TestCase):
         output = self.__chess__.__load_game__(game_id)  # Llama al método que ahora devuelve un mensaje
         self.assertEqual(output, f"No se encontró ninguna partida con el ID: {game_id}")
 
+    def test_move_piece_of_different_color(self):
+        # Colocar un rey blanco y un peón negro en el tablero
+        self.__chess__.__get_board__().__place_piece__(King("white"), (7, 4))  # Rey blanco
+        self.__chess__.__get_board__().__place_piece__(Pawn("black"), (6, 4))  # Peón negro
+
+        # Intentar mover el peón negro cuando es el turno del blanco
+        with self.assertRaises(ColorException):
+            self.__chess__.__move__("6 4", "5 4")  # Intentar mover el peón negro
+
 if __name__ == '__main__':
     unittest.main()

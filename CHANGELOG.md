@@ -588,6 +588,45 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - **Refactorización del método `get_output_from_interface`**:
   - Se mantuvo este método para obtener la salida simulada de la interfaz, pero ahora se utiliza junto con el nuevo método `check_output` para hacer las pruebas más limpias.
 
-Changelog.md (Cambios Piece) 30
+## [0.3.33] - 2024-10-03
 
+### Agregado
+
+- **VALUE Attribute**: Se agregó un nuevo diccionario `VALUES` que contiene los valores de cada tipo de pieza en el juego de ajedrez:
+  - Pawn: 1
+  - Rook: 5
+  - Knight: 3
+  - Bishop: 3
+  - Queen: 9
+  - King: 8
+
+- **`__get_value__` Method**: Se añadió un nuevo método `__get_value__` que devuelve el valor de la pieza utilizando el diccionario `VALUES`. Si la pieza no está definida en el diccionario, se devuelve 0.
+
+### Cambios
+- **Renaming Methods**: Se modificaron los nombres de los métodos de acceso y de las funciones de la clase:
+  - Cambios de `get_color`, `get_x`, `get_y`, `possible_moves`, `movimiento_posible`, `movimiento_correcto`, `get_coordinates`, `get_position`, `dentro_de_limites`, y `check_move` a sus respectivas versiones privadas con prefijos de doble guion bajo (`__`).
 (rook duplicaicon)31 y 3 de octubre
+
+## [0.3.34] - 2024-10-05
+
+### Cambios
+- **Estructura de Pruebas**: Se mejoró la estructura de las pruebas al crear métodos auxiliares (`simulate_input`, `capture_output`, `check_draw_response`, `check_handle_option`) para reducir la duplicación de código en las pruebas.
+  
+- **Nombres de Métodos**: Se cambiaron los nombres de los métodos de prueba para reflejar mejor su propósito, como `check_handle_option` y `check_draw_response`.
+
+### Añadido
+- **Nuevas Pruebas**:
+  - `test_get_move_positions`: Agregada para verificar la obtención de posiciones de movimiento.
+  - `test_handle_surrender`: Agregada para simular la rendición de un jugador.
+  - `test_save_game`: Agregada para verificar la funcionalidad de guardar el juego.
+  - `test_display_board`: Agregada para comprobar que el tablero se muestra correctamente.
+  - `test_show_scores`: Agregada para verificar que las puntuaciones se muestran correctamente.
+  - `test_display_turn`: Agregada para verificar que se muestra el turno actual.
+  - `test_dramatic_message`: Agregada para verificar que se muestran mensajes dramáticos.
+  - `test_main_game_loop`: Agregada para verificar el bucle principal del juego.
+  - `test_handle_option_move`, `test_handle_option_draw`, `test_handle_option_surrender`, `test_handle_option_load_game`, `test_handle_option_show_scores`, `test_handle_option_show_instructions`, `test_handle_option_save_game`: Agregadas para comprobar las opciones de manejo de juego.
+  
+### Correcciones
+- **Manejo de Excepciones**: Se mejoró el manejo de excepciones en las pruebas para simular errores de carga del juego y movimientos inesperados de una manera más robusta.
+  
+- **Validación de Salida**: Se mejoró la validación de salida en las pruebas para verificar que los mensajes correctos se muestren en función de las acciones realizadas en el juego.
