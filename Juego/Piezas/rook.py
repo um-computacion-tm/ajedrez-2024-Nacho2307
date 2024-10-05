@@ -1,17 +1,28 @@
-from Juego.Piezas.Piece import Piece
+from Juego.Piezas.piece import Piece
 
 class Rook(Piece):
+    """
+    Clase que representa una torre en el juego de ajedrez.
+
+    Atributos:
+        color: Color de la pieza ('white' o 'black').
+        x: Coordenada en el eje X (fila).
+        y: Coordenada en el eje Y (columna).
+    """
+
     def __init__(self, color, x=0, y=0):
+        """Inicializa la torre con su color y posición en el tablero."""
         super().__init__(color, 'Rook', x, y)
 
     def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board):
+        """Verifica si el movimiento de la torre es válido."""
         from_pos = (from_row, from_col)
         to_pos = (to_row, to_col)
     
         # Verificar si la posición está dentro de los límites
         if not self.__dentro_de_limites__(from_pos, to_pos):
             return False
-    
+
         # Verificar si el movimiento es en línea recta (horizontal o vertical)
         if self.__movimiento_en_linea_recta__(from_pos, to_pos):
             # Verificar si el camino está libre y no se está capturando una pieza del mismo color
@@ -22,16 +33,19 @@ class Rook(Piece):
         return False
 
     def __movimiento_en_linea_recta__(self, from_pos, to_pos):
+        """Verifica si el movimiento es en línea recta (horizontal o vertical)."""
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         return to_row == from_row or to_col == from_col
 
     def __camino_libre_y_captura__(self, from_pos, to_pos, board):
+        """Verifica si el camino está libre y permite la captura si es necesario."""
         direction, start, end = self.__determinar_direccion_y_limites__(from_pos, to_pos)
         camino_libre = self.__camino_libre__(direction, start, end, board, from_pos)
         return camino_libre
 
     def __determinar_direccion_y_limites__(self, from_pos, to_pos):
+        """Determina la dirección del movimiento y los límites del recorrido."""
         from_row, from_col = from_pos
         to_row, to_col = to_pos
 
@@ -46,6 +60,7 @@ class Rook(Piece):
         return direction, start + paso, end
 
     def __camino_libre__(self, direction, start, end, board, from_pos):
+        """Verifica si el camino está libre para el movimiento de la torre."""
         from_row, from_col = from_pos
         for pos in range(start, end, 1 if end > start else -1):
             if direction == "horizontal" and board.__get_piece__(from_row, pos) is not None:
