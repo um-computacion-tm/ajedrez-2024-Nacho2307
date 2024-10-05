@@ -26,10 +26,6 @@ class TestRook(unittest.TestCase):
         """Coloca una pieza bloqueante en la posición especificada."""
         self.board.__set_piece__(pos[0], pos[1], Rook(color))
 
-    def _setup_blocking(self, blocked_pos, color):
-        """Configura una pieza bloqueante en el tablero."""
-        self.board.__set_piece__(blocked_pos[0], blocked_pos[1], Rook(color))
-
     def _test_moves(self, moves, expected_result, setup_func=None):
         """
         Ejecuta pruebas de movimiento para una lista de movimientos.
@@ -87,7 +83,7 @@ class TestRook(unittest.TestCase):
 
     def test_path_is_blocked_horizontal(self):
         """Prueba que la torre no pueda moverse horizontalmente si el camino está bloqueado."""
-        self._setup_blocking((7, 4), "black")
+        self._setup_blocking_piece((7, 4), "black")
         movimientos = [((7, 0), (7, 5))]
         self._test_moves(movimientos, False)
 
