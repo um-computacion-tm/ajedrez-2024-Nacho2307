@@ -1,16 +1,16 @@
 import unittest
-from Juego.Chess import Chess
+from Juego.chess import Chess
 from Juego.board import Board
-from Juego.Exception import (
+from Juego.exception import (
     InvalidMoveException,
     OutOfBoundsException,
     PieceAlreadyCapturedException,
     ColorException,
     TurnException
 )
-from Juego.Piezas.Rook import Rook
-from Juego.Piezas.King import King
-from Juego.Piezas.Pawn import Pawn
+from Juego.Piezas.rook import Rook
+from Juego.Piezas.king import King
+from Juego.Piezas.pawn import Pawn
 
 class TestChess(unittest.TestCase):
 

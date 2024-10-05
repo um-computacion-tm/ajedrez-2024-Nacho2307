@@ -1,5 +1,5 @@
 import unittest
-from Juego.Piezas.Piece import Piece
+from Juego.Piezas.piece import Piece
 
 # Función auxiliar para probar los límites
 def test_dentro_de_limites(self, piece_class):

@@ -1,5 +1,5 @@
 import unittest
-from Juego.Exception import (
+from Juego.exception import (
     InvalidPositionException,
     InvalidPieceMovementException,
     CantEatKingException,

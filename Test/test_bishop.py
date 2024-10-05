@@ -1,5 +1,5 @@
 import unittest
-from Juego.Piezas.Bishop import Bishop
+from Juego.Piezas.bishop import Bishop
 from Juego.board import Board
 
 class TestBishop(unittest.TestCase):

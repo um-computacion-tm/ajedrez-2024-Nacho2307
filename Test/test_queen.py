@@ -1,5 +1,5 @@
 import unittest
-from Juego.Piezas.Queen import Queen
+from Juego.Piezas.queen import Queen
 from Juego.board import Board
 
 class TestQueen(unittest.TestCase):

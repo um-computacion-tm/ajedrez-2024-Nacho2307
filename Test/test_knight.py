@@ -1,6 +1,6 @@
 import unittest
-from Juego.Piezas.Knight import Knight
-from Juego.Piezas.Bishop import Bishop  
+from Juego.Piezas.knight import Knight
+from Juego.Piezas.bishop import Bishop  
 from Juego.board import Board
 
 class TestKnight(unittest.TestCase):

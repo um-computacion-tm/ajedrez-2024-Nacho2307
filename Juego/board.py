@@ -1,9 +1,9 @@
-from Juego.Piezas.Rook import Rook
-from Juego.Piezas.Knight import Knight
-from Juego.Piezas.King import King
-from Juego.Piezas.Bishop import Bishop
-from Juego.Piezas.Pawn import Pawn
-from Juego.Piezas.Queen import Queen
+from Juego.Piezas.rook import Rook
+from Juego.Piezas.knight import Knight
+from Juego.Piezas.king import King
+from Juego.Piezas.bishop import Bishop
+from Juego.Piezas.pawn import Pawn
+from Juego.Piezas.queen import Queen
 
 class Board:
     #Inicializa el tablero de ajedrez y coloca las piezas en sus posiciones iniciales.

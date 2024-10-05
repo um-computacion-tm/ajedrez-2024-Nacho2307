@@ -1,9 +1,9 @@
 import unittest
 from Juego.board import Board
-from Juego.Piezas.Rook import Rook
-from Juego.Piezas.Knight import Knight
-from Juego.Piezas.King import King
-from Juego.Piezas.Pawn import Pawn
+from Juego.Piezas.rook import Rook
+from Juego.Piezas.knight import Knight
+from Juego.Piezas.king import King
+from Juego.Piezas.pawn import Pawn
 
 class TestBoard(unittest.TestCase):
 

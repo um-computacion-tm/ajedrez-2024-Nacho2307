@@ -1,7 +1,7 @@
 import unittest
-from Juego.Piezas.King import King
+from Juego.Piezas.king import King
 from Juego.board import Board
-from Juego.Exception import InvalidMoveException
+from Juego.exception import InvalidMoveException
 
 class TestRey(unittest.TestCase):
     def setUp(self):

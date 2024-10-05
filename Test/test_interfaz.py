@@ -2,8 +2,8 @@ import unittest
 from colorama import Fore, Style
 from unittest.mock import patch, MagicMock
 import io
-from Juego.Interfaz import ChessInterface
-from Juego.Exception import ChessException
+from Juego.interfaz import ChessInterface
+from Juego.exception import ChessException
 
 class TestChessInterface(unittest.TestCase):
 
@@ -94,10 +94,10 @@ class TestChessInterface(unittest.TestCase):
             output = fake_stdout.getvalue()
             self.assertIn(message, output)
 
-    @patch('Juego.Interfaz.ChessInterface.__display_board__')
-    @patch('Juego.Interfaz.ChessInterface.__display_turn__')
-    @patch('Juego.Interfaz.ChessInterface.__get_user_option__', side_effect=['1', '3'])
-    @patch('Juego.Interfaz.ChessInterface.__handle_option__', side_effect=[False, True])
+    @patch('Juego.interfaz.ChessInterface.__display_board__')
+    @patch('Juego.interfaz.ChessInterface.__display_turn__')
+    @patch('Juego.interfaz.ChessInterface.__get_user_option__', side_effect=['1', '3'])
+    @patch('Juego.interfaz.ChessInterface.__handle_option__', side_effect=[False, True])
     def test_main_game_loop(self, mock_handle_option, mock_get_user_option, mock_display_turn, mock_display_board):
         self.interface.__start__()
         mock_display_board.assert_called_once()
@@ -133,11 +133,11 @@ class TestChessInterface(unittest.TestCase):
     def test_handle_option_load_game_exceptions(self):
         # Test for loading game exceptions
         self.check_load_game(ChessException("Error de carga"),
-                             "Error al cargar la partida: Error de carga",
-                             False)
+                            "Error al cargar la partida: Error de carga",
+                            False)
         self.check_load_game(Exception("Error inesperado"),
-                             "Error inesperado: Error inesperado",
-                             False)
+                            "Error inesperado: Error inesperado",
+                            False)
 
     def test_handle_move_unexpected_exception(self):
         with patch.object(self.interface, '__get_move_positions__', return_value=('1', '1')), \
