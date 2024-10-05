@@ -11,38 +11,46 @@ class ChessInterface:
     def __start__(self):
         print(Fore.YELLOW + "✨ ¡Bienvenido al juego de Ajedrez! ✨" + Style.RESET_ALL)
         self.__display_board__()
-
-        while True:
+    
+        game_over = False  # Variable para controlar la finalización del juego
+    
+        while not game_over:
             self.__display_turn__()
             option = self.__get_user_option__()
+            game_over = self.__handle_option__(option)
 
-            if option == '1':
-                self.__handle_move__()
-            elif option == '2':
-                if self.__handle_draw__():
-                    break
-            elif option == '3':
-                self.__handle_surrender__()
-                break
-            elif option == '4':
-                self.__show_instructions__()
-            elif option == '5':
-                game_id = input("Introduce un ID para guardar la partida: ")
-                self.__chess__.__save_game__(game_id)
-            elif option == '6':
+    def __handle_option__(self, option):
+        if option == '1':
+            self.__handle_move__()
+        elif option == '2':
+            return self.__handle_draw__()  # Si se aceptan las tablas, termina el juego
+        elif option == '3':
+            self.__handle_surrender__()
+            return True  # Termina el juego después de la rendición
+        elif option == '4':
+            self.__show_instructions__()  
+        elif option == '5':
+            self.__save_game__()
+        elif option == '6':
                 game_id = input("Introduce el ID de la partida que deseas cargar: ")
                 try:
                     self.__chess__.__load_game__(game_id)
                     print(Fore.GREEN + "Partida cargada con éxito." + Style.RESET_ALL)
-                    self.display_board()
+                    self.__display_board__()
                 except ChessException as e:
                     print(Fore.RED + f"Error al cargar la partida: {e}" + Style.RESET_ALL)
                 except Exception as e:
                     print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)
-            elif option == '7':  # Nueva opción para mostrar puntajes
+        elif option == '7':  # Nueva opción para mostrar puntajes
                 self.__show_scores__()
-            else:
+        else:
                 print(Fore.RED + "Opción inválida, intenta de nuevo." + Style.RESET_ALL)
+
+        return False  # Continúa el juego si no se ha rendido ni aceptado tablas
+
+    def __save_game__(self):
+        game_id = input("Introduce un ID para guardar la partida: ")
+        self.__chess__.__save_game__(game_id)
 
     def __handle_draw__(self):
         current_turn = self.__chess__.__get_turn__()  # Obtener el turno actual
@@ -67,8 +75,6 @@ class ChessInterface:
 
     def __get_user_option__(self):
         #Muestra las opciones disponibles y obtiene la opción elegida por el jugador.
-        #Returns:
-            #str: La opción elegida por el jugador.
         return input("Opciones: \n1. Mover pieza\n2. Ofrecer tablas\n3. Rendirse\n4. Ver instrucciones\n5. Guardar partida\n6. Cargar partida\n7. Mostrar puntajes\nElige una opción: ").strip()
 
     def __display_turn__(self):
@@ -83,27 +89,29 @@ class ChessInterface:
 
     def __get_move_positions__(self):
         #Solicita al jugador que introduzca las coordenadas de origen y destino para el movimiento.
-        #Returns:
-            #tuple: Coordenadas de origen y destino.
         from_pos = input("Introduce las coordenadas de la pieza a mover (ej. 1 1 para fila 1, columna 1): ")
         to_pos = input("Introduce las coordenadas de destino (ej. 3 3 para fila 3, columna 3): ")
         return from_pos, to_pos
 
     def __process_move__(self, from_pos, to_pos):
-        # Procesa el movimiento de una pieza y muestra el resultado.
+    # Procesa el movimiento de una pieza y muestra el resultado.
         try:
             result = self.__chess__.__move__(from_pos, to_pos)  # Intenta realizar el movimiento.
 
             if isinstance(result, str):
                 print(Fore.CYAN + result + Style.RESET_ALL)  # Si hay un mensaje de victoria, lo muestra.
+                return False  # Si hay un mensaje de victoria, el movimiento no es un movimiento exitoso.
             else:
                 print(Fore.BLUE + "Movimiento realizado con éxito." + Style.RESET_ALL)  # Movimiento exitoso.
                 self.__display_board__()  # Muestra el tablero después del movimiento.
-                self.s__how_scores__()  # Muestra las puntuaciones después del movimiento
+                self.__show_scores__()  # Muestra las puntuaciones después del movimiento.
+                return True  # Indica que el movimiento fue exitoso.
         except ChessException as e:
             print(Fore.RED + f"Error: {e}" + Style.RESET_ALL)  # Maneja errores específicos del juego.
+            return False  # Retorna False si hubo un error.
         except Exception as e:
             print(Fore.RED + f"Error inesperado: {e}" + Style.RESET_ALL)  # Maneja cualquier otro error inesperado.
+            return False  # Retorna False si hubo un error inesperado.
 
     def __handle_surrender__(self):
         #Maneja la rendición de un jugador y finaliza el juego.
