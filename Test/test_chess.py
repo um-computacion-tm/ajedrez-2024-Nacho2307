@@ -13,17 +13,21 @@ from Juego.Piezas.king import King
 from Juego.Piezas.pawn import Pawn
 
 class TestChess(unittest.TestCase):
+    """
+    Clase de pruebas para la clase Chess en el juego de ajedrez.
+    Verifica que las funcionalidades del juego se comporten según lo esperado.
+    """
 
     def setUp(self):
+        """Inicializa una nueva partida de ajedrez para cada prueba."""
         self.__chess__ = Chess()
 
     def test_load_game(self):
-        # Configurar un juego inicial y guardarlo
+        """Verifica que se pueda cargar un juego guardado correctamente."""
         self.__chess__.__get_board__().__place_piece__(King("white"), (7, 4))
         self.__chess__.__get_board__().__place_piece__(Rook("black"), (0, 4))
         self.__chess__.__save_game__("test_game")
 
-        # Crear una nueva instancia de Chess y cargar el juego guardado
         new_chess = Chess()
         new_chess.__load_game__("test_game")
 
@@ -33,19 +37,19 @@ class TestChess(unittest.TestCase):
         self.assertEqual(new_chess.__get_turn__(), "WHITE")  # El turno debe ser blanco
 
     def test_invalid_move_king_in_check(self):
-        # Intentar mover una pieza que deja al rey en jaque
+        """Verifica que no se pueda mover una pieza que deja al rey en jaque."""
         self.__chess__.__get_board__().__place_piece__(King("white"), (7, 4))  # Coloca el rey blanco
         self.__chess__.__get_board__().__place_piece__(Rook("black"), (0, 4))  # Coloca una torre negra que amenaza al rey
         with self.assertRaises(InvalidMoveException):
             self.__chess__.__move__("7 4", "6 4")  # Intentar mover al rey blanco deja al rey en jaque
 
     def test_piece_already_captured(self):
-        # Intentar mover desde una posición donde no hay pieza
+        """Verifica que se lance una excepción al intentar mover desde una posición vacía."""
         with self.assertRaises(PieceAlreadyCapturedException):
             self.__chess__.__move__("3 3", "4 3")
 
     def test_out_of_bounds_position(self):
-        # Probar posiciones fuera de los límites
+        """Verifica que se lancen excepciones al intentar mover a posiciones fuera de los límites."""
         with self.assertRaises(OutOfBoundsException):
             self.__chess__.__move__("0 0", "9 0")  # Movimiento fuera de los límites
 
@@ -53,6 +57,7 @@ class TestChess(unittest.TestCase):
             self.__chess__.__move__("a b", "2 2")  # Entrada inválida de formato
 
     def test_change_turn_back_and_forth(self):
+        """Verifica el cambio de turnos entre jugadores."""
         self.assertEqual(self.__chess__.__get_turn__(), "WHITE")
         self.__chess__.__get_board__().__place_piece__(Pawn("white"), (6, 0)) 
         self.__chess__.__move__("6 0", "5 0")  # Mover un peón blanco
@@ -62,6 +67,7 @@ class TestChess(unittest.TestCase):
         self.assertEqual(self.__chess__.__get_turn__(), "WHITE")
 
     def test_draw(self):
+        """Verifica que la partida termine en empate con solo los dos reyes en el tablero."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()  # Limpiar el tablero
 
@@ -74,7 +80,7 @@ class TestChess(unittest.TestCase):
         self.assertEqual(result, "Draw")
 
     def test_victory_status_returned(self):
-        # Simular un escenario donde las negras ganan
+        """Verifica que el juego retorne el estado de victoria correctamente."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()  # Limpiar todas las piezas
     
@@ -86,6 +92,7 @@ class TestChess(unittest.TestCase):
         self.assertEqual(result, "Black wins")
 
     def simulate_victory(self, king_color, expected_result):
+        """Simula un escenario de victoria y verifica el resultado esperado."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()
     
@@ -99,15 +106,15 @@ class TestChess(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     def test_victory_white_wins(self):
-        # Simular victoria de las blancas (rey blanco, sin piezas negras)
+        """Simula la victoria de las blancas."""
         self.simulate_victory("white", "White wins")
 
     def test_victory_black_wins(self):
-        # Simular victoria de las negras (rey negro, sin piezas blancas)
+        """Simula la victoria de las negras."""
         self.simulate_victory("black", "Black wins")
 
     def test_move_returns_status(self):
-        # Configura el tablero con varias piezas para evitar la condición de victoria
+        """Verifica que se retorne el estado correcto al mover una pieza."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()
         board.__place_piece__(Pawn("white"), (6, 4))  # Colocar un peón blanco en (6, 4)
@@ -122,6 +129,7 @@ class TestChess(unittest.TestCase):
         self.assertEqual(status, "Move successful")  
 
     def test_move_returns_victory_status(self):
+        """Verifica que se retorne el estado de victoria al mover una pieza."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()
 
@@ -140,6 +148,7 @@ class TestChess(unittest.TestCase):
         self.assertEqual(status, "Black wins")
 
     def test_move_returns_draw_status(self):
+        """Verifica que se retorne el estado de empate al mover piezas de manera adecuada."""
         board = self.__chess__.__get_board__()
         board.__clear_board__()
 
@@ -154,12 +163,13 @@ class TestChess(unittest.TestCase):
         self.assertEqual(status, "Draw")
 
     def test_load_nonexistent_game(self):
+        """Verifica que se maneje correctamente la carga de un juego inexistente."""
         game_id = "nonexistent_game_id"
         output = self.__chess__.__load_game__(game_id)  # Llama al método que ahora devuelve un mensaje
         self.assertEqual(output, f"No se encontró ninguna partida con el ID: {game_id}")
 
     def test_move_piece_of_different_color(self):
-        # Colocar un rey blanco y un peón negro en el tablero
+        """Verifica que no se pueda mover una pieza de color diferente al turno actual."""
         self.__chess__.__get_board__().__place_piece__(King("white"), (7, 4))  # Rey blanco
         self.__chess__.__get_board__().__place_piece__(Pawn("black"), (6, 4))  # Peón negro
 

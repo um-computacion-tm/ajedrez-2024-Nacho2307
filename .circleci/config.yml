@@ -8,12 +8,16 @@ jobs:
     environment:
       REDIS_HOST: redis  # Define el host de Redis para CircleCI
     steps:
-      - setup_remote_docker:
-          version: 20.10.7
       - checkout
       - run:
-          name: Build Docker image
-          command: docker build -t ajedrez-2024-nacho2307 .
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
+      - run:
+          name: Install dependencies
+          command: pip install -r requirements.txt
       - run:
           name: Check Redis availability
           command: |
@@ -27,14 +31,9 @@ jobs:
               fi
             done
       - run:
-          name: Run tests in Docker
-          command: docker run -e REDIS_HOST=redis ajedrez-2024-nacho2307
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
+          name: Run tests
+          command: coverage run -m unittest && coverage xml && coverage report -m
       - run:
           name: Upload CodeClimate coverage report
-          command: ./cc-test-reporter after-build
+          command: |
+            ./cc-test-reporter after-build

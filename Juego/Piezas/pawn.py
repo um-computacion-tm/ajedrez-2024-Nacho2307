@@ -1,10 +1,21 @@
 from Juego.Piezas.piece import Piece
 
 class Pawn(Piece):
+    """
+    Clase que representa un peón en el juego de ajedrez.
+
+    Atributos:
+        color: Color de la pieza ('white' o 'black').
+        x: Coordenada en el eje X (fila).
+        y: Coordenada en el eje Y (columna).
+    """
+
     def __init__(self, color, x=0, y=0):
+        """Inicializa el peón con su color y posición en el tablero."""
         super().__init__(color, 'Pawn', x, y)
 
     def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board):
+        """Verifica si el movimiento del peón es válido."""
         from_pos = (from_row, from_col)
         to_pos = (to_row, to_col)
         direccion = -1 if self.__get_color__() == "White" else 1
@@ -12,7 +23,7 @@ class Pawn(Piece):
         # Verificar si la casilla de destino tiene una pieza del mismo color
         destino = board.__get_piece__(to_row, to_col)
         if destino is not None and destino.__get_color__() == self.__get_color__():
-            return False  
+            return False  # Movimiento bloqueado por pieza del mismo color
 
         # Inicializa la variable de resultado
         movimiento_valido = False
@@ -27,10 +38,10 @@ class Pawn(Piece):
         elif self.__captura_diagonal__(from_pos, to_pos, direccion, board):
             movimiento_valido = True
 
-        # Retorna el resultado de las comprobaciones
-        return movimiento_valido
+        return movimiento_valido  # Retorna el resultado de las comprobaciones
 
     def __movimiento_simple__(self, from_pos, to_pos, direccion, board):
+        """Verifica un movimiento simple hacia adelante del peón."""
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         pieza_destino = board.__get_piece__(to_row, to_col)
@@ -39,6 +50,7 @@ class Pawn(Piece):
                 pieza_destino is None)
 
     def __movimiento_doble_inicial__(self, from_pos, to_pos, direccion, board):
+        """Verifica si el peón puede realizar un movimiento doble inicial."""
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         pieza_destino = board.__get_piece__(to_row, to_col)
@@ -52,6 +64,7 @@ class Pawn(Piece):
                 board.__get_piece__(from_row + direccion, from_col) is None)
 
     def __captura_diagonal__(self, from_pos, to_pos, direccion, board):
+        """Verifica si el peón puede realizar una captura diagonal."""
         from_row, from_col = from_pos
         to_row, to_col = to_pos
         pieza_destino = board.__get_piece__(to_row, to_col)
