@@ -16,57 +16,40 @@ class Pawn(Piece):
 
     def __movimiento_correcto__(self, from_row, from_col, to_row, to_col, board):
         """Verifica si el movimiento del peón es válido."""
-        from_pos = (from_row, from_col)
-        to_pos = (to_row, to_col)
         direccion = -1 if self.__get_color__() == "White" else 1
-
-        # Verificar si la casilla de destino tiene una pieza del mismo color
         destino = board.__get_piece__(to_row, to_col)
-        if destino is not None and destino.__get_color__() == self.__get_color__():
-            return False  # Movimiento bloqueado por pieza del mismo color
 
-        # Inicializa la variable de resultado
-        movimiento_valido = False
+        # Verifica si hay una pieza del mismo color en el destino
+        if self.__pieza_misma_color__(destino):
+            return False  # Movimiento no permitido
 
-        # Chequeo de movimiento simple hacia adelante
-        if self.__movimiento_simple__(from_pos, to_pos, direccion, board):
-            movimiento_valido = True
-        # Chequeo de movimiento doble inicial
-        elif self.__movimiento_doble_inicial__(from_pos, to_pos, direccion, board):
-            movimiento_valido = True
-        # Chequeo de captura diagonal
-        elif self.__captura_diagonal__(from_pos, to_pos, direccion, board):
-            movimiento_valido = True
+        return (self.__movimiento_simple__(from_row, from_col, to_row, to_col, direccion, board) or
+                self.__movimiento_doble_inicial__(from_row, from_col, to_row, to_col, direccion, board) or
+                self.__captura_diagonal__(from_row, from_col, to_row, to_col, direccion, board))
 
-        return movimiento_valido  # Retorna el resultado de las comprobaciones
+    def __pieza_misma_color__(self, pieza_destino):
+        """Verifica si la pieza en la posición de destino es del mismo color que el peón."""
+        return pieza_destino is not None and pieza_destino.__get_color__() == self.__get_color__()
 
-    def __movimiento_simple__(self, from_pos, to_pos, direccion, board):
+    def __movimiento_simple__(self, from_row, from_col, to_row, to_col, direccion, board):
         """Verifica un movimiento simple hacia adelante del peón."""
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-        pieza_destino = board.__get_piece__(to_row, to_col)
         return (from_col == to_col and 
                 to_row == from_row + direccion and 
-                pieza_destino is None)
+                board.__get_piece__(to_row, to_col) is None)
 
-    def __movimiento_doble_inicial__(self, from_pos, to_pos, direccion, board):
+    def __movimiento_doble_inicial__(self, from_row, from_col, to_row, to_col, direccion, board):
         """Verifica si el peón puede realizar un movimiento doble inicial."""
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
-        pieza_destino = board.__get_piece__(to_row, to_col)
         es_movimiento_valido = (
             (self.__get_color__() == "White" and from_row == 6) or 
             (self.__get_color__() == "Black" and from_row == 1)
         )
         return (es_movimiento_valido and 
                 to_row == from_row + 2 * direccion and 
-                pieza_destino is None and 
+                board.__get_piece__(to_row, to_col) is None and 
                 board.__get_piece__(from_row + direccion, from_col) is None)
 
-    def __captura_diagonal__(self, from_pos, to_pos, direccion, board):
+    def __captura_diagonal__(self, from_row, from_col, to_row, to_col, direccion, board):
         """Verifica si el peón puede realizar una captura diagonal."""
-        from_row, from_col = from_pos
-        to_row, to_col = to_pos
         pieza_destino = board.__get_piece__(to_row, to_col)
         return (abs(from_col - to_col) == 1 and 
                 to_row == from_row + direccion and 
