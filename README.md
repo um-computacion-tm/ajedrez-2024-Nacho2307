@@ -17,8 +17,9 @@ Proyecto creado por [Ignacio Aguilera Baigorria Jayat]
 
 3. **Ejecutar los tests e iniciar el juego**
    - Una vez creada la imagen, puedes ejecutar el siguiente comando para correr los tests e iniciar el juego:
-         ```bash
-         $ sudo docker run -i ajedrez-2024-nacho2307
+    - Para crear la imagen ejecuta:
+    ```bash
+    $ sudo docker run -i ajedrez-2024-nacho2307
 
 ## Reglas del Juego
 - El juego sigue las reglas básicas del ajedrez con algunas modificaciones:
