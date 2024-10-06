@@ -24,6 +24,7 @@ Proyecto creado por [Ignacio Aguilera Baigorria Jayat]
 - El juego sigue las reglas básicas del ajedrez con algunas modificaciones:
 
 -- `Reglas originales del ajedrez`: Consultarlas [aquí](https://es.wikipedia.org/wiki/Leyes_del_ajedrez)
+
 -- `Reglas de este juego`: En este ajedrez se respetan los movimientos de las piezas como en el ajedrez tradicional. Sin embargo, no se implementan reglas como jaque, jaque mate, ni movimientos especiales.
 
 ## Configuración Inicial del Tablero
@@ -42,7 +43,7 @@ Proyecto creado por [Ignacio Aguilera Baigorria Jayat]
 
 ***Mover pieza***: Permite mover una pieza. Se solicita la posición actual de la pieza y la posición a la que se desea mover, ambas utilizando coordenadas (Ej: 1 0, 2 0).
 
-    - Si el movimiento es válido, se efectúa; si no, se cancela y vuelve a pedirle al jugador que haga el movimiento. Después, se verifica si un jugador ha ganado.
+- Si el movimiento es válido, se efectúa; si no, se cancela y vuelve a pedirle al jugador que haga el movimiento. Después, se verifica si un jugador ha ganado.
 ***Ofrecer tablas***: Permite ofrecer tablas (empate). Si el oponente acepta, el juego termina en empate. Si no, el jugador que ofreció las tablas vuelve a su turno.
 
 ***Rendirse***: Permite rendirse, lo que otorga la victoria al oponente.

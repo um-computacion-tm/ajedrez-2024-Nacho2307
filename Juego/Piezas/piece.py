@@ -94,4 +94,8 @@ class Piece:
 
     def __misma_pieza_en_destino__(self, destino):
         """Verifica si la casilla de destino tiene una pieza del mismo color."""
-        return destino is not None and destino.__get_color__() == self.__get_color__()
+        if destino:
+            color_self = self.__get_color__()
+            color_destino = destino.__get_color__()
+            return color_self == color_destino
+        return False

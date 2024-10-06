@@ -104,7 +104,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Archivo llamado `Knight.py` donde esta el movimiento del caballo.
 - Archivo llamado `test_knight.py` para la clase `Knight`.
 
-## [0.0.10] - 2024-08-22
+## [0.1.0] - 2024-08-22
 
 ### Añadido
 
@@ -117,7 +117,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Agregada `ColorException` para intentar mover una pieza del color equivocado.
 - Agregada `TurnException` para intentar mover una pieza fuera de turno.
 
-## [0.1.11] - 2024-08-23
+## [0.1.1] - 2024-08-23
 
 ### Añadido
 
@@ -132,21 +132,21 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - `test_color_exception`: prueba que se lanza una `ColorException` cuando se intenta utilizar un color incorrecto.
 - `test_turn_exception`: prueba que se lanza una `TurnException` cuando no es el turno del jugador.
 
-## [0.1.12] - 2024-08-27
+## [0.1.2] - 2024-08-27
 
 ### Añadido
  
 - Se agrego el archivo `Test_exception.py` para la clase `Exception`.
 - Se modificaron los archivos `Pawn.py` y `Rook.py` para la duplicacion de codigo.
 
-## [0.1.13] - 2024-08-28
+## [0.1.3] - 2024-08-28
 
 ### Cambio
 
 - Se cambio el archivo `Pawn.py` por la duplicacion de codigo
 - Se cambio el archivo `Rook.py` por la duplicacion de codigo.
 
-## [0.1.14] - 2024-08-29
+## [0.1.4] - 2024-08-29
 
 ### Añadido
 
@@ -156,7 +156,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - `Nuevo Método execute_move(from_pos, to_pos, piece)`: Realiza el movimiento de una pieza, validando el movimiento y actualizando el tablero.
 
 
-## [0.1.15] - 2024-08-30
+## [0.1.5] - 2024-08-30
 
 ### Añadido
 
@@ -164,7 +164,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_movimiento_correcto`: Verifica los movimientos válidos de la reina, incluyendo movimientos en línea recta (como torre) y en diagonal (como alfil). Asegura que la reina se mueve correctamente en línea recta y verifica que el movimiento en diagonal no sea válido para una reina.
   - `test_movimiento_incorrecto`: Comprueba movimientos inválidos de la reina para asegurar que los movimientos ilegales no sean aceptados.
 
-## [0.1.16] - 2024-08-31
+## [0.1.6] - 2024-08-31
 
 ### Añadido
 
@@ -174,7 +174,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_double_initial_move_with_obstruction`: Asegura que un peón blanco no pueda realizar un movimiento doble inicial si hay una pieza que obstruye el camino.
   - `test_diagonal_capture`: Valida las capturas diagonales del peón blanco, comprobando si captura piezas de color contrario y no captura piezas del mismo color.
 
-## [0.1.17] - 2024-09-01
+## [0.1.7] - 2024-09-01
 
 ### Añadido
 
@@ -187,7 +187,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_get_piece`: Prueba la obtención de una pieza específica en una posición dada.
   - `test_check_bounds`: Verifica que la función de límites maneje correctamente las posiciones válidas e inválidas.
 
-## [0.1.18] - 2024-09-02
+## [0.1.8] - 2024-09-02
 
 ### Añadido
 
@@ -200,7 +200,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
   - `test_is_in_check_after_move`: Prueba si el estado de jaque cambia después de un movimiento.
   - `test_obtener_rey`: Obtiene y verifica la pieza del rey para el lado blanco.
 
-## [0.1.19] - 2024-09-04
+## [0.1.9] - 2024-09-04
 
 ### Añadido
 
@@ -208,7 +208,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - Esta prueba asegura que todas las piezas en el tablero sean devueltas correctamente por el método `get_pieces`.
 - Verifica que se obtengan las piezas correctas con sus respectivos colores y que la longitud de la lista de piezas sea la esperada.
 
-## [0.1.20] - 2024-09-05
+## [0.2.0] - 2024-09-05
 
 ### Añadido
 
@@ -227,7 +227,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Métodopossible_moves**:NotImplementedErrorse lanPiece.
 - **Método movimiento_posible y movimiento_correcto no implementados**: Pruebas para asegurar que se lance NotImplementedError al invocar estos métodos desde la clase base Piece
 
-## [0.2.21] - 2024-09-06
+## [0.2.1] - 2024-09-06
 
 ### Añadido
 
@@ -241,7 +241,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 
 - **Simulación de Movimiento**: Usado `copy.deepcopy` para simular y deshacer movimientos de manera más confiable.
 
-## [0.2.22] - 2024-09-07
+## [0.2.2] - 2024-09-07
 
 ### Cambios en la interfaz
 
@@ -325,7 +325,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Mejora en la claridad y mantenimiento**:
   - La nueva estructura permite una mejor claridad y mantenimiento al utilizar métodos auxiliares para las simulaciones de entrada/salida.
 
-## [0.2.23] - 2024-09-11
+## [0.2.3] - 2024-09-11
 
 ### Cambios en el test de la interfaz
 
@@ -339,7 +339,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 -Cobertura de casos adicionales para manejar excepciones durante el movimiento y respuestas inválidas del jugador.
 -Cobertura de todas las líneas de la clase ChessInterface, incluyendo las verificaciones del tablero después de movimientos exitosos y condiciones de victoria.
 
-## [0.2.24] - 2024-09-12
+## [0.2.4] - 2024-09-12
 
 ### Agregado
 
@@ -384,7 +384,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **Test de tablero después del movimiento**: En `test_display_board_after_successful_move`, se verificó que el tablero se imprime correctamente después de un movimiento exitoso, incluyendo el formato visual con coordenadas.
 
 
-## [0.2.27] - 2024-09-18 # Refactorizacion de Chess
+## [0.2.5] - 2024-09-18 # Refactorizacion de Chess
 
 - **`has_legal_moves` Method**:
   - Renombrado `hay_movimientos_legales_para_salir_del_jaque` a `has_legal_moves` para verificar si el jugador tiene movimientos legales disponibles.
@@ -411,7 +411,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - **`hay_movimientos_legales_para_salir_del_jaque` Method**:
   - El método ha sido renombrado y reubicado dentro del nuevo método `has_legal_moves`.
 
-## [0.2.28] - 2024-09-19 ( refactorizacion test interfaz)
+## [0.2.6] - 2024-09-19 ( refactorizacion test interfaz)
 
 *Refactorización de tests repetitivos*:
 
@@ -424,7 +424,7 @@ El formato se basa en [Mantener un registro de cambios](https://keepachangelog.c
 - `test_process_move_unexpected_exception`:
 Reutiliza el método `simulate_move_exception` para manejar excepciones inesperadas de manera más clara.
 
-## [0.2.27] - 2024-09-20
+## [0.2.7] - 2024-09-20
 
 ### Añadido
 - **Verificación de captura de piezas del mismo color**: Ahora el método `movimiento_correcto` revisa si la pieza de destino es del mismo color antes de permitir el movimiento. Esto evita que la torre capture piezas aliadas.
@@ -486,7 +486,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
   - Se cambió la inicialización del tablero a un tablero real que se limpia antes de cada prueba mediante el método `clear_board`.
   - Se colocó el alfil en la posición inicial `(4, 4)` para facilitar las pruebas.
 
-## [0.2.28] - 2024-09-21 
+## [0.2.8] - 2024-09-21 
 
 ### Agregado
 - Implementación inicial del método `mover`, que verifica si el movimiento está dentro del rango permitido para el rey (1 casilla en cualquier dirección).
@@ -496,7 +496,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 ### Cambio
 - Corrección en `movimiento_correcto`: ahora el rey no puede moverse a una casilla ocupada por una pieza del mismo color.
 
-## [0.2.29] - 2024-09-22 
+## [0.2.9] - 2024-09-22 
 
 ### Cambios generales *Chess*
 - Se mejoró la estructura y la claridad del código en varios métodos.
@@ -523,7 +523,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - Se ajustaron los métodos de impresión (`__str__` y `mostrar_coords`) para mayor claridad en la presentación del tablero.
 
 
-## [0.3.30] - 2024-09-24
+## [0.3.0] - 2024-09-24
 
 ### Cambios principales *Board*
 
@@ -571,13 +571,13 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 
 (Es para enviar el redis)
 
-## [0.3.31] - 2024-09-28
+## [0.3.1] - 2024-09-28
 
 ### Cambios
 
 - Refactorizacion en los test: `King`, `Bishop` y `Queen`. Para evitar la duplicacion de codigo.
 
-## [0.3.32] - 2024-09-29
+## [0.3.2] - 2024-09-29
 
 ### Refactorización de pruebas en `TestChessInterface`
 
@@ -588,7 +588,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - **Refactorización del método `get_output_from_interface`**:
   - Se mantuvo este método para obtener la salida simulada de la interfaz, pero ahora se utiliza junto con el nuevo método `check_output` para hacer las pruebas más limpias.
 
-## [0.3.33] - 2024-10-03
+## [0.3.3] - 2024-10-03
 
 ### Agregado
 
@@ -607,7 +607,7 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
   - Cambios de `get_color`, `get_x`, `get_y`, `possible_moves`, `movimiento_posible`, `movimiento_correcto`, `get_coordinates`, `get_position`, `dentro_de_limites`, y `check_move` a sus respectivas versiones privadas con prefijos de doble guion bajo (`__`).
 (rook duplicaicon)31 y 3 de octubre
 
-## [0.3.34] - 2024-10-05
+## [0.3.4] - 2024-10-05
 
 ### Cambios
 - **Estructura de Pruebas**: Se mejoró la estructura de las pruebas al crear métodos auxiliares (`simulate_input`, `capture_output`, `check_draw_response`, `check_handle_option`) para reducir la duplicación de código en las pruebas.
@@ -630,3 +630,24 @@ Reutiliza el método `simulate_move_exception` para manejar excepciones inespera
 - **Manejo de Excepciones**: Se mejoró el manejo de excepciones en las pruebas para simular errores de carga del juego y movimientos inesperados de una manera más robusta.
   
 - **Validación de Salida**: Se mejoró la validación de salida en las pruebas para verificar que los mensajes correctos se muestren en función de las acciones realizadas en el juego.
+
+## [0.3.5] - 2024-10-06
+
+### Cambios en `Piece`
+
+- Refactorización de la función `__misma_pieza_en_destino__`:
+  - Se eliminó la duplicación en la llamada a `__get_color__` para las piezas `self` y `destino`.
+  - Se almacenaron los colores de `self` y `destino` en variables (`color_self` y `color_destino`) para evitar la duplicación de llamadas a `__get_color__`.
+  - La función ahora verifica si la casilla de destino tiene una pieza del mismo color de manera más eficiente y clara.
+
+### Cambios en `Pawn`
+
+- Refactorización de la función `__movimiento_doble_inicial__`:
+  - Se consolidó la lógica para definir la fila inicial del peón (`fila_inicial`), eliminando la duplicación de verificaciones según el color de la pieza.
+  - Se almacenaron las verificaciones de las casillas intermedia y de destino en variables (`casilla_intermedia_libre` y `casilla_destino_libre`) para mejorar la claridad y evitar llamadas duplicadas a `__get_piece__`.
+  - El código es más limpio y fácil de leer, manteniendo la funcionalidad original.
+
+- Refactorización de la función `__captura_diagonal__`:
+  - Se eliminó la duplicación en la verificación de colores mediante la reutilización del método `__pieza_misma_color__`, evitando una comparación redundante de colores.
+  - La verificación de si hay una pieza en la casilla de destino se realiza primero, seguida por la comparación de colores si es necesario.
+  - El código es ahora más eficiente y fácil de mantener sin modificar la lógica.
