@@ -23,12 +23,6 @@ class TestChessInterface(unittest.TestCase):
         """Captura la salida de la consola."""
         return patch('sys.stdout', new=io.StringIO())
 
-    def check_draw_response(self, response, expected_result):
-        """Verifica la respuesta al manejar tablas."""
-        with self.simulate_input([response]):
-            result = self.interface.__handle_draw__()
-            self.assertEqual(result, expected_result)
-
     def check_handle_option(self, option, method, return_value, expected_result):
         """Verifica que la opción seleccionada se maneje correctamente."""
         with patch.object(self.interface, method, return_value=return_value) as mock_method:
@@ -46,13 +40,6 @@ class TestChessInterface(unittest.TestCase):
                     self.assertIn(expected_message, output)
                     self.assertEqual(result, expected_result)
 
-    def check_output(self, method, expected_string):
-        """Verifica que el método imprima la cadena esperada."""
-        with self.capture_output() as fake_stdout:
-            method()
-            output = fake_stdout.getvalue()
-            self.assertIn(expected_string, output)
-
     def test_get_move_positions(self):
         """Verifica que se obtengan correctamente las posiciones de movimiento."""
         with patch('builtins.input', side_effect=['2 3', '4 5']):
@@ -62,8 +49,13 @@ class TestChessInterface(unittest.TestCase):
 
     def test_handle_draw(self):
         """Verifica que se manejen correctamente las respuestas sobre tablas."""
-        self.check_draw_response('y', True)
-        self.check_draw_response('n', False)
+        with self.simulate_input(['y']):
+            result = self.interface.__handle_draw__()
+            self.assertTrue(result)
+        
+        with self.simulate_input(['n']):
+            result = self.interface.__handle_draw__()
+            self.assertFalse(result)
 
         # Test respuesta inválida
         with self.simulate_input(['maybe', 'y']):
@@ -88,8 +80,6 @@ class TestChessInterface(unittest.TestCase):
         with self.simulate_input([game_id]):
             with self.capture_output() as fake_stdout:
                 self.interface.__save_game__()
-
-                # Captura la salida y verifica el mensaje.
                 output = fake_stdout.getvalue()
                 self.assertIn(f"Partida guardada con ID: {game_id}", output)
 
@@ -101,12 +91,23 @@ class TestChessInterface(unittest.TestCase):
 
     def test_show_scores_and_instructions(self):
         """Verifica que se muestren correctamente las puntuaciones e instrucciones."""
-        self.check_output(self.interface.__show_scores__, "Puntuaciones actuales:")
-        self.check_output(self.interface.__show_instructions__, "Instrucciones del juego de Ajedrez:")
+        with self.capture_output() as fake_stdout:
+            self.interface.__show_scores__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Puntuaciones actuales:", output)
+        
+        with self.capture_output() as fake_stdout:
+            self.interface.__show_instructions__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Instrucciones del juego de Ajedrez:", output)
 
     def test_display_turn_and_dramatic_message(self):
         """Verifica que se muestre correctamente el turno y los mensajes dramáticos."""
-        self.check_output(self.interface.__display_turn__, "Turno de")
+        with self.capture_output() as fake_stdout:
+            self.interface.__display_turn__()
+            output = fake_stdout.getvalue()
+            self.assertIn("Turno de", output)
+        
         message = "Prueba"
         with self.capture_output() as fake_stdout:
             self.interface.__dramatic_message__(message)
@@ -155,16 +156,16 @@ class TestChessInterface(unittest.TestCase):
     def test_handle_option_load_game_exceptions(self):
         """Verifica el manejo de excepciones al cargar partidas."""
         self.check_load_game(ChessException("Error de carga"),
-                             "Error al cargar la partida: Error de carga",
-                             False)
+                            "Error al cargar la partida: Error de carga",
+                            False)
         self.check_load_game(Exception("Error inesperado"),
-                             "Error inesperado: Error inesperado",
-                             False)
+                            "Error inesperado: Error inesperado",
+                            False)
 
     def test_handle_move_unexpected_exception(self):
         """Verifica el manejo de excepciones inesperadas al mover una pieza."""
         with patch.object(self.interface, '__get_move_positions__', return_value=('1', '1')), \
-             patch.object(self.interface.__chess__, '__move__', side_effect=Exception("Error inesperado")):
+            patch.object(self.interface.__chess__, '__move__', side_effect=Exception("Error inesperado")):
             with self.capture_output() as fake_stdout:
                 self.interface.__handle_move__()
                 output = fake_stdout.getvalue()
@@ -173,7 +174,7 @@ class TestChessInterface(unittest.TestCase):
     def test_process_move_messages(self):
         """Verifica los mensajes generados al procesar un movimiento."""
         with patch.object(self.interface.__chess__, '__move__', return_value="¡Victoria!"), \
-             self.capture_output() as fake_stdout:
+            self.capture_output() as fake_stdout:
             self.interface.__process_move__('1', '1')
             output = fake_stdout.getvalue()
             self.assertIn("¡Victoria!", output)
@@ -181,7 +182,7 @@ class TestChessInterface(unittest.TestCase):
         with patch.object(self.interface.__chess__, '__move__', return_value=None):
             with self.capture_output() as fake_stdout:
                 with patch.object(self.interface, '__display_board__') as mock_display_board, \
-                     patch.object(self.interface, '__show_scores__') as mock_show_scores:
+                    patch.object(self.interface, '__show_scores__') as mock_show_scores:
                     self.interface.__process_move__('1', '1')
                     output = fake_stdout.getvalue()
                     self.assertIn("Movimiento realizado con éxito.", output)
