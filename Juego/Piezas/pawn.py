@@ -39,19 +39,19 @@ class Pawn(Piece):
 
     def __movimiento_doble_inicial__(self, from_row, from_col, to_row, to_col, direccion, board):
         """Verifica si el peón puede realizar un movimiento doble inicial."""
-        es_movimiento_valido = (
-            (self.__get_color__() == "White" and from_row == 6) or 
-            (self.__get_color__() == "Black" and from_row == 1)
-        )
-        return (es_movimiento_valido and 
-                to_row == from_row + 2 * direccion and 
-                board.__get_piece__(to_row, to_col) is None and 
-                board.__get_piece__(from_row + direccion, from_col) is None)
+        fila_inicial = 6 if self.__get_color__() == "White" else 1
+        es_fila_inicial = from_row == fila_inicial
+
+        if es_fila_inicial and to_row == from_row + 2 * direccion:
+            casilla_destino_libre = board.__get_piece__(to_row, to_col) is None
+            casilla_intermedia_libre = board.__get_piece__(from_row + direccion, from_col) is None
+            return casilla_destino_libre and casilla_intermedia_libre
+        return False
 
     def __captura_diagonal__(self, from_row, from_col, to_row, to_col, direccion, board):
         """Verifica si el peón puede realizar una captura diagonal."""
-        pieza_destino = board.__get_piece__(to_row, to_col)
-        return (abs(from_col - to_col) == 1 and 
-                to_row == from_row + direccion and 
-                pieza_destino is not None and 
-                pieza_destino.__get_color__() != self.__get_color__())
+        if abs(from_col - to_col) == 1 and to_row == from_row + direccion:
+            pieza_destino = board.__get_piece__(to_row, to_col)
+            return pieza_destino is not None and not self.__pieza_misma_color__(pieza_destino)
+        return False
+
